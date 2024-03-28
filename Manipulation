@@ -1,32 +1,57 @@
-Private Sub CheckBox1_Click()
-    Dim targetSheet As Worksheet
+Function GetRangeValues(qgSelection As String) As Variant
     Dim sourceRange As Range
-    Dim lastRow As Long
-    
-    ' Set the target sheet (Sheet3)
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    ' Determine the row range to copy based on the selected QGC
-    Dim qgcRange As Range
-    Select Case ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    Select Case qgSelection
         Case "QGC0"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A4:J5")
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J16")
         Case "QGC2"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A6:J7")
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A19:J28")
         Case "QGC4"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A8:J9")
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A31:J45")
         Case Else
-            ' Default range if QGC is not recognized
-            Set qgcRange = Nothing
+            ' Return empty array if selection is invalid
+            GetRangeValues = Array()
+            Exit Function
+    End Select
+    ' Return values of source range as array
+    GetRangeValues = sourceRange.value
+End Function
+Sub UpdateSheet3()
+    ' Get the QG selection from cell
+    Dim qgSelection As String
+    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").value ' Assuming the drop-down list is in Sheet1
+    
+    ' ranges for each QG in Sheet2
+    Dim qgc0Range As Range
+    Dim qgc2Range As Range
+    Dim qgc4Range As Range
+    
+    ' Ranges for each QG in Sheet3
+    Dim targetRange As Range
+    Set targetRange = ThisWorkbook.Sheets("Sheet3").Range("A2:J2") ' Starting row to paste data
+    
+    ' ranges for each QG in Sheet2
+    Select Case qgSelection
+        Case "QGC0"
+            Set qgc0Range = ThisWorkbook.Sheets("Sheet2").Range("A3:J3") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc0Range.Rows.Count, qgc0Range.Columns.Count)
+        Case "QGC2"
+            Set qgc2Range = ThisWorkbook.Sheets("Sheet2").Range("A19:J19") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc2Range.Rows.Count, qgc2Range.Columns.Count)
+        Case "QGC4"
+           Set qgc4Range = ThisWorkbook.Sheets("Sheet2").Range("A31:J31") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc4Range.Rows.Count, qgc4Range.Columns.Count)
+        Case "Others"
+            Exit Sub
     End Select
     
-    ' Check if CheckBox1 is checked and a valid QGC range is defined
-    If CheckBox1.value = True And Not qgcRange Is Nothing Then
-        ' Checkbox is checked, copy data from Sheet2 to Sheet3
-        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1
-        qgcRange.Copy targetSheet.Cells(lastRow, "A")
+    ' Copy data from selected range to target range
+    If Not targetRange Is Nothing Then
+       targetRange.value = GetRangeValues(qgSelection)
     Else
-        ' Checkbox is unchecked or QGC range is not defined, remove corresponding data from Sheet3 (if needed)
-        ' Add logic to remove data from Sheet3 here (if required)
+        ' If target range is empty, display a msg
+        MsgBox "The selected QGC range is empty.", vbExclamation
     End If
 End Sub
+
+
+
