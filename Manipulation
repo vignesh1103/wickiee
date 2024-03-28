@@ -1,57 +1,38 @@
-Function GetRangeValues(qgSelection As String) As Variant
-    Dim sourceRange As Range
-    Select Case qgSelection
-        Case "QGC0"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J16")
-        Case "QGC2"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A19:J28")
-        Case "QGC4"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A31:J45")
-        Case Else
-            ' Return empty array if selection is invalid
-            GetRangeValues = Array()
-            Exit Function
-    End Select
-    ' Return values of source range as array
-    GetRangeValues = sourceRange.value
-End Function
 Sub UpdateSheet3()
     ' Get the QG selection from cell
     Dim qgSelection As String
-    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").value ' Assuming the drop-down list is in Sheet1
+    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").Value ' Assuming the drop-down list is in Sheet1
     
     ' ranges for each QG in Sheet2
-    Dim qgc0Range As Range
-    Dim qgc2Range As Range
-    Dim qgc4Range As Range
-    
-    ' Ranges for each QG in Sheet3
-    Dim targetRange As Range
-    Set targetRange = ThisWorkbook.Sheets("Sheet3").Range("A2:J2") ' Starting row to paste data
-    
-    ' ranges for each QG in Sheet2
+    Dim sourceRange As Range
     Select Case qgSelection
         Case "QGC0"
-            Set qgc0Range = ThisWorkbook.Sheets("Sheet2").Range("A3:J3") ' Change the range accordingly
-            Set targetRange = targetRange.Resize(qgc0Range.Rows.Count, qgc0Range.Columns.Count)
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J16") ' Change the range accordingly
         Case "QGC2"
-            Set qgc2Range = ThisWorkbook.Sheets("Sheet2").Range("A19:J19") ' Change the range accordingly
-            Set targetRange = targetRange.Resize(qgc2Range.Rows.Count, qgc2Range.Columns.Count)
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A19:J28") ' Change the range accordingly
         Case "QGC4"
-           Set qgc4Range = ThisWorkbook.Sheets("Sheet2").Range("A31:J31") ' Change the range accordingly
-            Set targetRange = targetRange.Resize(qgc4Range.Rows.Count, qgc4Range.Columns.Count)
-        Case "Others"
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A31:J45") ' Change the range accordingly
+        Case Else
+            MsgBox "Invalid QGC selection.", vbExclamation
             Exit Sub
     End Select
     
-    ' Copy data from selected range to target range
-    If Not targetRange Is Nothing Then
-       targetRange.value = GetRangeValues(qgSelection)
+    ' Determine the target range in Sheet3
+    Dim targetSheet As Worksheet
+    Dim targetRange As Range
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    Set targetRange = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0)
+    
+    ' Copy data from source range to target range
+    If Not sourceRange Is Nothing Then
+        ' Copy the entire source range
+        sourceRange.Copy targetRange
     Else
-        ' If target range is empty, display a msg
+        ' If source range is empty, display a message
         MsgBox "The selected QGC range is empty.", vbExclamation
     End If
+    
+    ' Optionally, you can clear any previous selections in Sheet3
+    ' Uncomment the following line if needed
+    ' ThisWorkbook.Sheets("Sheet3").Cells.ClearContents
 End Sub
-
-
-
