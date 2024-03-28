@@ -1,4 +1,4 @@
-Private Sub CheckBox1_Click()
+Private Sub CheckBox3_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
@@ -8,26 +8,25 @@ Private Sub CheckBox1_Click()
     Dim lastRow As Long
     lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
     
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
-            End If
-        Case "QGC2"
-            If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
-            End If
-        Case "QGC4"
-            If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
-            End If
-    End Select
+    ' Check if Checkbox3, Checkbox4, and Checkbox6 are selected together and qgc is "QGC0"
+    If CheckBox3.Value = True And CheckBox4.Value = True And CheckBox6.Value = True And qgc = "QGC0" Then
+        ' Copy row 13 only once
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
+        
+        ' Copy rows 14, 15, and 16
+        targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J16").Value
+        lastRow = lastRow + 3 ' Move to the next empty row
+    Else
+        ' Perform the original logic when checkboxes 3, 4, or 6 are not selected together
+        Select Case qgc
+            Case "QGC0"
+                If CheckBox3.Value = True Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                ' Continue with the rest of the original logic for QGC0
+                ' Add Case statements for other values of qgc if needed
+        End Select
+    End If
 End Sub
-
-' Repeat the above structure for CheckBox2_Click, CheckBox3_Click, CheckBox4_Click, CheckBox5_Click, and CheckBox6_Click.
-' Just replace "CheckBox1" with the appropriate checkbox name in each Sub and adjust the logic as needed.
