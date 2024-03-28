@@ -1,6 +1,5 @@
 Select Case qgc
     Case "QGC0"
-        ' ProcessQGC "QGC0"
         CheckBox1.Caption = "DIA"
         CheckBox2.Caption = "FSIA"
         CheckBox3.Caption = "Safety Plan"
@@ -8,47 +7,44 @@ Select Case qgc
         CheckBox5.Caption = "Item"
         CheckBox6.Caption = "FMEA"
         CheckBox7.Caption = "HARA"
-        ' Additional instructions for QGC0
-        ' Logic to copy data based on selected checkboxes
+        
         Dim targetSheet As Worksheet
         Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-        
         Dim lastRow As Long
-        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1
         
         If CheckBox1.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
-            lastRow = lastRow + 2 ' Move to the next empty row
+            ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 2
         End If
         
         If CheckBox2.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
-            lastRow = lastRow + 2 ' Move to the next empty row
+            ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 2
         End If
         
         If CheckBox3.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-            lastRow = lastRow + 2 ' Move to the next empty row
+            ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 2
         End If
         
         If CheckBox4.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A16:J16")).Value
-            lastRow = lastRow + 3 ' Move to the next empty row
+            Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A16:J16")).Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 3
         End If
         
         If CheckBox5.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
-            lastRow = lastRow + 2 ' Move to the next empty row
+            ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 2
         End If
         
         If CheckBox6.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A15:J15")).Value
-            lastRow = lastRow + 3 ' Move to the next empty row
+            Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A15:J15")).Copy targetSheet.Range("A" & lastRow)
+            lastRow = lastRow + 3
         End If
         
         If CheckBox7.Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").Value
-            lastRow = lastRow + 3 ' Move to the next empty row
+            ThisWorkbook.Sheets("Sheet2").Range("A8:J10").Copy targetSheet.Range("A" & lastRow)
         End If
 
     ' Other Cases...
