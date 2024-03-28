@@ -1,32 +1,41 @@
-Private Sub CheckBox3_Click()
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
-    
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
-    ' Check if Checkbox3, Checkbox4, and Checkbox6 are selected together and qgc is "QGC0"
-    If CheckBox3.Value = True And CheckBox4.Value = True And CheckBox6.Value = True And qgc = "QGC0" Then
-        ' Copy row 13 only once
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-        
-        ' Copy rows 14, 15, and 16
-        targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J16").Value
-        lastRow = lastRow + 3 ' Move to the next empty row
-    Else
-        ' Perform the original logic when checkboxes 3, 4, or 6 are not selected together
-        Select Case qgc
-            Case "QGC0"
-                If CheckBox3.Value = True Then
-                    targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-                    lastRow = lastRow + 2 ' Move to the next empty row
-                End If
-                ' Continue with the rest of the original logic for QGC0
-                ' Add Case statements for other values of qgc if needed
+Private Sub CommandButton7_Click()
+    If selectedCheckBox <> "" Then
+        ' Perform actions based on the selected checkbox and qgc value
+        Select Case selectedCheckBox
+            Case "CheckBox1", "CheckBox5", "CheckBox6"
+                ' Actions for checkboxes under QGC0
+                Select Case qgc
+                    Case "QGC0"
+                        ' Example actions for QGC0 and CheckBox1, CheckBox5, CheckBox6
+                        If selectedCheckBox = "CheckBox1" Then
+                            ' Example: Copy data from Sheet2 to Sheet3 for CheckBox1 under QGC0
+                            ThisWorkbook.Sheets("Sheet3").Range("A1").Value = ThisWorkbook.Sheets("Sheet2").Range("A1").Value
+                        ElseIf selectedCheckBox = "CheckBox5" Then
+                            ' Example: Hide a column for CheckBox5 under QGC0
+                            ThisWorkbook.Sheets("Sheet1").Columns("C").Hidden = True
+                        ElseIf selectedCheckBox = "CheckBox6" Then
+                            ' Example: Insert a new row for CheckBox6 under QGC0
+                            ThisWorkbook.Sheets("Sheet1").Rows("2:2").Insert Shift:=xlDown
+                        End If
+                        
+                        ' Additional actions specific to QGC0 checkboxes can be added here
+                        
+                    Case "QGC2"
+                        ' Handle actions specific to QGC2
+                    Case "QGC4"
+                        ' Handle actions specific to QGC4
+                End Select
+                
+            Case "CheckBox2", "CheckBox3"
+                ' Actions for checkboxes under QGC2
+                ' Handle actions specific to QGC2 checkboxes
+                
+            Case "CheckBox4"
+                ' Actions for checkboxes under QGC4
+                ' Handle actions specific to QGC4 checkboxes
+                
         End Select
+    Else
+        MsgBox "Please select a checkbox before clicking CommandButton7."
     End If
 End Sub
