@@ -1,0 +1,35 @@
+Function ProcessQGC(ByVal qgcValue As String)
+    Dim ws2 As Worksheet
+    Dim ws3 As Worksheet
+    Dim lastRow As Long
+    Dim currentRow As Long
+    Dim pasteRow As Long
+    Dim sourceRange As Range
+    Dim pasteRange As Range
+    
+    ' Assuming Sheet2 is where the data is stored and Sheet3 is where the processed data will be copied to
+    Set ws2 = ThisWorkbook.Sheets("Sheet2")
+    Set ws3 = ThisWorkbook.Sheets("Sheet3")
+    
+    ' Find the last row in Sheet2
+    lastRow = ws2.Cells(ws2.Rows.Count, "A").End(xlUp).Row
+    
+    ' Initialize pasteRow
+    pasteRow = 1
+    
+    ' Loop through each row in Sheet2
+    For currentRow = 1 To lastRow
+        ' Check if the current row matches the QGC value
+        If ws2.Cells(currentRow, "A").Value = qgcValue Then
+            ' Check if the checkbox is checked in column C
+            If ws2.Cells(currentRow, "C").Value = True Then
+                ' Copy the row from Sheet2 and paste it into Sheet3
+                Set sourceRange = ws2.Range("A" & currentRow & ":J" & currentRow)
+                Set pasteRange = ws3.Range("A" & pasteRow)
+                sourceRange.Copy pasteRange
+                ' Increment pasteRow
+                pasteRow = pasteRow + 1
+            End If
+        End If
+    Next currentRow
+End Function
