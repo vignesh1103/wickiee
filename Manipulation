@@ -1,73 +1,27 @@
-Sub ProcessData()
-    Dim wsSource As Worksheet
-    Dim wsDest As Worksheet
-    Dim lastRow As Long
-    Dim data As Variant
-    Dim story_index As Long
-    Dim print_index As Object
-    Dim i As Long, j As Long
-    Dim input1 As String, input2 As String
-    Dim iCheckbox As Integer
+Private Sub CheckBox1_Click()
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
     
-    ' Check if any checkbox is checked on the userform
-    For iCheckbox = 1 To 7
-        If UserForm1.Controls("CheckBox" & iCheckbox).Value = True Then
-            ' Set references to source and destination worksheets
-            Set wsSource = ThisWorkbook.Sheets("Sheet2")
-            Set wsDest = ThisWorkbook.Sheets("Sheet3")
-            
-            ' Copy data from Sheet2 to Sheet3
-            wsSource.UsedRange.Copy wsDest.Range("A1")
-            lastRow = wsDest.Cells(wsDest.Rows.Count, "A").End(xlUp).Row
-            data = wsDest.Range("A1:J" & lastRow).Value
-            
-            ' Process data based on user input
-            input1 = "QGC" & iCheckbox
-            Set print_index = CreateObject("Scripting.Dictionary")
-            For i = 1 To UBound(data, 1)
-                If Trim(data(i, 1)) = input1 Then
-                    print_index.Add i, True
-                    input2 = InputBox("Second Input")
-                    For j = i To UBound(data, 1)
-                        If IsEmpty(data(j, 1)) Then Exit For
-                        If LCase(data(j, 1)) = "story" Then
-                            story_index = j
-                            If InStr(data(j, 3), input2) > 0 Then
-                                print_index.Add story_index, True
-                                If LCase(data(j + 1, 1)) = "task" Or LCase(data(j + 1, 1)) = "review" Then
-                                    print_index.Add story_index + 1, True
-                                End If
-                                If LCase(data(j + 2, 1)) = "task" Or LCase(data(j + 2, 1)) = "review" Then
-                                    print_index.Add story_index + 2, True
-                                End If
-                                Exit For
-                            End If
-                        ElseIf LCase(data(j, 1)) = "task" Then
-                            If InStr(data(j, 3), input2) > 0 Then
-                                print_index.Add story_index, True
-                                print_index.Add j, True
-                                Exit For
-                            End If
-                        End If
-                    Next j
-                    Exit For
-                End If
-            Next i
-            
-            ' Print the results
-            For Each Key In print_index.Keys
-                For j = 1 To 10
-                    Debug.Print data(Key, j)
-                Next j
-            Next Key
-            
-            ' Print the line numbers
-            For Each Key In print_index.Keys
-                Debug.Print Key + 1
-            Next Key
-            
-            ' Exit the loop after processing one checkbox
-            Exit For
+    Dim targetSheet As Worksheet
+        Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+        
+        Dim lastRow As Long
+        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    Select Case qgc
+      Case "QGC0"
+        If CheckBox1.value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
+            lastRow = lastRow + 2 ' Move to the next empty row
         End If
-    Next iCheckbox
+        Case "QGC2"
+         If CheckBox1.value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J21").value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+        Case "QGC4"
+        If CheckBox1.value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+    End Select
 End Sub
