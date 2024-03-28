@@ -1,0 +1,64 @@
+import win32com.client as win32
+import os
+import time
+
+
+excel_path = r"C:\Users\OQG1COB\Desktop\Programming\Mama\001_Sample_Mar_02 1 2.xlsm"
+os.system("taskkill /f /im Excel.exe")
+time.sleep(3)
+excel=win32.dynamic.Dispatch('Excel.Application')
+excel.DisplayAlerts = False
+excel.Visible = False
+wb=excel.Workbooks.Open(excel_path)
+ws=wb.Sheets('Sheet2')
+lastRow = ws.UsedRange.Rows.Count + 1
+
+
+# read the complete data from excel into memory
+data = []
+for i in range(1,lastRow):    
+    data.append((ws.Range("A"+str(i)+":J"+str(i)).Value)[0])
+
+# close the excelsheet
+excel.Application.Quit()
+story_index = 0
+print_index = []
+
+input1 = input("Select QGC0 | QGC2 | QGC4 \n").strip()
+for i in range(0,len(data)):
+    if data[i][0] and data[i][0].strip() == input1:
+        print_index.append(i+1)
+        input2 = list(input("Second Input\n").strip().split(','))
+        print(input2)
+        for inp in input2:
+            for j in range(i,len(data)):
+                if data[j][0] is None:
+                    break
+                if data[j][0].lower() == "story":
+                    story_index = j
+                    if data[j][2].find(inp) != -1 :
+                        print_index.append(story_index)
+                        if data[j+1][0].lower() == "task" or data[j+1][0].lower() == "review":
+                            print_index.append(story_index+1)
+                        if data[j+2][0].lower() == "task" or data[j+2][0].lower() == "review":
+                            print_index.append(story_index+2)
+                        break
+                elif data[j][0].lower() == "task":
+                    if data[j][2].find(inp) != -1:
+                        print_index.append(story_index)
+                        print_index.append(j)
+
+                                
+        break
+result = list(set(print_index))
+
+
+for index in result:
+    print(data[index])
+
+for num in result:
+    print(num+1)
+
+
+
+    
