@@ -24,17 +24,17 @@ Sub UpdateSheet3()
     Select Case qgSelection
         Case "QGC0"
             For i = 1 To 7
-                qgc0Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+                qgc0Checkboxes(i) = ThisWorkbook.Sheets("Sheet1").Shapes("CheckBox" & i).OLEFormat.Object.Object.Value
             Next i
             Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J3") ' Range A3:J3 for QGC0
         Case "QGC2"
             For i = 1 To 3
-                qgc2Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+                qgc2Checkboxes(i) = ThisWorkbook.Sheets("Sheet1").Shapes("CheckBox" & i).OLEFormat.Object.Object.Value
             Next i
             Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A20:J20") ' Range A20:J20 for QGC2
         Case "QGC4"
             For i = 1 To 6
-                qgc4Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+                qgc4Checkboxes(i) = ThisWorkbook.Sheets("Sheet1").Shapes("CheckBox" & i).OLEFormat.Object.Object.Value
             Next i
             Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A32:J32") ' Range A32:J32 for QGC4
         Case Else
