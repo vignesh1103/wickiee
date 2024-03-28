@@ -1,38 +1,56 @@
-Sub UpdateSheet3()
-    ' Get the QG selection from cell
-    Dim qgSelection As String
-    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").Value ' Assuming the drop-down list is in Sheet1
-    
-    ' ranges for each QG in Sheet2
-    Dim sourceRange As Range
-    Select Case qgSelection
-        Case "QGC0"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J16") ' Change the range accordingly
-        Case "QGC2"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A19:J28") ' Change the range accordingly
-        Case "QGC4"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A31:J45") ' Change the range accordingly
-        Case Else
-            MsgBox "Invalid QGC selection.", vbExclamation
-            Exit Sub
-    End Select
-    
-    ' Determine the target range in Sheet3
-    Dim targetSheet As Worksheet
-    Dim targetRange As Range
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    Set targetRange = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0)
-    
-    ' Copy data from source range to target range
-    If Not sourceRange Is Nothing Then
-        ' Copy the entire source range
-        sourceRange.Copy targetRange
-    Else
-        ' If source range is empty, display a message
-        MsgBox "The selected QGC range is empty.", vbExclamation
-    End If
-    
-    ' Optionally, you can clear any previous selections in Sheet3
-    ' Uncomment the following line if needed
-    ' ThisWorkbook.Sheets("Sheet3").Cells.ClearContents
-End Sub
+Select Case qgc
+    Case "QGC0"
+        ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA"
+        CheckBox2.Caption = "FSIA"
+        CheckBox3.Caption = "Safety Plan"
+        CheckBox4.Caption = "Bottom"
+        CheckBox5.Caption = "Item"
+        CheckBox6.Caption = "FMEA"
+        CheckBox7.Caption = "HARA"
+        ' Additional instructions for QGC0
+        ' Logic to copy data based on selected checkboxes
+        Dim targetSheet As Worksheet
+        Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+        
+        Dim lastRow As Long
+        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+        
+        If CheckBox1.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+        
+        If CheckBox2.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+        
+        If CheckBox3.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+        
+        If CheckBox4.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A16:J16")).Value
+            lastRow = lastRow + 3 ' Move to the next empty row
+        End If
+        
+        If CheckBox5.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
+            lastRow = lastRow + 2 ' Move to the next empty row
+        End If
+        
+        If CheckBox6.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A15:J15")).Value
+            lastRow = lastRow + 3 ' Move to the next empty row
+        End If
+        
+        If CheckBox7.Value = True Then
+            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").Value
+            lastRow = lastRow + 3 ' Move to the next empty row
+        End If
+
+    ' Other Cases...
+
+End Select
