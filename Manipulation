@@ -1,27 +1,56 @@
-Select Case qgc
-    Case "QGC0"
-        ' Initialize variables
-        Dim lastRowSheet3 As Long
-        Dim sourceRange As Range
-        Dim pasteRange As Range
-        
-        ' Find the last empty row in Sheet3
-        lastRowSheet3 = Sheet3.Cells(Sheet3.Rows.Count, "A").End(xlUp).Row + 1
-        
-        ' Copy the mandatory row from Sheet2
-        Set sourceRange = Sheet2.Range("A3:J3")
-        Set pasteRange = Sheet3.Range("A" & lastRowSheet3)
-        sourceRange.Copy pasteRange
-        
-        ' Additional code specific to QGC 0 can be added here
-        
-    Case "QGC2"
-        ' Code for QGC 2
-        
-    Case "QGC4"
-        ' Code for QGC 4
-        
-    Case "Others"
-        ' Code for other cases
-        
-End Select
+Sub UpdateSheet3()
+    ' Get the QG selection from cell
+    Dim qgSelection As String
+    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").value ' Assuming the drop-down list is in Sheet1
+    
+    ' ranges for each QG in Sheet2
+    Dim qgc0Range As Range
+    Dim qgc2Range As Range
+    Dim qgc4Range As Range
+    
+    ' Ranges for each QG in Sheet3
+    Dim targetRange As Range
+    Set targetRange = ThisWorkbook.Sheets("Sheet3").Range("A2") ' Starting row to paste data
+    
+    ' ranges for each QG in Sheet2
+    Select Case qgSelection
+        Case "QGC0"
+            Set qgc0Range = ThisWorkbook.Sheets("Sheet2").Range("A3:J17") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc0Range.Rows.Count, qgc0Range.Columns.Count)
+        Case "QGC2"
+            Set qgc2Range = ThisWorkbook.Sheets("Sheet2").Range("A20:J29") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc2Range.Rows.Count, qgc2Range.Columns.Count)
+        Case "QGC4"
+            Set qgc4Range = ThisWorkbook.Sheets("Sheet2").Range("A32:J46") ' Change the range accordingly
+            Set targetRange = targetRange.Resize(qgc4Range.Rows.Count, qgc4Range.Columns.Count)
+        Case "Others"
+            Exit Sub
+    End Select
+    
+    'Copy data from selected range to target range
+    If Not targetRange Is Nothing Then
+        targetRange.value = GetRangeValues(qgSelection)
+     Else
+        'If target range is empty, display a msg
+        MsgBox "The selected QGC range is empty.", vbExclamation
+    End If
+End Sub
+
+ Function GetRangeValues(qgSelection As String) As Variant
+    Dim sourceRange As Range
+    Select Case qgSelection
+        Case "QGC0"
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J17")
+        Case "QGC2"
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A20:J29")
+        Case "QGC4"
+            'Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A32:J46")
+        Case Else
+            'Return empty array if selection is invalid
+        GetRangeValues = Array()
+        Exit Function
+    End Select
+     'Return values of source range as array
+    GetRangeValues = sourceRange.value
+End Function
+
