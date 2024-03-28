@@ -1,112 +1,78 @@
 Sub UpdateSheet3()
     ' Get the QG selection from cell
     Dim qgSelection As String
-    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").value ' Assuming the drop-down list is in Sheet1
+    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").Value ' Assuming the drop-down list is in Sheet1
     
-    ' ranges for each QG in Sheet2
-    Dim qgc0Range As Range
-    Dim qgc2Range As Range
-    Dim qgc4Range As Range
-    
-    ' Ranges for each QG in Sheet3
+    ' Define the target range in Sheet3
     Dim targetRange As Range
     Set targetRange = ThisWorkbook.Sheets("Sheet3").Range("A2") ' Starting row to paste data
     
-    ' ranges for each QG in Sheet2
+    ' Define the source range in Sheet2 for each QGC
+    Dim sourceRange As Range
+    
+    ' Checkboxes for QGC0
+    Dim qgc0Checkboxes(1 To 7) As Boolean
+    Dim i As Integer
+    
+    ' Checkboxes for QGC2
+    Dim qgc2Checkboxes(1 To 3) As Boolean
+    
+    ' Checkboxes for QGC4
+    Dim qgc4Checkboxes(1 To 6) As Boolean
+    
+    ' Populate checkbox arrays based on QG selection
     Select Case qgSelection
         Case "QGC0"
-            Set qgc0Range = ThisWorkbook.Sheets("Sheet2").Range("A3:J3") ' Change the range accordingly
-            'Set targetRange = targetRange.Resize(qgc0Range.Rows.Count, qgc0Range.Columns.Count)
-            
-            If CheckBox1.value = True Then
-                ProcessQGC "QGC0", 1 ' Process Checkbox 1 for QGC0
-            End If
-            If CheckBox2.value = True Then
-                ProcessQGC "QGC0", 2 ' Process Checkbox 2 for QGC0
-            End If
-            If CheckBox3.value = True Then
-                ProcessQGC "QGC0", 3 ' Process Checkbox 3 for QGC0
-            End If
-            If CheckBox4.value = True Then
-                ProcessQGC "QGC0", 4 ' Process Checkbox 4 for QGC0
-            End If
-            If CheckBox5.value = True Then
-                ProcessQGC "QGC0", 5 ' Process Checkbox 5 for QGC0
-            End If
-            If CheckBox6.value = True Then
-                ProcessQGC "QGC0", 6 ' Process Checkbox 6 for QGC0
-            End If
-            If CheckBox7.value = True Then
-                ProcessQGC "QGC0", 7 ' Process Checkbox 7 for QGC0
-            End If
-            
+            For i = 1 To 7
+                qgc0Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+            Next i
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J3") ' Range A3:J3 for QGC0
         Case "QGC2"
-            Set qgc2Range = ThisWorkbook.Sheets("Sheet2").Range("A20:J20") ' Change the range accordingly
-            'Set targetRange = targetRange.Resize(qgc2Range.Rows.Count, qgc2Range.Columns.Count)
-            
-             If CheckBox1.value = True Then
-                ProcessQGC "QGC2", 1 ' Process Checkbox 1 for QGC2
-            End If
-            If CheckBox2.value = True Then
-                ProcessQGC "QGC2", 2 ' Process Checkbox 2 for QGC2
-            End If
-            If CheckBox3.value = True Then
-                ProcessQGC "QGC2", 3 ' Process Checkbox 3 for QGC2
-            End If
-            
+            For i = 1 To 3
+                qgc2Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+            Next i
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A20:J20") ' Range A20:J20 for QGC2
         Case "QGC4"
-            Set qgc4Range = ThisWorkbook.Sheets("Sheet2").Range("A32:J32") ' Change the range accordingly
-            'Set targetRange = targetRange.Resize(qgc4Range.Rows.Count, qgc4Range.Columns.Count)
-            
-            If CheckBox1.value = True Then
-                ProcessQGC "QGC4", 1 ' Process Checkbox 1 for QGC4
-            End If
-            If CheckBox2.value = True Then
-                ProcessQGC "QGC4", 2 ' Process Checkbox 2 for QGC4
-            End If
-            If CheckBox3.value = True Then
-                ProcessQGC "QGC4", 3 ' Process Checkbox 3 for QGC4
-            End If
-            If CheckBox4.value = True Then
-                ProcessQGC "QGC4", 4 ' Process Checkbox 4 for QGC4
-            End If
-            If CheckBox5.value = True Then
-                ProcessQGC "QGC4", 5 ' Process Checkbox 5 for QGC4
-            End If
-            If CheckBox6.value = True Then
-                ProcessQGC "QGC4", 6 ' Process Checkbox 6 for QGC4
-            End If
-            
-        Case "Others"
+            For i = 1 To 6
+                qgc4Checkboxes(i) = Me.Controls("CheckBox" & i).Value
+            Next i
+            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A32:J32") ' Range A32:J32 for QGC4
+        Case Else
+            ' Exit the subroutine if QGC selection is invalid
             Exit Sub
     End Select
- 'Copy data from selected range to target range
-    If Not targetRange Is Nothing Then
-        targetRange.value = GetRangeValues(qgSelection)
-     Else
-        'If target range is empty, display a msg
+    
+    ' Check if source range is not empty
+    If Not sourceRange Is Nothing Then
+        ' Copy data from source range to target range
+        targetRange.Resize(sourceRange.Rows.Count, sourceRange.Columns.Count).Value = sourceRange.Value
+    Else
+        ' Display a message if the source range is empty
         MsgBox "The selected QGC range is empty.", vbExclamation
     End If
-End Sub
-
- Function GetRangeValues(qgSelection As String) As Variant
-    Dim sourceRange As Range
+    
+    ' Process checkboxes based on QGC selection
     Select Case qgSelection
         Case "QGC0"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J17")
+            For i = 1 To 7
+                If qgc0Checkboxes(i) Then
+                    ProcessQGC "QGC0", i ' Process Checkbox i for QGC0
+                End If
+            Next i
         Case "QGC2"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A20:J29")
+            For i = 1 To 3
+                If qgc2Checkboxes(i) Then
+                    ProcessQGC "QGC2", i ' Process Checkbox i for QGC2
+                End If
+            Next i
         Case "QGC4"
-            'Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A32:J46")
-        Case Else
-            'Return empty array if selection is invalid
-        GetRangeValues = Array()
-        Exit Function
+            For i = 1 To 6
+                If qgc4Checkboxes(i) Then
+                    ProcessQGC "QGC4", i ' Process Checkbox i for QGC4
+                End If
+            Next i
     End Select
-     'Return values of source range as array
-    GetRangeValues = sourceRange.value
-End Function
-
+End Sub
 
 Function ProcessQGC(ByVal qgcValue As String, ByVal checkboxNumber As Integer)
     Dim ws2 As Worksheet
@@ -130,9 +96,9 @@ Function ProcessQGC(ByVal qgcValue As String, ByVal checkboxNumber As Integer)
     ' Loop through each row in Sheet2
     For currentRow = 1 To lastRow
         ' Check if the current row matches the QGC value
-        If ws2.Cells(currentRow, "A").value = qgcValue Then
+        If ws2.Cells(currentRow, "A").Value = qgcValue Then
             ' Check if the checkbox for the current row matches the checkboxNumber
-            If ws2.Cells(currentRow, "C").Offset(0, checkboxNumber - 1).value = True Then
+            If ws2.Cells(currentRow, "C").Offset(0, checkboxNumber - 1).Value = True Then
                 ' Copy the row from Sheet2 and paste it into Sheet3
                 Set sourceRange = ws2.Range("A" & currentRow & ":J" & currentRow)
                 Set pasteRange = ws3.Range("A" & pasteRow)
