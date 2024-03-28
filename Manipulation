@@ -1,0 +1,27 @@
+Select Case qgc
+    Case "QGC0"
+        ' Initialize variables
+        Dim lastRowSheet3 As Long
+        Dim sourceRange As Range
+        Dim pasteRange As Range
+        
+        ' Find the last empty row in Sheet3
+        lastRowSheet3 = Sheet3.Cells(Sheet3.Rows.Count, "A").End(xlUp).Row + 1
+        
+        ' Copy the mandatory row from Sheet2
+        Set sourceRange = Sheet2.Range("A3:J3")
+        Set pasteRange = Sheet3.Range("A" & lastRowSheet3)
+        sourceRange.Copy pasteRange
+        
+        ' Additional code specific to QGC 0 can be added here
+        
+    Case "QGC2"
+        ' Code for QGC 2
+        
+    Case "QGC4"
+        ' Code for QGC 4
+        
+    Case "Others"
+        ' Code for other cases
+        
+End Select
