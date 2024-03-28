@@ -1,56 +1,74 @@
-Sub UpdateSheet3()
-    ' Get the QG selection from cell
-    Dim qgSelection As String
-    qgSelection = ThisWorkbook.Sheets("Sheet1").Range("C14").value ' Assuming the drop-down list is in Sheet1
-    
-    ' ranges for each QG in Sheet2
-    Dim qgc0Range As Range
-    Dim qgc2Range As Range
-    Dim qgc4Range As Range
-    
-    ' Ranges for each QG in Sheet3
-    Dim targetRange As Range
-    Set targetRange = ThisWorkbook.Sheets("Sheet3").Range("A2") ' Starting row to paste data
-    
-    ' ranges for each QG in Sheet2
-    'Select Case qgSelection
-       ' Case "QGC0"
-           ' Set qgc0Range = ThisWorkbook.Sheets("Sheet2").Range("A3:J17") ' Change the range accordingly
-            'Set targetRange = targetRange.Resize(qgc0Range.Rows.Count, qgc0Range.Columns.Count)
-        'Case "QGC2"
-         '   Set qgc2Range = ThisWorkbook.Sheets("Sheet2").Range("A20:J29") ' Change the range accordingly
-          '  Set targetRange = targetRange.Resize(qgc2Range.Rows.Count, qgc2Range.Columns.Count)
-        'Case "QGC4"
-         '   Set qgc4Range = ThisWorkbook.Sheets("Sheet2").Range("A32:J46") ' Change the range accordingly
-          '  Set targetRange = targetRange.Resize(qgc4Range.Rows.Count, qgc4Range.Columns.Count)
-        'Case "Others"
-         '   Exit Sub
-    'End Select
-    
-    ' Copy data from selected range to target range
-    If Not targetRange Is Nothing Then
-       targetRange.value = GetRangeValues(qgSelection)
-    Else
-        ' If target range is empty, display a msg
-        MsgBox "The selected QGC range is empty.", vbExclamation
-    End If
-End Sub
+Select Case qgc
+    Case "QGC0"
+        ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA"
+        CheckBox2.Caption = "FSIA"
+        CheckBox3.Caption = "Safety Plan"
+        CheckBox4.Caption = "Bottom"
+        CheckBox5.Caption = "Item"
+        CheckBox6.Caption = "FMEA"
+        CheckBox7.Caption = "HARA"
+        ' Additional instructions for QGC0
+        ' Logic to copy data based on selected checkboxes
+        Dim targetSheet As Worksheet
+        Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+        
+        If CheckBox1.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
+        End If
+        
+        If CheckBox2.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").value
+        End If
+        
+        If CheckBox3.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").value
+        End If
+        
+        If CheckBox4.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A16:J16")).value
+        End If
+        
+        If CheckBox5.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").value
+        End If
+        
+        If CheckBox6.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A15:J15")).value
+        End If
+        
+        If CheckBox7.value = True Then
+            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").value
+        End If
 
-Function GetRangeValues(qgSelection As String) As Variant
-    Dim sourceRange As Range
-    Select Case qgSelection
-        Case "QGC0"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A3:J17")
-        Case "QGC2"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A20:J29")
-        Case "QGC4"
-            Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range("A32:J46")
-        Case Else
-            ' Return empty array if selection is invalid
-            GetRangeValues = Array()
-            Exit Function
-    End Select
-    ' Return values of source range as array
-    GetRangeValues = sourceRange.value
-End Function
-
+    Case "QGC2"
+        ' ProcessQGC "QGC2"
+        CheckBox1.Caption = "FSVAL Planning "
+        CheckBox2.Caption = "FMEA Coversheet"
+        CheckBox3.Caption = "Change Request Analysis"
+        'Hide checkbox
+        CheckBox4.Visible = False
+        CheckBox5.Visible = False
+        CheckBox6.Visible = False
+        CheckBox7.Visible = False
+            
+    Case "QGC4"
+        'ProcessQGC "QGC4"
+        CheckBox1.Caption = "Saftey Case"
+        CheckBox2.Caption = "FMEA Coversheet"
+        CheckBox3.Caption = "FTA Coversheet"
+        CheckBox4.Caption = "Safety Assesment"
+        CheckBox5.Caption = "Bottom-up-Analysis"
+        CheckBox6.Caption = "FSVAL Analysis"
+            
+        CheckBox7.Visible = False
+        
+    Case "Others"
+        CheckBox1.Visible = False
+        CheckBox2.Visible = False
+        CheckBox3.Visible = False
+        CheckBox4.Visible = False
+        CheckBox5.Visible = False
+        CheckBox6.Visible = False
+        CheckBox7.Visible = False
+End Select
