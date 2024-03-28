@@ -15,7 +15,9 @@ Private Sub CheckBox1_Click()
         End If
         Case "QGC2"
          If CheckBox1.value = True Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J21").value
+            targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").value
+            lastRow = lastRow + 1 ' Move to the next empty row
+            targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").value
             lastRow = lastRow + 2 ' Move to the next empty row
         End If
         Case "QGC4"
