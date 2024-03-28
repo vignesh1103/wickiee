@@ -10,6 +10,8 @@ Private manipulatedDataList As New Collection
 ' variable to store data from Command Button 5
 Dim userData As Collection
 
+
+
 Private Sub UserForm_Initialize()
     ' Get selected QGC from cell C14 from sheet1
     Dim qgc As String
@@ -19,11 +21,11 @@ Private Sub UserForm_Initialize()
     With ThisWorkbook.Sheets("Sheet3")
         .Range("A1:J1").value = Array("Type", "ID", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
     End With
-    
+        
     ' data based on the User selected QGC
     Select Case qgc
         Case "QGC0"
-            ProcessQGC "QGC0"
+            'ProcessQGC "QGC0"
             CheckBox1.Caption = "DIA"
             CheckBox2.Caption = "FSIA"
             CheckBox3.Caption = "Safety Plan"
@@ -34,10 +36,10 @@ Private Sub UserForm_Initialize()
             'Hide check box
 
         Case "QGC2"
-         ProcessQGC "QGC2"
-            CheckBox1.Caption = "DIA"
-            CheckBox2.Caption = "FSIA"
-            CheckBox3.Caption = "Safety Plan"
+        ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning "
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "Change Request Analysis"
             'Hide checkbox
             CheckBox4.Visible = False
             CheckBox5.Visible = False
@@ -46,21 +48,27 @@ Private Sub UserForm_Initialize()
             
             
         Case "QGC4"
-            ProcessQGC "QGC4"
-            CheckBox1.Caption = "DIA"
-            CheckBox2.Caption = "FSIA"
-            CheckBox3.Caption = "Safety Plan"
-            CheckBox4.Caption = "Bottom"
-            CheckBox5.Caption = "Item"
-            CheckBox6.Caption = "FMEA"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case"
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "FTA Coversheet"
+            CheckBox4.Caption = "Safety Assesment"
+            CheckBox5.Caption = "Bottom-up-Analysis"
+            CheckBox6.Caption = "FSVAL Analysis"
             
             CheckBox7.Visible = False
         Case "Others"
-        ' Hide default work items controls
-        Me.Controls("Label1").Visible = False
-        Me.Controls("Label25").Visible = False
-        ResizeUserForm
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+        
     End Select
+    
+    ResizeUserForm
     
     ' Define variables
     Dim currentDate As Date
