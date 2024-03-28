@@ -1,74 +1,32 @@
-Select Case qgc
-    Case "QGC0"
-        ' ProcessQGC "QGC0"
-        CheckBox1.Caption = "DIA"
-        CheckBox2.Caption = "FSIA"
-        CheckBox3.Caption = "Safety Plan"
-        CheckBox4.Caption = "Bottom"
-        CheckBox5.Caption = "Item"
-        CheckBox6.Caption = "FMEA"
-        CheckBox7.Caption = "HARA"
-        ' Additional instructions for QGC0
-        ' Logic to copy data based on selected checkboxes
-        Dim targetSheet As Worksheet
-        Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-        
-        If CheckBox1.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
-        End If
-        
-        If CheckBox2.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").value
-        End If
-        
-        If CheckBox3.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").value
-        End If
-        
-        If CheckBox4.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A16:J16")).value
-        End If
-        
-        If CheckBox5.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").value
-        End If
-        
-        If CheckBox6.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = Application.Union(ThisWorkbook.Sheets("Sheet2").Range("A13:J13"), ThisWorkbook.Sheets("Sheet2").Range("A15:J15")).value
-        End If
-        
-        If CheckBox7.value = True Then
-            targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").value
-        End If
-
-    Case "QGC2"
-        ' ProcessQGC "QGC2"
-        CheckBox1.Caption = "FSVAL Planning "
-        CheckBox2.Caption = "FMEA Coversheet"
-        CheckBox3.Caption = "Change Request Analysis"
-        'Hide checkbox
-        CheckBox4.Visible = False
-        CheckBox5.Visible = False
-        CheckBox6.Visible = False
-        CheckBox7.Visible = False
-            
-    Case "QGC4"
-        'ProcessQGC "QGC4"
-        CheckBox1.Caption = "Saftey Case"
-        CheckBox2.Caption = "FMEA Coversheet"
-        CheckBox3.Caption = "FTA Coversheet"
-        CheckBox4.Caption = "Safety Assesment"
-        CheckBox5.Caption = "Bottom-up-Analysis"
-        CheckBox6.Caption = "FSVAL Analysis"
-            
-        CheckBox7.Visible = False
-        
-    Case "Others"
-        CheckBox1.Visible = False
-        CheckBox2.Visible = False
-        CheckBox3.Visible = False
-        CheckBox4.Visible = False
-        CheckBox5.Visible = False
-        CheckBox6.Visible = False
-        CheckBox7.Visible = False
-End Select
+Private Sub CheckBox1_Click()
+    Dim targetSheet As Worksheet
+    Dim sourceRange As Range
+    Dim lastRow As Long
+    
+    ' Set the target sheet (Sheet3)
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    ' Determine the row range to copy based on the selected QGC
+    Dim qgcRange As Range
+    Select Case ThisWorkbook.Sheets("Sheet1").Range("C14").value
+        Case "QGC0"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A4:J5")
+        Case "QGC2"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A6:J7")
+        Case "QGC4"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet2").Range("A8:J9")
+        Case Else
+            ' Default range if QGC is not recognized
+            Set qgcRange = Nothing
+    End Select
+    
+    ' Check if CheckBox1 is checked and a valid QGC range is defined
+    If CheckBox1.value = True And Not qgcRange Is Nothing Then
+        ' Checkbox is checked, copy data from Sheet2 to Sheet3
+        lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1
+        qgcRange.Copy targetSheet.Cells(lastRow, "A")
+    Else
+        ' Checkbox is unchecked or QGC range is not defined, remove corresponding data from Sheet3 (if needed)
+        ' Add logic to remove data from Sheet3 here (if required)
+    End If
+End Sub
