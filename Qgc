@@ -1,0 +1,24 @@
+Dim lastRowSheet3 As Long
+Dim pasteRange As Range
+Dim sourceRange As Range
+
+' Find the last empty row in Sheet3
+lastRowSheet3 = Sheet3.Cells(Sheet3.Rows.Count, "A").End(xlUp).Row + 1
+
+Select Case selectedQGC
+    Case 0
+        ' Copy the mandatory row from Sheet2
+        Set sourceRange = Sheet2.Range("A3:J3")
+        Set pasteRange = Sheet3.Range("A" & lastRowSheet3)
+        sourceRange.Copy pasteRange
+        
+        ' Find the last empty row again for the next data
+        lastRowSheet3 = Sheet3.Cells(Sheet3.Rows.Count, "A").End(xlUp).Row + 1
+        
+        ' Copy the data for DIA from Sheet2
+        Set sourceRange = Sheet2.Range("A4:J5")
+        Set pasteRange = Sheet3.Range("A" & lastRowSheet3)
+        sourceRange.Copy pasteRange
+        
+    ' Add additional cases for other QGC values here
+End Select
