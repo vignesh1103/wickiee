@@ -10,62 +10,24 @@ Private Sub CheckBox1_Click()
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox3.Value = True And CheckBox4.Value = True And CheckBox6.Value = True Then
-                ' Copy and paste row 13 once
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
             If CheckBox1.Value = True Then
-                ' Copy and paste row 14
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J14").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox1.Value = True Then
-                ' Copy and paste row 15
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox1.Value = True Then
-                ' Copy and paste row 16
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
             End If
         Case "QGC2"
-            If CheckBox1.Value = True And CheckBox3.Value = True Then
-                ' Copy and paste row 20 once
+            If CheckBox1.Value = True Then
                 targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
                 lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox1.Value = True Then
-                ' Copy and paste row 26
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J26").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox1.Value = True Then
-                ' Copy and paste row 27
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A27:J27").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox1.Value = True Then
-                ' Copy and paste row 28
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A28:J28").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
             End If
         Case "QGC4"
-            If CheckBox5.Value = True And CheckBox6.Value = True Then
-                ' Copy and paste row 43 once
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A43:J43").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox5.Value = True Then
-                ' Copy and paste row 44
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A44:J44").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-            End If
-            If CheckBox5.Value = True Then
-                ' Copy and paste row 45
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A45:J45").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+            If CheckBox1.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
             End If
     End Select
 End Sub
+
+' Repeat the above structure for CheckBox2_Click, CheckBox3_Click, CheckBox4_Click, CheckBox5_Click, and CheckBox6_Click.
+' Just replace "CheckBox1" with the appropriate checkbox name in each Sub and adjust the logic as needed.
