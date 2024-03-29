@@ -1,8 +1,33 @@
-Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
-    ' Copy data from the specified range for the given checkbox
+Private Sub PasteCheckBoxData(cb As CheckBox, targetSheet As Worksheet)
+    ' Paste data for the given checkbox to the target sheet
     If cb.Value = True Then
-        ThisWorkbook.Sheets("Temp").Range("A1").Value = rowsToCopy ' Store the rowsToCopy value in a temporary cell
-        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        cb.Tag = ThisWorkbook.Sheets("Temp").Range("A1").Text ' Assign the rowsToCopy value as text to the Tag property
+        Dim targetRange As Range
+        Set targetRange = targetSheet.Range("A" & targetSheet.Rows.Count).End(xlUp).Offset(1)
+        targetRange.PasteSpecial Paste:=xlPasteValues
+        Application.CutCopyMode = False
     End If
+End Sub
+Private Sub CommandButton7_Click()
+    ' CommandButton7 Click Event
+    ' Paste the selected checkbox data to Sheet3
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    ' Paste copied data from CheckBox1
+    PasteCheckBoxData CheckBox1, targetSheet
+    
+    ' Paste copied data from CheckBox2
+    PasteCheckBoxData CheckBox2, targetSheet
+    
+    ' Paste copied data from CheckBox3
+    PasteCheckBoxData CheckBox3, targetSheet
+    
+    ' Paste copied data from CheckBox4
+    PasteCheckBoxData CheckBox4, targetSheet
+    
+    ' Paste copied data from CheckBox5
+    PasteCheckBoxData CheckBox5, targetSheet
+    
+    ' Paste copied data from CheckBox6
+    PasteCheckBoxData CheckBox6, targetSheet
 End Sub
