@@ -1,22 +1,21 @@
-
 Private Sub CheckBox1_Click()
     ' CheckBox1 Click Event
     ' Handle the logic for CheckBox1
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A4:J5", 2
             End If
         Case "QGC2"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A20:J20", 1
                 CopyCheckBoxData CheckBox1, "A26:J27", 2
             End If
         Case "QGC4"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A32:J33", 2
             End If
     End Select
@@ -26,19 +25,19 @@ Private Sub CheckBox2_Click()
     ' CheckBox2 Click Event
     ' Handle the logic for CheckBox2
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox2.value = True Then
+            If CheckBox2.Value = True Then
                 CopyCheckBoxData CheckBox2, "A6:J7", 2
             End If
         Case "QGC2"
-            If CheckBox2.value = True Then
+            If CheckBox2.Value = True Then
                 CopyCheckBoxData CheckBox2, "A23:J25", 3
             End If
         Case "QGC4"
-            If CheckBox2.value = True Then
+            If CheckBox2.Value = True Then
                 CopyCheckBoxData CheckBox2, "A34:J36", 3
             End If
     End Select
@@ -48,20 +47,20 @@ Private Sub CheckBox3_Click()
     ' CheckBox3 Click Event
     ' Handle the logic for CheckBox3
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox3.value = True Then
+            If CheckBox3.Value = True Then
                 CopyCheckBoxData CheckBox3, "A13:J14", 2
             End If
         Case "QGC2"
-            If CheckBox3.value = True Then
+            If CheckBox3.Value = True Then
                 CopyCheckBoxData CheckBox3, "A20:J20", 1
                 CopyCheckBoxData CheckBox3, "A28:J28", 1
             End If
         Case "QGC4"
-            If CheckBox3.value = True Then
+            If CheckBox3.Value = True Then
                 CopyCheckBoxData CheckBox3, "A37:J39", 3
             End If
     End Select
@@ -71,18 +70,18 @@ Private Sub CheckBox4_Click()
     ' CheckBox4 Click Event
     ' Handle the logic for CheckBox4
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox4.value = True Then
+            If CheckBox4.Value = True Then
                 CopyCheckBoxData CheckBox4, "A13:J13", 1
                 CopyCheckBoxData CheckBox4, "A16:J16", 1
             End If
         Case "QGC2"
             CheckBox4.Enabled = False
         Case "QGC4"
-            If CheckBox4.value = True Then
+            If CheckBox4.Value = True Then
                 CopyCheckBoxData CheckBox4, "A40:J42", 3
             End If
     End Select
@@ -92,17 +91,17 @@ Private Sub CheckBox5_Click()
     ' CheckBox5 Click Event
     ' Handle the logic for CheckBox5
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox5.value = True Then
+            If CheckBox5.Value = True Then
                 CopyCheckBoxData CheckBox5, "A11:J12", 2
             End If
         Case "QGC2"
             CheckBox5.Enabled = False
         Case "QGC4"
-            If CheckBox5.value = True Then
+            If CheckBox5.Value = True Then
                 CopyCheckBoxData CheckBox5, "A43:J44", 2
             End If
     End Select
@@ -112,18 +111,18 @@ Private Sub CheckBox6_Click()
     ' CheckBox6 Click Event
     ' Handle the logic for CheckBox6
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox6.value = True Then
+            If CheckBox6.Value = True Then
                 CopyCheckBoxData CheckBox6, "A13:J13", 1
                 CopyCheckBoxData CheckBox6, "A15:J15", 1
             End If
         Case "QGC2"
             CheckBox6.Enabled = False
         Case "QGC4"
-            If CheckBox6.value = True Then
+            If CheckBox6.Value = True Then
                 CopyCheckBoxData CheckBox6, "A43:J43", 1
                 CopyCheckBoxData CheckBox6, "A45:J45", 1
             End If
@@ -157,18 +156,18 @@ End Sub
 
 Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
     ' Copy data from the specified range for the given checkbox
-    If cb.value = True Then
+    If cb.Value = True Then
         ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        cb.Tag = CStr(rowsToCopy)
+        cb.Tag = rowsToCopy
     End If
 End Sub
 
 Private Sub PasteCheckBoxData(cb As CheckBox, targetSheet As Worksheet)
     ' Paste data for the given checkbox to the target sheet
-    If cb.value = True Then
+    If cb.Value = True Then
         Dim targetRange As Range
         Set targetRange = targetSheet.Range("A" & targetSheet.Rows.Count).End(xlUp).Offset(1)
         targetRange.PasteSpecial Paste:=xlPasteValues
-        Application.CutCopyMode = False
+        Application.CutCopyMode = False ' Clear clipboard after pasting
     End If
 End Sub
