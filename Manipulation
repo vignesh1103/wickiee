@@ -4,29 +4,19 @@ Private Sub CheckBox1_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox1.CopyData "A4:J5", 2
             End If
         Case "QGC2"
             If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox1.CopyData "A20:J20", 1
+                CheckBox1.CopyData "A26:J27", 2
             End If
         Case "QGC4"
             If CheckBox1.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox1.CopyData "A32:J33", 2
             End If
     End Select
 End Sub
@@ -37,27 +27,18 @@ Private Sub CheckBox2_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox2.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox2.CopyData "A6:J7", 2
             End If
         Case "QGC2"
             If CheckBox2.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A23:J25").Value
-                lastRow = lastRow + 3 ' Move to the next empty row
+                CheckBox2.CopyData "A23:J25", 3
             End If
         Case "QGC4"
             If CheckBox2.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A34:J36").Value
-                lastRow = lastRow + 3 ' Move to the next empty row
+                CheckBox2.CopyData "A34:J36", 3
             End If
     End Select
 End Sub
@@ -68,29 +49,19 @@ Private Sub CheckBox3_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox3.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox3.CopyData "A13:J14", 2
             End If
         Case "QGC2"
             If CheckBox3.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A28:J28").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                CheckBox3.CopyData "A20:J20", 1
+                CheckBox3.CopyData "A28:J28", 1
             End If
         Case "QGC4"
             If CheckBox3.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A37:J39").Value
-                lastRow = lastRow + 3 ' Move to the next empty row
+                CheckBox3.CopyData "A37:J39", 3
             End If
     End Select
 End Sub
@@ -101,26 +72,17 @@ Private Sub CheckBox4_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox4.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                CheckBox4.CopyData "A13:J13", 1
+                CheckBox4.CopyData "A16:J16", 1
             End If
         Case "QGC2"
             CheckBox4.Enabled = False
         Case "QGC4"
             If CheckBox4.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A40:J42").Value
-                lastRow = lastRow + 3 ' Move to the next empty row
+                CheckBox4.CopyData "A40:J42", 3
             End If
     End Select
 End Sub
@@ -131,24 +93,16 @@ Private Sub CheckBox5_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox5.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox5.CopyData "A11:J12", 2
             End If
         Case "QGC2"
             CheckBox5.Enabled = False
         Case "QGC4"
             If CheckBox5.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A43:J44").Value
-                lastRow = lastRow + 2 ' Move to the next empty row
+                CheckBox5.CopyData "A43:J44", 2
             End If
     End Select
 End Sub
@@ -159,79 +113,46 @@ Private Sub CheckBox6_Click()
     Dim qgc As String
     qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
-    Dim targetSheet As Worksheet
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    Dim lastRow As Long
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
-    
     Select Case qgc
         Case "QGC0"
             If CheckBox6.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                CheckBox6.CopyData "A13:J13", 1
+                CheckBox6.CopyData "A15:J15", 1
             End If
         Case "QGC2"
             CheckBox6.Enabled = False
         Case "QGC4"
             If CheckBox6.Value = True Then
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A43:J43").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
-                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A45:J45").Value
-                lastRow = lastRow + 1 ' Move to the next empty row
+                CheckBox6.CopyData "A43:J43", 1
+                CheckBox6.CopyData "A45:J45", 1
             End If
     End Select
 End Sub
 
 Private Sub CommandButton7_Click()
     ' CommandButton7 Click Event
-    ' Copy the selected checkbox data to Sheet3
-    
+    ' Paste the selected checkbox data to Sheet3
     Dim targetSheet As Worksheet
     Set targetSheet = ThisWorkbook.Sheets("Sheet3")
     
     Dim lastRow As Long
     lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
     
-    ' Copy CheckBox1 data
-    If CheckBox1.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox1
+    CheckBox1.PasteData targetSheet, lastRow
     
-    ' Copy CheckBox2 data
-    If CheckBox2.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox2
+    CheckBox2.PasteData targetSheet, lastRow
     
-    ' Copy CheckBox3 data
-    If CheckBox3.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox3
+    CheckBox3.PasteData targetSheet, lastRow
     
-    ' Copy CheckBox4 data
-    If CheckBox4.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox4
+    CheckBox4.PasteData targetSheet, lastRow
     
-    ' Copy CheckBox5 data
-    If CheckBox5.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox5
+    CheckBox5.PasteData targetSheet, lastRow
     
-    ' Copy CheckBox6 data
-    If CheckBox6.Value = True Then
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-    End If
+    ' Paste copied data from CheckBox6
+    CheckBox6.PasteData targetSheet, lastRow
 End Sub
