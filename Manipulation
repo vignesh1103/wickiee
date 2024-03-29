@@ -1,38 +1,118 @@
-Private Sub CheckBox_Click(QGC As String)
-    ' CheckBox Click Event
-    ' Handle the logic for CheckBox based on the specified QGC
+Private Sub CommandButton7_Click()
+    ' Initialize the variable
+    Dim selectedCheckboxes As String
+    selectedCheckboxes = ""
     
-    Dim qgcRange As Range
-    Dim checkBox As CheckBox
-    Dim checkBoxRange As String
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
     
-    ' Determine the range for the specified QGC
-    Select Case QGC
-        Case "QGC0"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("A4:A6") ' Adjust the range as needed
-        Case "QGC2"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("B4:B6") ' Adjust the range as needed
-        Case "QGC4"
-            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("C4:C6") ' Adjust the range as needed
-        Case Else
-            ' Handle other cases or invalid QGC values
-            MsgBox "Invalid QGC specified."
-            Exit Sub
-    End Select
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
     
-    ' Iterate through each checkbox and check if it corresponds to the specified QGC
-    For Each checkBox In Me.Controls
-        If TypeOf checkBox Is MSForms.CheckBox Then
-            If Not Intersect(checkBox.TopLeftCell, qgcRange) Is Nothing Then
-                ' This checkbox corresponds to the specified QGC
-                If checkBox.Value = True Then
-                    ' Checkbox is checked, perform necessary actions
-                    ' For example:
-                    ' MsgBox checkBox.Name & " is checked."
-                Else
-                    ' Checkbox is not checked
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    ' Check each checkbox (assuming they are named CheckBox1 to CheckBox7)
+    Dim i As Integer
+    For i = 1 To 7
+        If Me.Controls("CheckBox" & i).value = True Then
+            ' Additional logic: Customize based on your requirements
+            If qgc = "QGC0" Then
+                ' Logic for CheckBoxes 1 to 7 when qgc = "QGC0"
+                ' If CheckBox1 is selected, copy data from Sheet2 to targetSheet
+                If i = 1 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
                 End If
+                ' Add the checkbox label to the selectedCheckboxes string
+                If i = 2 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 3 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 4 Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                End If
+                If i = 5 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 6 Then
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                End If
+                If i = 7 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
+        
+                selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
+            ElseIf qgc = "QGC2" Then
+                If i = 1 Then
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 2 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A23:J25").value
+                    'targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
+                If i = 3 Then
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A28:J28").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                End If
+                
+            selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
+            
+            ElseIf qgc = "QGC4" Then
+                If i = 1 Then
+                        targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").value
+                        lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 2 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A34:J36").value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
+                If i = 3 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A37:J39").value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
+                If i = 4 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A40:J42").value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
+                If i = 5 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A43:J44").value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
+                If i = 6 Then
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A43:J43").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                    targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A45:J45").value
+                    lastRow = lastRow + 1 ' Move to the next empty row
+                End If
+                
+                selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
+            
             End If
         End If
-    Next checkBox
+    Next i
+    
+    ' Remove trailing comma and space
+    selectedCheckboxes = Left(selectedCheckboxes, Len(selectedCheckboxes) - 2)
+    
+    ' Display the selected checkboxes
+    MsgBox "Selected checkboxes: " & selectedCheckboxes
 End Sub
