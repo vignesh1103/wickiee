@@ -1,76 +1,14 @@
-Option Explicit
-
-Dim previousTextBox8Value As String
-Dim storedDataList As New Collection
-Private manipulatedDataList As New Collection
-Private userData As Collection
-
-Private Sub CheckBox1_Click()
-    ' CheckBox1 Click Event
-    ' Handle the logic for CheckBox1
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox1.Value = True Then
-                CopyCheckBoxData CheckBox1, "A4:J5", 2
-            End If
-        Case "QGC2"
-            If CheckBox1.Value = True Then
-                CopyCheckBoxData CheckBox1, "A20:J20", 1
-                CopyCheckBoxData CheckBox1, "A26:J27", 2
-            End If
-        Case "QGC4"
-            If CheckBox1.Value = True Then
-                CopyCheckBoxData CheckBox1, "A32:J33", 2
-            End If
-    End Select
-End Sub
-
-' Repeat CheckBox_Click() for CheckBox2 to CheckBox6 with respective logic for each case.
-
-Private Sub CommandButton7_Click()
-    ' CommandButton7 Click Event
-    ' Paste the selected checkbox data to Sheet3
-    Dim targetSheet As Worksheet
-    Dim cb As Control
-    
-    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
-    
-    For Each cb In Me.Controls
-        If TypeName(cb) = "CheckBox" Then
-            If cb.Value = True Then
-                PasteCheckBoxData cb, targetSheet
-            End If
-        End If
-    Next cb
-End Sub
-
 Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
     ' Copy data from the specified range for the given checkbox
+    Dim sourceRange As Range
+    
     If cb.Value = True Then
-        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        cb.Tag = rowsToCopy
-    End If
-End Sub
-
-Private Sub PasteCheckBoxData(cb As CheckBox, targetSheet As Worksheet)
-    ' Paste data for the given checkbox to the target sheet
-    If cb.Value = True Then
-        Dim targetRange As Range
-        Dim lastRow As Long
-        
-        Set targetRange = targetSheet.Range("A" & targetSheet.Rows.Count).End(xlUp).Offset(1)
-        targetRange.PasteSpecial Paste:=xlPasteValues
-        Application.CutCopyMode = False ' Clear clipboard after pasting
-        
-        ' Adjust row heights if necessary
-        If cb.Tag > 1 Then
-            lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row
-            targetSheet.Rows(lastRow - cb.Tag + 1 & ":" & lastRow).EntireRow.AutoFit
+        Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range(rng)
+        If Not sourceRange Is Nothing Then
+            sourceRange.Copy
+            cb.Tag = rowsToCopy
+        Else
+            MsgBox "Invalid range specified.", vbExclamation
         End If
     End If
 End Sub
-
-' Other Subs and Functions are kept unchanged.
