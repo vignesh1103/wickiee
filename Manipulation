@@ -1,45 +1,61 @@
 If qgc = "QGC0" Then
     ' Logic for CheckBoxes 1 to 7 when qgc = "QGC0"
     ' If CheckBox1 is selected, copy data from Sheet2 to targetSheet
-    If Me.Controls("CheckBox1").Value = True Then
+    If i = 1 Then
         targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
         lastRow = lastRow + 2 ' Move to the next empty row
     End If
     
-    ' If CheckBox3 or CheckBox4 or CheckBox6 are selected, copy specific data from Sheet2 to targetSheet
-    If Me.Controls("CheckBox3").Value = True Or Me.Controls("CheckBox4").Value = True Or Me.Controls("CheckBox6").Value = True Then
-        If Me.Controls("CheckBox3").Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
+    ' Add the checkbox label to the selectedCheckboxes string
+    If i = 2 Then
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
+        lastRow = lastRow + 2 ' Move to the next empty row
+    End If
+    
+    ' Additional logic for CheckBoxes 3, 4, and 6
+    If i = 3 Or i = 4 Or i = 6 Then
+        Dim pasteRange As Range
+        If i = 3 Then
+            Set pasteRange = targetSheet.Range("A" & lastRow)
+        ElseIf i = 4 Then
+            Set pasteRange = targetSheet.Range("A" & lastRow + 1)
+        ElseIf i = 6 Then
+            Set pasteRange = targetSheet.Range("A" & lastRow)
         End If
-        If Me.Controls("CheckBox4").Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J16").Value
-            lastRow = lastRow + 3 ' Move to the next empty row
-        End If
-        If Me.Controls("CheckBox6").Value = True Then
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
+        
+        ' Check if combination with other checkboxes is selected
+        Dim comboSelected As Boolean
+        comboSelected = False
+        
+        For j = 1 To 7
+            If j <> i Then
+                If Me.Controls("CheckBox" & j).Value = True Then
+                    If j = 3 Or j = 4 Or j = 6 Then
+                        comboSelected = True
+                        Exit For
+                    End If
+                End If
+            End If
+        Next j
+        
+        ' Paste data if combination selected
+        If comboSelected Then
+            pasteRange.Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+            lastRow = lastRow + 2 ' Move to the next empty row
+            pasteRange.Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
             lastRow = lastRow + 1 ' Move to the next empty row
         End If
     End If
     
-    ' If CheckBox5 is selected, copy data from Sheet2 to targetSheet
-    If Me.Controls("CheckBox5").Value = True Then
+    If i = 5 Then
         targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
         lastRow = lastRow + 2 ' Move to the next empty row
     End If
     
-    ' If CheckBox7 is selected, copy data from Sheet2 to targetSheet
-    If Me.Controls("CheckBox7").Value = True Then
+    If i = 7 Then
         targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").Value
         lastRow = lastRow + 3 ' Move to the next empty row
     End If
     
-    ' Add the checkbox label to the selectedCheckboxes string
-    For i = 1 To 7
-        If Me.Controls("CheckBox" & i).Value = True Then
-            selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
-        End If
-    Next i
+    selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
 End If
