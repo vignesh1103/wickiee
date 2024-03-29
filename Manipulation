@@ -1,3 +1,5 @@
+Option Explicit
+
 Private Sub CheckBox1_Click()
     ' CheckBox1 Click Event
     ' Handle the logic for CheckBox1
@@ -7,16 +9,16 @@ Private Sub CheckBox1_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox1.Value = True Then
-                CheckBox1.CopyData "A4:J5", 2
+                CopyCheckBoxData CheckBox1, "A4:J5", 2
             End If
         Case "QGC2"
             If CheckBox1.Value = True Then
-                CheckBox1.CopyData "A20:J20", 1
-                CheckBox1.CopyData "A26:J27", 2
+                CopyCheckBoxData CheckBox1, "A20:J20", 1
+                CopyCheckBoxData CheckBox1, "A26:J27", 2
             End If
         Case "QGC4"
             If CheckBox1.Value = True Then
-                CheckBox1.CopyData "A32:J33", 2
+                CopyCheckBoxData CheckBox1, "A32:J33", 2
             End If
     End Select
 End Sub
@@ -30,15 +32,15 @@ Private Sub CheckBox2_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox2.Value = True Then
-                CheckBox2.CopyData "A6:J7", 2
+                CopyCheckBoxData CheckBox2, "A6:J7", 2
             End If
         Case "QGC2"
             If CheckBox2.Value = True Then
-                CheckBox2.CopyData "A23:J25", 3
+                CopyCheckBoxData CheckBox2, "A23:J25", 3
             End If
         Case "QGC4"
             If CheckBox2.Value = True Then
-                CheckBox2.CopyData "A34:J36", 3
+                CopyCheckBoxData CheckBox2, "A34:J36", 3
             End If
     End Select
 End Sub
@@ -52,16 +54,16 @@ Private Sub CheckBox3_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox3.Value = True Then
-                CheckBox3.CopyData "A13:J14", 2
+                CopyCheckBoxData CheckBox3, "A13:J14", 2
             End If
         Case "QGC2"
             If CheckBox3.Value = True Then
-                CheckBox3.CopyData "A20:J20", 1
-                CheckBox3.CopyData "A28:J28", 1
+                CopyCheckBoxData CheckBox3, "A20:J20", 1
+                CopyCheckBoxData CheckBox3, "A28:J28", 1
             End If
         Case "QGC4"
             If CheckBox3.Value = True Then
-                CheckBox3.CopyData "A37:J39", 3
+                CopyCheckBoxData CheckBox3, "A37:J39", 3
             End If
     End Select
 End Sub
@@ -75,14 +77,14 @@ Private Sub CheckBox4_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox4.Value = True Then
-                CheckBox4.CopyData "A13:J13", 1
-                CheckBox4.CopyData "A16:J16", 1
+                CopyCheckBoxData CheckBox4, "A13:J13", 1
+                CopyCheckBoxData CheckBox4, "A16:J16", 1
             End If
         Case "QGC2"
             CheckBox4.Enabled = False
         Case "QGC4"
             If CheckBox4.Value = True Then
-                CheckBox4.CopyData "A40:J42", 3
+                CopyCheckBoxData CheckBox4, "A40:J42", 3
             End If
     End Select
 End Sub
@@ -96,13 +98,13 @@ Private Sub CheckBox5_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox5.Value = True Then
-                CheckBox5.CopyData "A11:J12", 2
+                CopyCheckBoxData CheckBox5, "A11:J12", 2
             End If
         Case "QGC2"
             CheckBox5.Enabled = False
         Case "QGC4"
             If CheckBox5.Value = True Then
-                CheckBox5.CopyData "A43:J44", 2
+                CopyCheckBoxData CheckBox5, "A43:J44", 2
             End If
     End Select
 End Sub
@@ -116,15 +118,15 @@ Private Sub CheckBox6_Click()
     Select Case qgc
         Case "QGC0"
             If CheckBox6.Value = True Then
-                CheckBox6.CopyData "A13:J13", 1
-                CheckBox6.CopyData "A15:J15", 1
+                CopyCheckBoxData CheckBox6, "A13:J13", 1
+                CopyCheckBoxData CheckBox6, "A15:J15", 1
             End If
         Case "QGC2"
             CheckBox6.Enabled = False
         Case "QGC4"
             If CheckBox6.Value = True Then
-                CheckBox6.CopyData "A43:J43", 1
-                CheckBox6.CopyData "A45:J45", 1
+                CopyCheckBoxData CheckBox6, "A43:J43", 1
+                CopyCheckBoxData CheckBox6, "A45:J45", 1
             End If
     End Select
 End Sub
@@ -139,20 +141,36 @@ Private Sub CommandButton7_Click()
     lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
     
     ' Paste copied data from CheckBox1
-    CheckBox1.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox1, targetSheet, lastRow
     
     ' Paste copied data from CheckBox2
-    CheckBox2.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox2, targetSheet, lastRow
     
     ' Paste copied data from CheckBox3
-    CheckBox3.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox3, targetSheet, lastRow
     
     ' Paste copied data from CheckBox4
-    CheckBox4.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox4, targetSheet, lastRow
     
     ' Paste copied data from CheckBox5
-    CheckBox5.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox5, targetSheet, lastRow
     
     ' Paste copied data from CheckBox6
-    CheckBox6.PasteData targetSheet, lastRow
+    PasteCheckBoxData CheckBox6, targetSheet, lastRow
+End Sub
+
+Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
+    ' Copy data from the specified range for the given checkbox
+    If cb.Value = True Then
+        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
+        cb.Tag = rowsToCopy
+    End If
+End Sub
+
+Private Sub PasteCheckBoxData(cb As CheckBox, targetSheet As Worksheet, startRow As Long)
+    ' Paste data for the given checkbox to the target sheet
+    If cb.Value = True Then
+        targetSheet.Range("A" & startRow).PasteSpecial Paste:=xlPasteValues
+        startRow = startRow + cb.Tag
+    End If
 End Sub
