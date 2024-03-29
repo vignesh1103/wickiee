@@ -1,7 +1,20 @@
-Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
+Private Sub CopyCheckBoxData(cb As CheckBox, rng As Variant, rowsToCopy As Long)
     ' Copy data from the specified range for the given checkbox
     If cb.Value = True Then
-        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
+        If IsNumeric(rng) Then
+            ' Handle numeric ranges
+            ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
+        ElseIf IsString(rng) Then
+            ' Handle string ranges
+            ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
+        Else
+            ' Handle other types of ranges (if needed)
+        End If
         cb.Tag = rowsToCopy
     End If
 End Sub
+
+Function IsString(value As Variant) As Boolean
+    ' Check if the value is a string
+    IsString = VarType(value) = vbString
+End Function
