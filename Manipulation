@@ -1,25 +1,13 @@
-Private Sub CopyCheckBoxData(cb As CheckBox, rng As Variant, rowsToCopy As Long)
+Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
+    ' Debug line to print the data type of rng
+    Debug.Print TypeName(rng)
+    
+    ' Debug line to print the value of rng
+    Debug.Print rng
+    
     ' Copy data from the specified range for the given checkbox
     If cb.Value = True Then
-        If IsStringValue(rng) Then
-            ' Handle string ranges
-            ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        ElseIf IsNumericValue(rng) Then
-            ' Handle numeric ranges
-            ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        Else
-            ' Handle other types of ranges (if needed)
-        End If
+        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
         cb.Tag = rowsToCopy
     End If
 End Sub
-
-Function IsStringValue(value As Variant) As Boolean
-    ' Check if the value is a string
-    IsStringValue = VarType(value) = vbString
-End Function
-
-Function IsNumericValue(value As Variant) As Boolean
-    ' Check if the value is numeric
-    IsNumericValue = IsNumeric(value)
-End Function
