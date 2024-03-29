@@ -1,17 +1,7 @@
-Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Integer)
+Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
     ' Copy data from the specified range for the given checkbox
-    Dim sourceRange As Range
-    
     If cb.Value = True Then
-        On Error Resume Next
-        Set sourceRange = ThisWorkbook.Sheets("Sheet2").Range(rng)
-        On Error GoTo 0
-        
-        If Not sourceRange Is Nothing Then
-            sourceRange.Copy
-            cb.Tag = rowsToCopy
-        Else
-            MsgBox "Invalid range specified.", vbExclamation
-        End If
+        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
+        cb.Tag = rowsToCopy
     End If
 End Sub
