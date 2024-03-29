@@ -1,41 +1,237 @@
+Private Sub CheckBox1_Click()
+    ' CheckBox1 Click Event
+    ' Handle the logic for CheckBox1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox1.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            If CheckBox1.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J27").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+        Case "QGC4"
+            If CheckBox1.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A32:J33").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
+Private Sub CheckBox2_Click()
+    ' CheckBox2 Click Event
+    ' Handle the logic for CheckBox2
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox2.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            If CheckBox2.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A23:J25").Value
+                lastRow = lastRow + 3 ' Move to the next empty row
+            End If
+        Case "QGC4"
+            If CheckBox2.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A34:J36").Value
+                lastRow = lastRow + 3 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
+Private Sub CheckBox3_Click()
+    ' CheckBox3 Click Event
+    ' Handle the logic for CheckBox3
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox3.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            If CheckBox3.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A28:J28").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+            End If
+        Case "QGC4"
+            If CheckBox3.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A37:J39").Value
+                lastRow = lastRow + 3 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
+Private Sub CheckBox4_Click()
+    ' CheckBox4 Click Event
+    ' Handle the logic for CheckBox4
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox4.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            CheckBox4.Enabled = False
+        Case "QGC4"
+            If CheckBox4.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A40:J42").Value
+                lastRow = lastRow + 3 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
+Private Sub CheckBox5_Click()
+    ' CheckBox5 Click Event
+    ' Handle the logic for CheckBox5
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox5.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            CheckBox5.Enabled = False
+        Case "QGC4"
+            If CheckBox5.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A43:J44").Value
+                lastRow = lastRow + 2 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
+Private Sub CheckBox6_Click()
+    ' CheckBox6 Click Event
+    ' Handle the logic for CheckBox6
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    Select Case qgc
+        Case "QGC0"
+            If CheckBox6.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+            End If
+        Case "QGC2"
+            CheckBox6.Enabled = False
+        Case "QGC4"
+            If CheckBox6.Value = True Then
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A43:J43").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+                targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A45:J45").Value
+                lastRow = lastRow + 1 ' Move to the next empty row
+            End If
+    End Select
+End Sub
+
 Private Sub CommandButton7_Click()
-    If selectedCheckBox <> "" Then
-        ' Perform actions based on the selected checkbox and qgc value
-        Select Case selectedCheckBox
-            Case "CheckBox1", "CheckBox5", "CheckBox6"
-                ' Actions for checkboxes under QGC0
-                Select Case qgc
-                    Case "QGC0"
-                        ' Example actions for QGC0 and CheckBox1, CheckBox5, CheckBox6
-                        If selectedCheckBox = "CheckBox1" Then
-                            ' Example: Copy data from Sheet2 to Sheet3 for CheckBox1 under QGC0
-                            ThisWorkbook.Sheets("Sheet3").Range("A1").Value = ThisWorkbook.Sheets("Sheet2").Range("A1").Value
-                        ElseIf selectedCheckBox = "CheckBox5" Then
-                            ' Example: Hide a column for CheckBox5 under QGC0
-                            ThisWorkbook.Sheets("Sheet1").Columns("C").Hidden = True
-                        ElseIf selectedCheckBox = "CheckBox6" Then
-                            ' Example: Insert a new row for CheckBox6 under QGC0
-                            ThisWorkbook.Sheets("Sheet1").Rows("2:2").Insert Shift:=xlDown
-                        End If
-                        
-                        ' Additional actions specific to QGC0 checkboxes can be added here
-                        
-                    Case "QGC2"
-                        ' Handle actions specific to QGC2
-                    Case "QGC4"
-                        ' Handle actions specific to QGC4
-                End Select
-                
-            Case "CheckBox2", "CheckBox3"
-                ' Actions for checkboxes under QGC2
-                ' Handle actions specific to QGC2 checkboxes
-                
-            Case "CheckBox4"
-                ' Actions for checkboxes under QGC4
-                ' Handle actions specific to QGC4 checkboxes
-                
-        End Select
-    Else
-        MsgBox "Please select a checkbox before clicking CommandButton7."
+    ' CommandButton7 Click Event
+    ' Copy the selected checkbox data to Sheet3
+    
+    Dim targetSheet As Worksheet
+    Set targetSheet = ThisWorkbook.Sheets("Sheet3")
+    
+    Dim lastRow As Long
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1 ' Find the last empty row in Sheet3
+    
+    ' Copy CheckBox1 data
+    If CheckBox1.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
+        lastRow = lastRow + 2 ' Move to the next empty row
+    End If
+    
+    ' Copy CheckBox2 data
+    If CheckBox2.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
+        lastRow = lastRow + 2 ' Move to the next empty row
+    End If
+    
+    ' Copy CheckBox3 data
+    If CheckBox3.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+        lastRow = lastRow + 2 ' Move to the next empty row
+    End If
+    
+    ' Copy CheckBox4 data
+    If CheckBox4.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
+    End If
+    
+    ' Copy CheckBox5 data
+    If CheckBox5.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
+        lastRow = lastRow + 2 ' Move to the next empty row
+    End If
+    
+    ' Copy CheckBox6 data
+    If CheckBox6.Value = True Then
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
     End If
 End Sub
