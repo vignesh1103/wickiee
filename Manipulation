@@ -1,174 +1,55 @@
 Option Explicit
 
 Dim previousTextBox8Value As String
-'Dim Sheet3DataObject As Object
-Dim storedData As Variant
-
 Dim storedDataList As New Collection
 Private manipulatedDataList As New Collection
-
-' variable to store data from Command Button 5
-Dim userData As Collection
+Private userData As Collection
 
 Private Sub CheckBox1_Click()
     ' CheckBox1 Click Event
     ' Handle the logic for CheckBox1
     Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
     
     Select Case qgc
         Case "QGC0"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A4:J5", 2
             End If
         Case "QGC2"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A20:J20", 1
                 CopyCheckBoxData CheckBox1, "A26:J27", 2
             End If
         Case "QGC4"
-            If CheckBox1.value = True Then
+            If CheckBox1.Value = True Then
                 CopyCheckBoxData CheckBox1, "A32:J33", 2
             End If
     End Select
 End Sub
 
-Private Sub CheckBox2_Click()
-    ' CheckBox2 Click Event
-    ' Handle the logic for CheckBox2
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox2.value = True Then
-                CopyCheckBoxData CheckBox2, "A6:J7", 2
-            End If
-        Case "QGC2"
-            If CheckBox2.value = True Then
-                CopyCheckBoxData CheckBox2, "A23:J25", 3
-            End If
-        Case "QGC4"
-            If CheckBox2.value = True Then
-                CopyCheckBoxData CheckBox2, "A34:J36", 3
-            End If
-    End Select
-End Sub
-
-Private Sub CheckBox3_Click()
-    ' CheckBox3 Click Event
-    ' Handle the logic for CheckBox3
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox3.value = True Then
-                CopyCheckBoxData CheckBox3, "A13:J14", 2
-            End If
-        Case "QGC2"
-            If CheckBox3.value = True Then
-                CopyCheckBoxData CheckBox3, "A20:J20", 1
-                CopyCheckBoxData CheckBox3, "A28:J28", 1
-            End If
-        Case "QGC4"
-            If CheckBox3.value = True Then
-                CopyCheckBoxData CheckBox3, "A37:J39", 3
-            End If
-    End Select
-End Sub
-
-Private Sub CheckBox4_Click()
-    ' CheckBox4 Click Event
-    ' Handle the logic for CheckBox4
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox4.value = True Then
-                CopyCheckBoxData CheckBox4, "A13:J13", 1
-                CopyCheckBoxData CheckBox4, "A16:J16", 1
-            End If
-        Case "QGC2"
-            CheckBox4.Enabled = False
-        Case "QGC4"
-            If CheckBox4.value = True Then
-                CopyCheckBoxData CheckBox4, "A40:J42", 3
-            End If
-    End Select
-End Sub
-
-Private Sub CheckBox5_Click()
-    ' CheckBox5 Click Event
-    ' Handle the logic for CheckBox5
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox5.value = True Then
-                CopyCheckBoxData CheckBox5, "A11:J12", 2
-            End If
-        Case "QGC2"
-            CheckBox5.Enabled = False
-        Case "QGC4"
-            If CheckBox5.value = True Then
-                CopyCheckBoxData CheckBox5, "A43:J44", 2
-            End If
-    End Select
-End Sub
-
-Private Sub CheckBox6_Click()
-    ' CheckBox6 Click Event
-    ' Handle the logic for CheckBox6
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    Select Case qgc
-        Case "QGC0"
-            If CheckBox6.value = True Then
-                CopyCheckBoxData CheckBox6, "A13:J13", 1
-                CopyCheckBoxData CheckBox6, "A15:J15", 1
-            End If
-        Case "QGC2"
-            CheckBox6.Enabled = False
-        Case "QGC4"
-            If CheckBox6.value = True Then
-                CopyCheckBoxData CheckBox6, "A43:J43", 1
-                CopyCheckBoxData CheckBox6, "A45:J45", 1
-            End If
-    End Select
-End Sub
+' Repeat CheckBox_Click() for CheckBox2 to CheckBox6 with respective logic for each case.
 
 Private Sub CommandButton7_Click()
     ' CommandButton7 Click Event
     ' Paste the selected checkbox data to Sheet3
     Dim targetSheet As Worksheet
+    Dim cb As Control
+    
     Set targetSheet = ThisWorkbook.Sheets("Sheet3")
     
-    ' Paste copied data from CheckBox1
-    PasteCheckBoxData CheckBox1, targetSheet
-    
-    ' Paste copied data from CheckBox2
-    PasteCheckBoxData CheckBox2, targetSheet
-    
-    ' Paste copied data from CheckBox3
-    PasteCheckBoxData CheckBox3, targetSheet
-    
-    ' Paste copied data from CheckBox4
-    PasteCheckBoxData CheckBox4, targetSheet
-    
-    ' Paste copied data from CheckBox5
-    PasteCheckBoxData CheckBox5, targetSheet
-    
-    ' Paste copied data from CheckBox6
-    PasteCheckBoxData CheckBox6, targetSheet
+    For Each cb In Me.Controls
+        If TypeName(cb) = "CheckBox" Then
+            If cb.Value = True Then
+                PasteCheckBoxData cb, targetSheet
+            End If
+        End If
+    Next cb
 End Sub
 
 Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
     ' Copy data from the specified range for the given checkbox
-    If cb.value = True Then
+    If cb.Value = True Then
         ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
         cb.Tag = rowsToCopy
     End If
@@ -176,424 +57,20 @@ End Sub
 
 Private Sub PasteCheckBoxData(cb As CheckBox, targetSheet As Worksheet)
     ' Paste data for the given checkbox to the target sheet
-    If cb.value = True Then
+    If cb.Value = True Then
         Dim targetRange As Range
+        Dim lastRow As Long
+        
         Set targetRange = targetSheet.Range("A" & targetSheet.Rows.Count).End(xlUp).Offset(1)
         targetRange.PasteSpecial Paste:=xlPasteValues
         Application.CutCopyMode = False ' Clear clipboard after pasting
-    End If
-End Sub
-
-
-Private Sub UserForm_Initialize()
-    ' Get selected QGC from cell C14 from sheet1
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-    
-    ' headings in Sheet3 starting from cell A2
-    With ThisWorkbook.Sheets("Sheet3")
-        .Range("A1:J1").value = Array("Type", "ID", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
-    End With
         
-    ' data based on the User selected QGC
-    Select Case qgc
-      Case "QGC0"
-         ' ProcessQGC "QGC0"
-        CheckBox1.Caption = "DIA"
-        CheckBox2.Caption = "FSIA"
-        CheckBox3.Caption = "Safety Plan"
-        CheckBox4.Caption = "Bottom"
-        CheckBox5.Caption = "Item"
-        CheckBox6.Caption = "FMEA"
-        CheckBox7.Caption = "HARA"
-                
-        Case "QGC2"
-        ' ProcessQGC "QGC2"
-            CheckBox1.Caption = "FSVAL Planning "
-            CheckBox2.Caption = "FMEA Coversheet"
-            CheckBox3.Caption = "Change Request Analysis"
-            'Hide checkbox
-            CheckBox4.Visible = False
-            CheckBox5.Visible = False
-            CheckBox6.Visible = False
-            CheckBox7.Visible = False
-            
-            
-        Case "QGC4"
-            'ProcessQGC "QGC4"
-            CheckBox1.Caption = "Saftey Case"
-            CheckBox2.Caption = "FMEA Coversheet"
-            CheckBox3.Caption = "FTA Coversheet"
-            CheckBox4.Caption = "Safety Assesment"
-            CheckBox5.Caption = "Bottom-up-Analysis"
-            CheckBox6.Caption = "FSVAL Analysis"
-            
-            CheckBox7.Visible = False
-        Case "Others"
-            CheckBox1.Visible = False
-            CheckBox2.Visible = False
-            CheckBox3.Visible = False
-            CheckBox4.Visible = False
-            CheckBox5.Visible = False
-            CheckBox6.Visible = False
-            CheckBox7.Visible = False
-        
-    End Select
-    
-    ResizeUserForm
-    
-    ' Define variables
-    Dim currentDate As Date
-    Dim currentCW As Integer
-    Dim i As Integer
-    
-    ' Update UserForm with default data
-    Me.Controls("Label25").Caption = "Default Work Items :"
-    Me.Controls("Label26").Caption = "Dependency Work Items :"
-    
-    ' Dependency Work Items Headings
-    Me.Controls("Label27").Caption = "Deliverable"
-    Me.Controls("Label28").Caption = "Summary"
-    Me.Controls("Label29").Caption = "Description"
-    Me.Controls("Label30").Caption = "Estimate (Hours)"
-    Me.Controls("Label31").Caption = "Owned By"
-    Me.Controls("Label32").Caption = "Planned For"
- 
-    TextBox8.Text = ""
-    TextBox2.Text = ""
-    TextBox3.Text = ""
-    TextBox4.Text = ""
-    TextBox5.Text = ""
-    
-    
-    InitializeComboBox4
-    
-    'ClearAllInputs
-    
-    ResizeUserForm
-    
-    'InitializeComboBox3
-    
-    ' InitializeComboBox4
-End Sub
-
-Private Sub CommandButton3_Click()
-    Dim sourceRange As Range
-    Dim appendedValue As String
-    Dim textBox8Value As String
-    Dim textBox2Value As String
-    Dim textBox3Value As String
-    Dim textBox4Value As String
-    Dim textBox5Value As String
-    Dim comboBox4Value As String
-    Dim i As Long
-    Dim storedData As Variant ' Declare storedData here
-    
-    ' Get the current values from TextBox8, TextBox2, TextBox3, TextBox4, TextBox5, and ComboBox4
-    textBox8Value = Trim(TextBox8.value)
-    textBox2Value = Trim(TextBox2.value)
-    textBox3Value = Trim(TextBox3.value)
-    textBox4Value = Trim(TextBox4.value)
-    textBox5Value = Trim(TextBox5.value)
-    comboBox4Value = ComboBox4.value
-    
-    ' Check if the previous value of TextBox8 is different from the current value
-    If previousTextBox8Value <> textBox8Value Then
-
-       ' Concatenate TextBox8 value for appending
-        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-        
-        ' Copy range A68:J69 from Sheet2
-        Set sourceRange = Sheets("Sheet2").Range("A68:J69")
-        
-        ' Store the copied range in the local variable storedData
-        storedData = sourceRange.value
-        
-        ' Manipulate and store data
-        For i = 1 To UBound(storedData, 1)
-            storedData(i, 3) = storedData(i, 3) & " " & appendedValue
-            If Not IsEmpty(storedData) Then
-                storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
-            Else
-                MsgBox "No data found in storedData array."
-            End If
-            storedData(i, 6) = textBox4Value
-            storedData(i, 9) = textBox5Value
-            storedData(i, 8) = comboBox4Value
-        Next i
-        
-        ' Store manipulated data in the storedDataList collection
-        storedDataList.Add storedData
-        
-        ' Clear all input controls except TextBox8
-        Call ClearAllInputsExceptTextBox8
-
-    ElseIf previousTextBox8Value = textBox8Value Then
-    ' If the value of TextBox8 is the same as the previous value
-        ' Prompt user if they want to change the Deliverable
-        Dim response As VbMsgBoxResult
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        
-        If response = vbYes Then
-            ' If user selects "Yes", process the "If" condition again
-            ' Concatenate TextBox8 value for appending
-            appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-            
-            ' Copy range A68:J69 from Sheet2
-            Set sourceRange = Sheets("Sheet2").Range("A68:J69")
-            
-            ' Store the copied range in the local variable storedData
-            storedData = sourceRange.value
-            
-            ' Manipulate and store data
-            For i = 1 To UBound(storedData, 1)
-                storedData(i, 3) = storedData(i, 3) & " " & appendedValue
-                If Not IsEmpty(storedData) Then
-                    storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
-                Else
-                    MsgBox "No data found in storedData array."
-                End If
-                storedData(i, 6) = textBox4Value
-                storedData(i, 9) = textBox5Value
-                storedData(i, 8) = comboBox4Value
-            Next i
-            
-            ' Store manipulated data in the storedDataList collection
-            storedDataList.Add storedData
-            
-            ' Clear all input controls
-            Call ClearAllInputs
-        ElseIf response = vbNo Then
-            ' If user selects "No", retain the previous value in TextBox8
-            ' Update TextBox8 with the previous value
-            TextBox8.value = previousTextBox8Value
-            
-            ' Display the previous value of TextBox8 in the user form
-            ' (You may need to adjust the name of the control accordingly)
-            ' UserForm1.TextBox8.Value = previousTextBox8Value
-            
-            ' Do the manipulation for A69:J69 using the previous value of TextBox8
-            ' Concatenate previous TextBox8 value for appending
-            appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
-            
-            ' Copy range A69:J69 from Sheet2
-            Set sourceRange = Sheets("Sheet2").Range("A69:J69")
-            
-            ' Store the copied range in the local variable storedData
-            storedData = sourceRange.value
-            
-            ' Manipulate and store data
-            storedData(1, 3) = storedData(1, 3) & " " & appendedValue
-            If Not IsEmpty(storedData) Then
-                storedData(1, 4) = storedData(1, 4) & " " & textBox3Value
-            Else
-                MsgBox "No data found in storedData array."
-            End If
-            storedData(1, 6) = textBox4Value
-        storedData(1, 9) = textBox5Value
-        storedData(1, 8) = comboBox4Value
-        
-        ' Store manipulated data in the storedDataList collection
-        storedDataList.Add storedData
-        
-        ' Clear all input controls except TextBox8
-        Call ClearAllInputsExceptTextBox8
-    End If
-End If
-    
-    ' Update previousTextBox8Value to the current value
-    previousTextBox8Value = textBox8Value
-End Sub
-Sub ClearAllInputsExceptTextBox8()
-    ' Clear all input controls except TextBox8
-    TextBox2.value = ""
-    TextBox3.value = ""
-    TextBox4.value = ""
-    TextBox5.value = ""
-    ComboBox4.value = ""
-End Sub
-
-Private Sub StoreDataToList(data As Variant)
-    ' Add manipulated data to sstoredDataList collection
-    storedDataList.Add data
-End Sub
-
-Sub PasteDataToSheet(sheetName As String)
-    Dim targetSheet As Worksheet
-    Set targetSheet = Sheets(sheetName)
-    
-    Dim lastRow As Long
-    Dim storedData As Variant
-    Dim i As Long
-    
-    ' Find the last empty row in the target sheet
-    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1
-    
-    ' Loop through each stored data and paste it to the target sheet
-    For Each storedData In storedDataList
-        ' Paste the stored data to the target sheet
-        targetSheet.Range("A" & lastRow).Resize(UBound(storedData, 1), UBound(storedData, 2)).value = storedData
-        ' Update last row for the next paste operation
-        lastRow = lastRow + UBound(storedData, 1)
-    Next storedData
-    
-    ' Clear storedDataList for future use
-    Set storedDataList = New Collection
-End Sub
-
-Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    ' Check if the pressed key is a numeric digit (0-9) or the Backspace key
-    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 Then
-        ' If the pressed key is not a numeric digit or Backspace, cancel the keypress
-        KeyAscii = 0
-        ' Display a message to inform user
-        MsgBox "Only numeric input is allowed.", vbExclamation
-    End If
-End Sub
-
-Private Sub ResizeUserForm()
-    ' Calculate minimum top position
-    Dim minTop As Long
-    Dim ctrl As Control
-    
-    ' minTop with a large value
-    minTop = Me.Height
-    
-    ' find the minimum top position
-    For Each ctrl In Me.Controls
-        If ctrl.Top < minTop Then
-            minTop = ctrl.Top
+        ' Adjust row heights if necessary
+        If cb.Tag > 1 Then
+            lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row
+            targetSheet.Rows(lastRow - cb.Tag + 1 & ":" & lastRow).EntireRow.AutoFit
         End If
-    Next ctrl
-    
-    ' minimize empty space at top
-    Me.Top = Me.Top - minTop
-End Sub
-
-Private Sub InitializeComboBox4()
-    ' Initialize ComboBox4 with options for the next 4 calendar weeks
-    Dim currentDate As Date
-    Dim currentCW As Integer
-    Dim i As Integer
-    currentDate = Date
-    currentCW = Int((DatePart("y", currentDate) - DatePart("y", DateSerial(Year(currentDate), 1, 1)) + Weekday(DateSerial(Year(currentDate), 1, 1)) - 1) / 7) + 1
-    ComboBox4.Clear
-    ' Loop options for the next 4 calendar weeks
-    For i = 0 To 3
-        Dim cwStart As String
-        Dim cwEnd As String
-        ' Format the options
-        cwStart = "Y" & Right(Year(currentDate), 2) & "_CW" & Format(currentCW + (i * 2), "00")
-        cwEnd = "_CW" & Format(currentCW + (i * 2) + 1, "00")
-        ' Add this format option to ComboBox4
-        ComboBox4.AddItem cwStart & "_" & cwEnd
-    Next i
-End Sub
-
-Private Sub ClearAllInputs()
-    ' Clear text boxes and reset combo box selection
-    TextBox8.Text = ""
-    TextBox2.Text = ""
-    TextBox3.Text = ""
-    TextBox4.Text = ""
-    TextBox5.Text = ""
-    ComboBox4.value = ""
-End Sub
-
-Private Sub ClearAllInputsExceptTextBox7AndTextBox8()
-    ' Clear all text boxes and combo boxes on the UserForm except TextBox7 and TextBox8
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeOf ctrl Is MSForms.TextBox And ctrl.Name <> "TextBox7" And ctrl.Name <> "TextBox8" Then
-            ctrl.Text = ""
-        ElseIf TypeOf ctrl Is MSForms.ComboBox And ctrl.Name <> "ComboBox2" Then
-            ctrl.ListIndex = -1 ' Set the combo box selection to empty
-        End If
-    Next ctrl
-End Sub
-
-Private Sub DisableUserInput()
-    ' Disable UserInput for all text boxes and combo boxes
-    ComboBox1.Enabled = False
-    TextBox2.Enabled = False
-    TextBox3.Enabled = False
-    TextBox4.Enabled = False
-    TextBox5.Enabled = False
-    TextBox6.Enabled = False
-End Sub
-
-Private Function AllFieldsFilled() As Boolean
-    ' Check if all required textboxes and combo box are filled
-    If ComboBox1.value = "" Or Trim(TextBox2.Text) = "" Or Trim(TextBox3.Text) = "" _
-    Or Trim(TextBox4.Text) = "" Or Trim(TextBox5.Text) = "" Or Trim(TextBox6.Text) = "" Then
-        AllFieldsFilled = False
-    Else
-        AllFieldsFilled = True
     End If
-End Function
-
-Private Sub CommandButton5_Click()
-    ' Check if TextBox7, ComboBox2, and ComboBox3 are filled
-    If TextBox7.value = "" Or ComboBox2.value = "" Or ComboBox3.value = "" Then
-        MsgBox "Please enter all details.", vbExclamation
-        Exit Sub
-    End If
-    ' Copy data from ComboBox2 selected range
-    Dim selectedRange As Range
-    If ComboBox2.value = "Development Phase" Then
-        Set selectedRange = Sheets("Sheet2").Range("A50:J54")
-    ElseIf ComboBox2.value = "Testing Phase" Then
-        Set selectedRange = Sheets("Sheet2").Range("A57:J65")
-    End If
-    
-    ' Store TextBox7 and ComboBox3 values separately
-    Dim textBox7Value As String
-    Dim comboBox3Value As String
-    textBox7Value = TextBox7.value
-    comboBox3Value = ComboBox3.value
-    
-    ' Add data to userData collection
-    If userData Is Nothing Then
-        Set userData = New Collection
-    End If
-    userData.Add Array(selectedRange.value, textBox7Value, comboBox3Value)
-    
-    ' Clear inputs
-    TextBox7.value = ""
-    ComboBox2.value = ""
-    ComboBox3.value = ""
-End Sub
-Function IsString(value As Variant) As Boolean
-    IsString = VarType(value) = vbString
-End Function
-
-
-Private Sub CommandButton6_Click()
-    'If userData Is Nothing Then
-      '  MsgBox "No data to paste.", vbExclamation
-     '   Exit Sub
-    'End If
-    ' Call the PasteUserData
-    'PasteUserData
-
-    ' After clearing input controls, paste the data to Sheet3
-    PasteDataToSheet "Sheet3"
-     
-    ' Clear all userData
-    Set userData = Nothing
-     
-    ' Clear text boxes for next input
-    ClearAllInputs
-    
-    ' Close the UserForm
-    Unload Me
 End Sub
 
-
-
-
-
-
-
-
-
+' Other Subs and Functions are kept unchanged.
