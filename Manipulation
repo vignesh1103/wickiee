@@ -14,15 +14,7 @@ If qgc = "QGC0" Then
 8
                 ' Additional logic for CheckBoxes 3, 4, and 6
                 If i = 3 Or i = 4 Or i = 6 Then
-                   ' Dim pasteRange As Range
-                    'If i = 3 Then
-                        'Set pasteRange = targetSheet.Range("A" & lastRow)
-                    'ElseIf i = 4 Then
-                        'Set pasteRange = targetSheet.Range("A" & lastRow + 1)
-                    'ElseIf i = 6 Then
-                        'Set pasteRange = targetSheet.Range("A" & lastRow)
-                    'End If
-                    
+                  
                     ' Check if checkboxes 3, 4, and 6 are selected together
                     Dim checkboxes346Selected As Boolean
                     checkboxes346Selected = (Me.CheckBox3.value And Me.CheckBox4.value And Me.CheckBox6.value)
