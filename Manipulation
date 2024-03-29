@@ -34,8 +34,10 @@ If qgc = "QGC0" Then
         End If
         
         ' Paste A14:J16
-        pasteRange.Offset(IIf(checkboxes346Selected, 1, 0), 0).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J16").Value
-        lastRow = lastRow + 3 ' Move to the next empty row
+        If Not checkboxes346Selected Then
+            pasteRange.Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J16").Value
+            lastRow = lastRow + 3 ' Move to the next empty row
+        End If
     End If
     
     ' Paste data for individual checkboxes
