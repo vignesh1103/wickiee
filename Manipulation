@@ -1,13 +1,38 @@
-Private Sub CopyCheckBoxData(cb As CheckBox, rng As String, rowsToCopy As Long)
-    ' Debug line to print the data type of rng
-    Debug.Print TypeName(rng)
+Private Sub CheckBox_Click(QGC As String)
+    ' CheckBox Click Event
+    ' Handle the logic for CheckBox based on the specified QGC
     
-    ' Debug line to print the value of rng
-    Debug.Print rng
+    Dim qgcRange As Range
+    Dim checkBox As CheckBox
+    Dim checkBoxRange As String
     
-    ' Copy data from the specified range for the given checkbox
-    If cb.Value = True Then
-        ThisWorkbook.Sheets("Sheet2").Range(rng).Copy
-        cb.Tag = rowsToCopy
-    End If
+    ' Determine the range for the specified QGC
+    Select Case QGC
+        Case "QGC0"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("A4:A6") ' Adjust the range as needed
+        Case "QGC2"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("B4:B6") ' Adjust the range as needed
+        Case "QGC4"
+            Set qgcRange = ThisWorkbook.Sheets("Sheet1").Range("C4:C6") ' Adjust the range as needed
+        Case Else
+            ' Handle other cases or invalid QGC values
+            MsgBox "Invalid QGC specified."
+            Exit Sub
+    End Select
+    
+    ' Iterate through each checkbox and check if it corresponds to the specified QGC
+    For Each checkBox In Me.Controls
+        If TypeOf checkBox Is MSForms.CheckBox Then
+            If Not Intersect(checkBox.TopLeftCell, qgcRange) Is Nothing Then
+                ' This checkbox corresponds to the specified QGC
+                If checkBox.Value = True Then
+                    ' Checkbox is checked, perform necessary actions
+                    ' For example:
+                    ' MsgBox checkBox.Name & " is checked."
+                Else
+                    ' Checkbox is not checked
+                End If
+            End If
+        End If
+    Next checkBox
 End Sub
