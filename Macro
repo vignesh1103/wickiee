@@ -1,3 +1,5 @@
-targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
+ If i = 1 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
                     lastRow = lastRow + 2 ' Move to the next empty row
                     Sheet3.Range("H5").value = TextBox9.value
+                End If
