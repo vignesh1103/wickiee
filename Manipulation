@@ -1,59 +1,70 @@
-private sub checkbox_click()
-    dim chkbox as msforms.checkbox ' assuming you're using msforms checkboxes
+Private Sub UserForm_Initialize()
+    ' Disable all textboxes initially
+    DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                     Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                     Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                     Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                     Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                     Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
+                     Me.Controls("TextBox21"), Me.Controls("TextBox22")
+End Sub
+
+Private Sub CheckBox_Click()
+    Dim chkBox As MSForms.CheckBox ' Assuming you're using MSForms checkboxes
     
-    for each chkbox in me.controls
-        if typename(chkbox) = "checkbox" then
-            if chkbox.value = true then
-                select case chkbox.name
-                    case "checkbox1"
-                        enabletextboxes me.controls("textbox9"), me.controls("textbox10")
-                    case "checkbox2"
-                        enabletextboxes me.controls("textbox11"), me.controls("textbox12")
-                    case "checkbox3"
-                        enabletextboxes me.controls("textbox13"), me.controls("textbox14")
-                    case "checkbox4"
-                        enabletextboxes me.controls("textbox15"), me.controls("textbox16")
-                    case "checkbox5"
-                        enabletextboxes me.controls("textbox17"), me.controls("textbox18")
-                    case "checkbox6"
-                        enabletextboxes me.controls("textbox19"), me.controls("textbox20")
-                    case "checkbox7"
-                        enabletextboxes me.controls("textbox21"), me.controls("textbox22")
-                end select
-            else
-                select case chkbox.name
-                    case "checkbox1"
-                        disabletextboxes me.controls("textbox9"), me.controls("textbox10")
-                    case "checkbox2"
-                        disabletextboxes me.controls("textbox11"), me.controls("textbox12")
-                    case "checkbox3"
-                        disabletextboxes me.controls("textbox13"), me.controls("textbox14")
-                    case "checkbox4"
-                        disabletextboxes me.controls("textbox15"), me.controls("textbox16")
-                    case "checkbox5"
-                        disabletextboxes me.controls("textbox17"), me.controls("textbox18")
-                    case "checkbox6"
-                        disabletextboxes me.controls("textbox19"), me.controls("textbox20")
-                    case "checkbox7"
-                        disabletextboxes me.controls("textbox21"), me.controls("textbox22")
-                end select
-            end if
-        end if
-    next chkbox
-end sub
+    For Each chkBox In Me.Controls
+        If TypeName(chkBox) = "CheckBox" Then
+            If chkBox.Value = True Then
+                Select Case chkBox.Name
+                    Case "CheckBox1"
+                        EnableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10")
+                    Case "CheckBox2"
+                        EnableTextBoxes Me.Controls("TextBox11"), Me.Controls("TextBox12")
+                    Case "CheckBox3"
+                        EnableTextBoxes Me.Controls("TextBox13"), Me.Controls("TextBox14")
+                    Case "CheckBox4"
+                        EnableTextBoxes Me.Controls("TextBox15"), Me.Controls("TextBox16")
+                    Case "CheckBox5"
+                        EnableTextBoxes Me.Controls("TextBox17"), Me.Controls("TextBox18")
+                    Case "CheckBox6"
+                        EnableTextBoxes Me.Controls("TextBox19"), Me.Controls("TextBox20")
+                    Case "CheckBox7"
+                        EnableTextBoxes Me.Controls("TextBox21"), Me.Controls("TextBox22")
+                End Select
+            Else
+                Select Case chkBox.Name
+                    Case "CheckBox1"
+                        DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10")
+                    Case "CheckBox2"
+                        DisableTextBoxes Me.Controls("TextBox11"), Me.Controls("TextBox12")
+                    Case "CheckBox3"
+                        DisableTextBoxes Me.Controls("TextBox13"), Me.Controls("TextBox14")
+                    Case "CheckBox4"
+                        DisableTextBoxes Me.Controls("TextBox15"), Me.Controls("TextBox16")
+                    Case "CheckBox5"
+                        DisableTextBoxes Me.Controls("TextBox17"), Me.Controls("TextBox18")
+                    Case "CheckBox6"
+                        DisableTextBoxes Me.Controls("TextBox19"), Me.Controls("TextBox20")
+                    Case "CheckBox7"
+                        DisableTextBoxes Me.Controls("TextBox21"), Me.Controls("TextBox22")
+                End Select
+            End If
+        End If
+    Next chkBox
+End Sub
 
-sub enabletextboxes(paramarray textboxes() as variant)
-    dim textbox as variant
-    for each textbox in textboxes
-        textbox.enabled = true
-        ' set any other properties as needed
-    next textbox
-end sub
+Sub EnableTextBoxes(ParamArray textBoxes() As Variant)
+    Dim textBox As Variant
+    For Each textBox In textBoxes
+        textBox.Enabled = True
+        ' Set any other properties as needed
+    Next textBox
+End Sub
 
-sub disabletextboxes(paramarray textboxes() as variant)
-    dim textbox as variant
-    for each textbox in textboxes
-        textbox.enabled = false
-        ' set any other properties as needed
-    next textbox
-end sub
+Sub DisableTextBoxes(ParamArray textBoxes() As Variant)
+    Dim textBox As Variant
+    For Each textBox In textBoxes
+        textBox.Enabled = False
+        ' Set any other properties as needed
+    Next textBox
+End Sub
