@@ -1,7 +1,7 @@
-Private Sub CommandButton1_Click()
-    ClearTextboxes
-End Sub
-Sub CallClearTextboxes()
-    Dim myForm As New UserForm1 ' Replace with your actual UserForm name
-    myForm.ClearTextboxes
+Private Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
+    If CheckBox1.Checked = True Then
+        TextBox1.Enabled = True
+    Else
+        TextBox1.Enabled = False
+    End If
 End Sub
