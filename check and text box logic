@@ -1,0 +1,5 @@
+ If i = 1 Then
+                    targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").value
+                    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).value = TextBox9.value ' Replace column H values with TextBox9 value
+                    lastRow = lastRow + 2 ' Move to the next empty row
+                End If
