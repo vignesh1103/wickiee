@@ -1,13 +1,13 @@
-Module Module1
+Module Module3
     Public Sub InitializeCheckBoxes()
         ' Set the Tag property for each checkbox
-        CheckBox1.Tag = "9,10"
-        CheckBox2.Tag = "11,12"
-        CheckBox3.Tag = "13,14"
-        CheckBox4.Tag = "15,16"
-        CheckBox5.Tag = "17,18"
-        CheckBox6.Tag = "19,20"
-        CheckBox7.Tag = "21,22"
+        Form1.CheckBox1.Tag = "9,10"
+        Form1.CheckBox2.Tag = "11,12"
+        Form1.CheckBox3.Tag = "13,14"
+        Form1.CheckBox4.Tag = "15,16"
+        Form1.CheckBox5.Tag = "17,18"
+        Form1.CheckBox6.Tag = "19,20"
+        Form1.CheckBox7.Tag = "21,22"
     End Sub
 
     Public Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs)
@@ -19,8 +19,8 @@ Module Module1
             Dim endIndex As Integer = Convert.ToInt32(indices(1))
 
             For i As Integer = startIndex To endIndex
-                If i >= 0 AndAlso i < TextBoxes.Length Then
-                    TextBoxes(i).Enabled = checkBox.Checked
+                If i >= 0 AndAlso i < Form1.TextBoxes.Length Then
+                    Form1.TextBoxes(i).Enabled = checkBox.Checked
                 End If
             Next
         End If
@@ -31,11 +31,12 @@ End Module
 Public Class Form1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' Call the initialization code from the module
-        Module1.InitializeCheckBoxes()
+        Module3.InitializeCheckBoxes()
     End Sub
 
     Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
         ' Call the event handler from the module
-        Module1.CheckBox_CheckedChanged(sender, e)
+        Module3.CheckBox_CheckedChanged(sender, e)
     End Sub
 End Class
+
