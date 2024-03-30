@@ -1,62 +1,7 @@
-If qgc = "QGC0" Then
-    ' Logic for CheckBoxes 1 to 7 when qgc = "QGC0"
-    ' If CheckBox1 is selected, copy data from Sheet2 to targetSheet
-    If i = 1 Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J5").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
-    
-    ' Add the checkbox label to the selectedCheckboxes string
-    If i = 2 Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A6:J7").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
-    
-    ' Additional logic for CheckBoxes 3, 4, and 6
-    If i = 3 Or i = 4 Or i = 6 Then
-        ' Check if CheckBoxes 3, 4, and 6 are selected together
-        Dim checkboxes346Selected As Boolean
-        checkboxes346Selected = (Me.CheckBox3.Value And Me.CheckBox4.Value And Me.CheckBox6.Value)
-        
-        ' If CheckBoxes 3, 4, and 6 are selected together, paste A13:J16 only once
-        If checkboxes346Selected Then
-            targetSheet.Range("A" & lastRow).Resize(4, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J16").Value
-            lastRow = lastRow + 4 ' Move to the next empty row
-        End If
-        
-        ' Clear checkboxes individually if CheckBoxes 3, 4, and 6 are not selected together
-        If i = 3 And Not checkboxes346Selected Then
-            targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-            lastRow = lastRow + 2 ' Move to the next empty row
-        End If
-        
-        If i = 4 And Not checkboxes346Selected Then
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
-        End If
-        
-        If i = 6 And Not checkboxes346Selected Then
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
-            targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
-            lastRow = lastRow + 1 ' Move to the next empty row
-        End If
-        
-    End If
-    
-    ' Paste data for checkboxes 5 and 7
-    If i = 5 Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A11:J12").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-    End If
-    
-    If i = 7 Then
-        targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A8:J10").Value
-        lastRow = lastRow + 3 ' Move to the next empty row
-    End If
-    
-    ' Update selectedCheckboxes
-    selectedCheckboxes = selectedCheckboxes & "Special Checkbox " & i & ", "
-End If
+Private Sub CommandButton1_Click()
+    ClearTextboxes
+End Sub
+Sub CallClearTextboxes()
+    Dim myForm As New UserForm1 ' Replace with your actual UserForm name
+    myForm.ClearTextboxes
+End Sub
