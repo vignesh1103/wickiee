@@ -1,70 +1,133 @@
 Private Sub UserForm_Initialize()
-    ' Disable all textboxes initially
-    DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
-                     Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
-                     Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
-                     Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
-                     Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
-                     Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
-                     Me.Controls("TextBox21"), Me.Controls("TextBox22")
-End Sub
-
-Private Sub CheckBox_Click()
-    Dim chkBox As MSForms.CheckBox ' Assuming you're using MSForms checkboxes
+    ' Get selected QGC from cell C14 from sheet1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
     
-    For Each chkBox In Me.Controls
-        If TypeName(chkBox) = "CheckBox" Then
-            If chkBox.Value = True Then
-                Select Case chkBox.Name
-                    Case "CheckBox1"
-                        EnableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10")
-                    Case "CheckBox2"
-                        EnableTextBoxes Me.Controls("TextBox11"), Me.Controls("TextBox12")
-                    Case "CheckBox3"
-                        EnableTextBoxes Me.Controls("TextBox13"), Me.Controls("TextBox14")
-                    Case "CheckBox4"
-                        EnableTextBoxes Me.Controls("TextBox15"), Me.Controls("TextBox16")
-                    Case "CheckBox5"
-                        EnableTextBoxes Me.Controls("TextBox17"), Me.Controls("TextBox18")
-                    Case "CheckBox6"
-                        EnableTextBoxes Me.Controls("TextBox19"), Me.Controls("TextBox20")
-                    Case "CheckBox7"
-                        EnableTextBoxes Me.Controls("TextBox21"), Me.Controls("TextBox22")
-                End Select
-            Else
-                Select Case chkBox.Name
-                    Case "CheckBox1"
-                        DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10")
-                    Case "CheckBox2"
-                        DisableTextBoxes Me.Controls("TextBox11"), Me.Controls("TextBox12")
-                    Case "CheckBox3"
-                        DisableTextBoxes Me.Controls("TextBox13"), Me.Controls("TextBox14")
-                    Case "CheckBox4"
-                        DisableTextBoxes Me.Controls("TextBox15"), Me.Controls("TextBox16")
-                    Case "CheckBox5"
-                        DisableTextBoxes Me.Controls("TextBox17"), Me.Controls("TextBox18")
-                    Case "CheckBox6"
-                        DisableTextBoxes Me.Controls("TextBox19"), Me.Controls("TextBox20")
-                    Case "CheckBox7"
-                        DisableTextBoxes Me.Controls("TextBox21"), Me.Controls("TextBox22")
-                End Select
-            End If
-        End If
-    Next chkBox
-End Sub
+    ' headings in Sheet3 starting from cell A2
+    With ThisWorkbook.Sheets("Sheet3")
+        .Range("A1:J1").value = Array("Type", "ID", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
+    End With
+    
+    
+    ' data based on the User selected QGC
+    Select Case qgc
+      Case "QGC0"
+         ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA"
+        CheckBox2.Caption = "FSIA"
+        CheckBox3.Caption = "Safety Plan"
+        CheckBox4.Caption = "Bottom"
+        CheckBox5.Caption = "Item"
+        CheckBox6.Caption = "FMEA"
+        CheckBox7.Caption = "HARA"
+        
+        Dim k As Integer
+            For k = 9 To 22
+                    Me.Controls("TextBox" & k).Text = ""
+           Next k
+                       
+                          ' Disable all textboxes initially
+        DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                         Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                         Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                         Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
+                         Me.Controls("TextBox21"), Me.Controls("TextBox22")
+        Case "QGC2"
+        ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning "
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "Change Request Analysis"
+            'Hide checkbox
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim j As Integer
+              For j = 9 To 14
+                    Me.Controls("TextBox" & j).Text = ""
+                Next j
+                
+              For j = 15 To 22
+                    Me.Controls("TextBox" & j).Visible = False
+            Next j
+            
+            DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14")
+        Case "QGC4"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case"
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "FTA Coversheet"
+            CheckBox4.Caption = "Safety Assesment"
+            CheckBox5.Caption = "Bottom-up-Analysis"
+            CheckBox6.Caption = "FSVAL Analysis"
+            
+            CheckBox7.Visible = False
+            
+            Dim l As Integer
+                For l = 9 To 20
+                    Me.Controls("TextBox" & l).Text = ""
+                Next l
+                
+                For l = 21 To 22
+                    Me.Controls("TextBox" & l).Visible = False
+               Next l
+                
+                DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                         Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                         Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                         Me.Controls("TextBox19"), Me.Controls("TextBox20")
 
-Sub EnableTextBoxes(ParamArray textBoxes() As Variant)
-    Dim textBox As Variant
-    For Each textBox In textBoxes
-        textBox.Enabled = True
-        ' Set any other properties as needed
-    Next textBox
-End Sub
-
-Sub DisableTextBoxes(ParamArray textBoxes() As Variant)
-    Dim textBox As Variant
-    For Each textBox In textBoxes
-        textBox.Enabled = False
-        ' Set any other properties as needed
-    Next textBox
+        Case "Others"
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+        
+    End Select
+    
+    ResizeUserForm
+    
+    ' Define variables
+    Dim currentDate As Date
+    Dim currentCW As Integer
+    Dim i As Integer
+    
+    ' Update UserForm with default data
+    Me.Controls("Label25").Caption = "Default Work Items :"
+    Me.Controls("Label26").Caption = "Dependency Work Items :"
+    
+    ' Dependency Work Items Headings
+    Me.Controls("Label27").Caption = "Deliverable"
+    Me.Controls("Label28").Caption = "Summary"
+    Me.Controls("Label29").Caption = "Description"
+    Me.Controls("Label30").Caption = "Estimate (Hours)"
+    Me.Controls("Label31").Caption = "Owned By"
+    Me.Controls("Label32").Caption = "Planned For"
+ 
+    TextBox8.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox5.Text = ""
+    
+    
+    InitializeComboBox4
+    
+    'ClearAllInputs
+    
+    ResizeUserForm
+    
+    'InitializeComboBox3
+    
+    ' InitializeComboBox4
 End Sub
