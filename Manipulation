@@ -1,7 +1,14 @@
-Private Sub CheckBox1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CheckBox1.CheckedChanged
-    If CheckBox1.Checked = True Then
-        TextBox1.Enabled = True
-    Else
-        TextBox1.Enabled = False
+Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
+    Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
+
+    Dim index As Integer = Convert.ToInt32(checkBox.Tag)
+
+    If index >= 0 AndAlso index < TextBoxes.Length Then
+        TextBoxes(index).Enabled = checkBox.Checked
+        TextBoxes(index + 1).Enabled = checkBox.Checked
     End If
 End Sub
+
+' You need to set the Tag property of each checkbox to correspond to the index of the first associated textbox in the TextBoxes array.
+
+Private TextBoxes() As TextBox = {TextBox9, TextBox11, TextBox13, TextBox15, TextBox17, TextBox19, TextBox21}
