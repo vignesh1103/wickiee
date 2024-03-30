@@ -1,57 +1,73 @@
-Private Sub CheckBox_Click()
-    Dim chkBox As CheckBox
+   ' Get selected QGC from cell C14 from sheet1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+
+    Dim chkBox As checkBox
     
-    For Each chkBox In ActiveSheet.CheckBoxes
-        If chkBox.Value = 1 Then
-            Select Case chkBox.Name
-                Case "CheckBox1"
-                    EnableTextBoxes "TextBox9", "TextBox10"
-                Case "CheckBox2"
-                    EnableTextBoxes "TextBox11", "TextBox12"
-                Case "CheckBox3"
-                    EnableTextBoxes "TextBox13", "TextBox14"
-                Case "CheckBox4"
-                    EnableTextBoxes "TextBox15", "TextBox16"
-                Case "CheckBox5"
-                    EnableTextBoxes "TextBox17", "TextBox18"
-                Case "CheckBox6"
-                    EnableTextBoxes "TextBox19", "TextBox20"
-                Case "CheckBox7"
-                    EnableTextBoxes "TextBox21", "TextBox22"
-            End Select
-        Else
-            Select Case chkBox.Name
-                Case "CheckBox1"
-                    DisableTextBoxes "TextBox9", "TextBox10"
-                Case "CheckBox2"
-                    DisableTextBoxes "TextBox11", "TextBox12"
-                Case "CheckBox3"
-                    DisableTextBoxes "TextBox13", "TextBox14"
-                Case "CheckBox4"
-                    DisableTextBoxes "TextBox15", "TextBox16"
-                Case "CheckBox5"
-                    DisableTextBoxes "TextBox17", "TextBox18"
-                Case "CheckBox6"
-                    DisableTextBoxes "TextBox19", "TextBox20"
-                Case "CheckBox7"
-                    DisableTextBoxes "TextBox21", "TextBox22"
-            End Select
-        End If
-    Next chkBox
-End Sub
-
-Sub EnableTextBoxes(ParamArray textBoxNames() As Variant)
-    Dim textBoxName As Variant
-    For Each textBoxName In textBoxNames
-        ActiveSheet.Shapes(textBoxName).DrawingObject.Enabled = True
-        ActiveSheet.Shapes(textBoxName).Fill.ForeColor.RGB = RGB(255, 255, 255) ' Enable textboxes
-    Next textBoxName
-End Sub
-
-Sub DisableTextBoxes(ParamArray textBoxNames() As Variant)
-    Dim textBoxName As Variant
-    For Each textBoxName In textBoxNames
-        ActiveSheet.Shapes(textBoxName).DrawingObject.Enabled = False
-        ActiveSheet.Shapes(textBoxName).Fill.ForeColor.RGB = RGB(200, 200, 200) ' Disable textboxes
-    Next textBoxName
-End Sub
+    ' data based on the User selected QGC
+    Select Case qgc
+      Case "QGC0"
+         ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA"
+        CheckBox2.Caption = "FSIA"
+        CheckBox3.Caption = "Safety Plan"
+        CheckBox4.Caption = "Bottom"
+        CheckBox5.Caption = "Item"
+        CheckBox6.Caption = "FMEA"
+        CheckBox7.Caption = "HARA"
+        
+        Dim k As Integer
+            For k = 9 To 22
+                    Me.Controls("TextBox" & k).Text = ""
+           Next k
+                       
+        Case "QGC2"
+        ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning "
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "Change Request Analysis"
+            'Hide checkbox
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim j As Integer
+              For j = 9 To 14
+                    Me.Controls("TextBox" & j).Text = ""
+                Next j
+                
+              For j = 15 To 22
+                    Me.Controls("TextBox" & j).Visible = False
+            Next j
+                
+        Case "QGC4"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case"
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "FTA Coversheet"
+            CheckBox4.Caption = "Safety Assesment"
+            CheckBox5.Caption = "Bottom-up-Analysis"
+            CheckBox6.Caption = "FSVAL Analysis"
+            
+            CheckBox7.Visible = False
+            
+            Dim l As Integer
+                For l = 9 To 20
+                    Me.Controls("TextBox" & l).Text = ""
+                Next l
+                
+                For l = 21 To 22
+                    Me.Controls("TextBox" & l).Visible = False
+               Next l
+                
+        Case "Others"
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+        
+    End Select
