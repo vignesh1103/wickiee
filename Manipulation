@@ -1,5 +1,10 @@
 Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
     Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
+    ' Your code to handle the CheckedChanged event goes here
+End Sub
+
+Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
+    Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
 
     ' Enable or disable the associated textboxes based on the checkbox checked state
     Select Case checkBox.Name
