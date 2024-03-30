@@ -1,10 +1,9 @@
 If i = 1 Then
-    ' Update the value of TextBox9 in the range A4:A5
-    targetSheet.Range("A4:A5").Value = TextBox9.Value
+    ' Copy and paste values from A4:J5 to A5:J5
+    targetSheet.Range("A5:J5").Value = targetSheet.Range("A4:J5").Value
     
-    ' Copy the updated value of TextBox9 to cell H5 in the range A5:J5
-    ThisWorkbook.Sheets("Sheet2").Range("H5").Value = TextBox9.Value
+    ' Paste value of TextBox9 into cell H5
+    targetSheet.Range("H5").Value = Me.Controls("TextBox9").Text
     
-    ' Move to the next empty row
-    lastRow = lastRow + 2
+    lastRow = lastRow + 2 ' Move to the next empty row 
 End If
