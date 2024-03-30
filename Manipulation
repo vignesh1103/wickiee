@@ -1,102 +1,50 @@
-Public Class UserForm1
-    ' Declare TextBox controls as global variables
-    Private TextBox9 As New TextBox()
-    Private TextBox10 As New TextBox()
-    Private TextBox11 As New TextBox()
-    Private TextBox12 As New TextBox()
-    Private TextBox13 As New TextBox()
-    Private TextBox14 As New TextBox()
-    Private TextBox15 As New TextBox()
-    Private TextBox16 As New TextBox()
-    Private TextBox17 As New TextBox()
-    Private TextBox18 As New TextBox()
-    Private TextBox19 As New TextBox()
-    Private TextBox20 As New TextBox()
-    Private TextBox21 As New TextBox()
-    Private TextBox22 As New TextBox()
-
-    ' Constructor
-    Public Sub New()
-        ' This call is required by the designer.
-        InitializeComponent()
-
-        ' Add any initialization after the InitializeComponent() call.
-        InitializeTextBoxes()
-    End Sub
-
-    ' Initialize TextBox controls
-    Private Sub InitializeTextBoxes()
-        ' Initialize TextBox controls here
-        ' For example:
-        TextBox9 = New TextBox()
-        TextBox10 = New TextBox()
-        TextBox11 = New TextBox()
-        TextBox12 = New TextBox()
-        TextBox13 = New TextBox()
-        TextBox14 = New TextBox()
-        TextBox15 = New TextBox()
-        TextBox16 = New TextBox()
-        TextBox17 = New TextBox()
-        TextBox18 = New TextBox()
-        TextBox19 = New TextBox()
-        TextBox20 = New TextBox()
-        TextBox21 = New TextBox()
-        TextBox22 = New TextBox()
-    End Sub
-
-    ' Handle the CheckedChanged event for all checkboxes
-    Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
-        Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
-
-        ' Enable or disable the associated textboxes based on the checkbox checked state
-        If checkBox.Checked Then
-            Select Case checkBox.Name
+Private Sub CheckBox_Click()
+    Dim chkBox As CheckBox
+    Dim rngTextBoxes As Range
+    
+    For Each chkBox In ActiveSheet.CheckBoxes
+        If chkBox.Value = 1 Then
+            Select Case chkBox.Name
                 Case "CheckBox1"
-                    TextBox9.Enabled = True
-                    TextBox10.Enabled = True
+                    EnableTextBoxes Range("B9:B10")
                 Case "CheckBox2"
-                    TextBox11.Enabled = True
-                    TextBox12.Enabled = True
+                    EnableTextBoxes Range("B11:B12")
                 Case "CheckBox3"
-                    TextBox13.Enabled = True
-                    TextBox14.Enabled = True
+                    EnableTextBoxes Range("B13:B14")
                 Case "CheckBox4"
-                    TextBox15.Enabled = True
-                    TextBox16.Enabled = True
+                    EnableTextBoxes Range("B15:B16")
                 Case "CheckBox5"
-                    TextBox17.Enabled = True
-                    TextBox18.Enabled = True
+                    EnableTextBoxes Range("B17:B18")
                 Case "CheckBox6"
-                    TextBox19.Enabled = True
-                    TextBox20.Enabled = True
+                    EnableTextBoxes Range("B19:B20")
                 Case "CheckBox7"
-                    TextBox21.Enabled = True
-                    TextBox22.Enabled = True
+                    EnableTextBoxes Range("B21:B22")
             End Select
         Else
-            Select Case checkBox.Name
+            Select Case chkBox.Name
                 Case "CheckBox1"
-                    TextBox9.Enabled = False
-                    TextBox10.Enabled = False
+                    DisableTextBoxes Range("B9:B10")
                 Case "CheckBox2"
-                    TextBox11.Enabled = False
-                    TextBox12.Enabled = False
+                    DisableTextBoxes Range("B11:B12")
                 Case "CheckBox3"
-                    TextBox13.Enabled = False
-                    TextBox14.Enabled = False
+                    DisableTextBoxes Range("B13:B14")
                 Case "CheckBox4"
-                    TextBox15.Enabled = False
-                    TextBox16.Enabled = False
+                    DisableTextBoxes Range("B15:B16")
                 Case "CheckBox5"
-                    TextBox17.Enabled = False
-                    TextBox18.Enabled = False
+                    DisableTextBoxes Range("B17:B18")
                 Case "CheckBox6"
-                    TextBox19.Enabled = False
-                    TextBox20.Enabled = False
+                    DisableTextBoxes Range("B19:B20")
                 Case "CheckBox7"
-                    TextBox21.Enabled = False
-                    TextBox22.Enabled = False
+                    DisableTextBoxes Range("B21:B22")
             End Select
         End If
-    End Sub
-End Class
+    Next chkBox
+End Sub
+
+Sub EnableTextBoxes(rng As Range)
+    rng.Interior.Color = RGB(255, 255, 255) ' Enable textboxes
+End Sub
+
+Sub DisableTextBoxes(rng As Range)
+    rng.Interior.Color = RGB(200, 200, 200) ' Disable textboxes
+End Sub
