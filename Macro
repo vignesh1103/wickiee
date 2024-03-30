@@ -1,10 +1,34 @@
-If i = 1 Then
-    targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J6").Value
-    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).Value = TextBox9.Value ' Replace column H values with TextBox9 value
-    
-    Dim appendedValue As String
-    appendedValue = "'" & targetSheet.Cells(lastRow + 1, "J").Value & "' : " & TextBox10.Value
-    targetSheet.Range("J" & lastRow + 1 & ":J" & lastRow + 2).Value = appendedValue ' Append column J values with TextBox10 value
-    
-    lastRow = lastRow + 2 ' Move to the next empty row
-End If
+ ' Additional logic for CheckBoxes 3, 4, and 6
+                If i = 3 Or i = 4 Or i = 6 Then
+                    ' Check if CheckBoxes 3, 4, and 6 are selected together
+                    Dim checkboxes346Selected As Boolean
+                    checkboxes346Selected = (Me.CheckBox3.value And Me.CheckBox4.value And Me.CheckBox6.value)
+                    
+                    ' If CheckBoxes 3, 4, and 6 are selected together
+                    If checkboxes346Selected And i = 3 Then
+                        targetSheet.Range("A" & lastRow).Resize(4, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J16").value
+                        lastRow = lastRow + 4 ' Move to the next empty row
+                    End If
+                    
+                    ' Clear checkboxes individually if CheckBoxes 3, 4, and 6 are not selected together
+                    If i = 3 And Not checkboxes346Selected Then
+                        targetSheet.Range("A" & lastRow).Resize(2, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").value
+                        lastRow = lastRow + 2 ' Move to the next empty row
+                    End If
+                    
+                    If i = 4 And Not checkboxes346Selected Then
+                        targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").value
+                        lastRow = lastRow + 1 ' Move to the next empty row
+                        targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").value
+                        lastRow = lastRow + 1 ' Move to the next empty row
+                    End If
+                    
+                    If i = 6 And Not checkboxes346Selected Then
+                        targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").value
+                        lastRow = lastRow + 1 ' Move to the next empty row
+                        targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").value
+                        lastRow = lastRow + 1 ' Move to the next empty row
+                    End If
+                    
+                End If
+                
