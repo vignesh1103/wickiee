@@ -1,35 +1,28 @@
-Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-    ' Define the TextBoxes array
-    Dim TextBoxes() As TextBox = {TextBox9, TextBox10, TextBox11, TextBox12, TextBox13, TextBox14, TextBox15, TextBox16, TextBox17, TextBox18, TextBox19, TextBox20, TextBox21, TextBox22}
-
-    ' Initialize checkboxes
-    CheckBox1.Tag = "9,10"
-    CheckBox2.Tag = "11,12"
-    CheckBox3.Tag = "13,14"
-    CheckBox4.Tag = "15,16"
-    CheckBox5.Tag = "17,18"
-    CheckBox6.Tag = "19,20"
-    CheckBox7.Tag = "21,22"
-
-    ' Handle the CheckedChanged event for all checkboxes
-    For Each checkBox As CheckBox In {CheckBox1, CheckBox2, CheckBox3, CheckBox4, CheckBox5, CheckBox6, CheckBox7}
-        AddHandler checkBox.CheckedChanged, AddressOf CheckBox_CheckedChanged
-    Next
-End Sub
-
-' Handle the CheckedChanged event for all checkboxes
-Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs)
+Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
     Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
-    Dim indices As String() = checkBox.Tag.ToString().Split(","c)
 
-    If indices.Length = 2 Then
-        Dim startIndex As Integer = Convert.ToInt32(indices(0))
-        Dim endIndex As Integer = Convert.ToInt32(indices(1))
-
-        For i As Integer = startIndex To endIndex
-            If i >= 0 AndAlso i < TextBoxes.Length Then
-                TextBoxes(i).Enabled = checkBox.Checked
-            End If
-        Next
-    End If
+    ' Enable or disable the associated textboxes based on the checkbox checked state
+    Select Case checkBox.Name
+        Case "CheckBox1"
+            TextBox9.Enabled = checkBox.Checked
+            TextBox10.Enabled = checkBox.Checked
+        Case "CheckBox2"
+            TextBox11.Enabled = checkBox.Checked
+            TextBox12.Enabled = checkBox.Checked
+        Case "CheckBox3"
+            TextBox13.Enabled = checkBox.Checked
+            TextBox14.Enabled = checkBox.Checked
+        Case "CheckBox4"
+            TextBox15.Enabled = checkBox.Checked
+            TextBox16.Enabled = checkBox.Checked
+        Case "CheckBox5"
+            TextBox17.Enabled = checkBox.Checked
+            TextBox18.Enabled = checkBox.Checked
+        Case "CheckBox6"
+            TextBox19.Enabled = checkBox.Checked
+            TextBox20.Enabled = checkBox.Checked
+        Case "CheckBox7"
+            TextBox21.Enabled = checkBox.Checked
+            TextBox22.Enabled = checkBox.Checked
+    End Select
 End Sub
