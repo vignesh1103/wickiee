@@ -24,11 +24,9 @@ If i = 3 Or i = 4 Or i = 6 Then
         targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
         lastRow = lastRow + 1 ' Move to the next empty row
     ElseIf checkboxes46Selected Then
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
+        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J16").Value
         lastRow = lastRow + 2 ' Move to the next empty row
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
     End If
 End If
