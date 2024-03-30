@@ -1,33 +1,54 @@
 Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
     Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
-    ' Your code to handle the CheckedChanged event goes here
-End Sub
-
-Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
-    Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
 
     ' Enable or disable the associated textboxes based on the checkbox checked state
-    Select Case checkBox.Name
-        Case "CheckBox1"
-            TextBox9.Enabled = checkBox.Checked
-            TextBox10.Enabled = checkBox.Checked
-        Case "CheckBox2"
-            TextBox11.Enabled = checkBox.Checked
-            TextBox12.Enabled = checkBox.Checked
-        Case "CheckBox3"
-            TextBox13.Enabled = checkBox.Checked
-            TextBox14.Enabled = checkBox.Checked
-        Case "CheckBox4"
-            TextBox15.Enabled = checkBox.Checked
-            TextBox16.Enabled = checkBox.Checked
-        Case "CheckBox5"
-            TextBox17.Enabled = checkBox.Checked
-            TextBox18.Enabled = checkBox.Checked
-        Case "CheckBox6"
-            TextBox19.Enabled = checkBox.Checked
-            TextBox20.Enabled = checkBox.Checked
-        Case "CheckBox7"
-            TextBox21.Enabled = checkBox.Checked
-            TextBox22.Enabled = checkBox.Checked
-    End Select
+    If checkBox.Checked Then
+        Select Case checkBox.Name
+            Case "CheckBox1"
+                TextBox9.Enabled = True
+                TextBox10.Enabled = True
+            Case "CheckBox2"
+                TextBox11.Enabled = True
+                TextBox12.Enabled = True
+            Case "CheckBox3"
+                TextBox13.Enabled = True
+                TextBox14.Enabled = True
+            Case "CheckBox4"
+                TextBox15.Enabled = True
+                TextBox16.Enabled = True
+            Case "CheckBox5"
+                TextBox17.Enabled = True
+                TextBox18.Enabled = True
+            Case "CheckBox6"
+                TextBox19.Enabled = True
+                TextBox20.Enabled = True
+            Case "CheckBox7"
+                TextBox21.Enabled = True
+                TextBox22.Enabled = True
+        End Select
+    Else
+        Select Case checkBox.Name
+            Case "CheckBox1"
+                TextBox9.Enabled = False
+                TextBox10.Enabled = False
+            Case "CheckBox2"
+                TextBox11.Enabled = False
+                TextBox12.Enabled = False
+            Case "CheckBox3"
+                TextBox13.Enabled = False
+                TextBox14.Enabled = False
+            Case "CheckBox4"
+                TextBox15.Enabled = False
+                TextBox16.Enabled = False
+            Case "CheckBox5"
+                TextBox17.Enabled = False
+                TextBox18.Enabled = False
+            Case "CheckBox6"
+                TextBox19.Enabled = False
+                TextBox20.Enabled = False
+            Case "CheckBox7"
+                TextBox21.Enabled = False
+                TextBox22.Enabled = False
+        End Select
+    End If
 End Sub
