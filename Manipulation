@@ -1,50 +1,57 @@
 Private Sub CheckBox_Click()
     Dim chkBox As CheckBox
-    Dim rngTextBoxes As Range
     
     For Each chkBox In ActiveSheet.CheckBoxes
         If chkBox.Value = 1 Then
             Select Case chkBox.Name
                 Case "CheckBox1"
-                    EnableTextBoxes Range("B9:B10")
+                    EnableTextBoxes "TextBox9", "TextBox10"
                 Case "CheckBox2"
-                    EnableTextBoxes Range("B11:B12")
+                    EnableTextBoxes "TextBox11", "TextBox12"
                 Case "CheckBox3"
-                    EnableTextBoxes Range("B13:B14")
+                    EnableTextBoxes "TextBox13", "TextBox14"
                 Case "CheckBox4"
-                    EnableTextBoxes Range("B15:B16")
+                    EnableTextBoxes "TextBox15", "TextBox16"
                 Case "CheckBox5"
-                    EnableTextBoxes Range("B17:B18")
+                    EnableTextBoxes "TextBox17", "TextBox18"
                 Case "CheckBox6"
-                    EnableTextBoxes Range("B19:B20")
+                    EnableTextBoxes "TextBox19", "TextBox20"
                 Case "CheckBox7"
-                    EnableTextBoxes Range("B21:B22")
+                    EnableTextBoxes "TextBox21", "TextBox22"
             End Select
         Else
             Select Case chkBox.Name
                 Case "CheckBox1"
-                    DisableTextBoxes Range("B9:B10")
+                    DisableTextBoxes "TextBox9", "TextBox10"
                 Case "CheckBox2"
-                    DisableTextBoxes Range("B11:B12")
+                    DisableTextBoxes "TextBox11", "TextBox12"
                 Case "CheckBox3"
-                    DisableTextBoxes Range("B13:B14")
+                    DisableTextBoxes "TextBox13", "TextBox14"
                 Case "CheckBox4"
-                    DisableTextBoxes Range("B15:B16")
+                    DisableTextBoxes "TextBox15", "TextBox16"
                 Case "CheckBox5"
-                    DisableTextBoxes Range("B17:B18")
+                    DisableTextBoxes "TextBox17", "TextBox18"
                 Case "CheckBox6"
-                    DisableTextBoxes Range("B19:B20")
+                    DisableTextBoxes "TextBox19", "TextBox20"
                 Case "CheckBox7"
-                    DisableTextBoxes Range("B21:B22")
+                    DisableTextBoxes "TextBox21", "TextBox22"
             End Select
         End If
     Next chkBox
 End Sub
 
-Sub EnableTextBoxes(rng As Range)
-    rng.Interior.Color = RGB(255, 255, 255) ' Enable textboxes
+Sub EnableTextBoxes(ParamArray textBoxNames() As Variant)
+    Dim textBoxName As Variant
+    For Each textBoxName In textBoxNames
+        ActiveSheet.Shapes(textBoxName).DrawingObject.Enabled = True
+        ActiveSheet.Shapes(textBoxName).Fill.ForeColor.RGB = RGB(255, 255, 255) ' Enable textboxes
+    Next textBoxName
 End Sub
 
-Sub DisableTextBoxes(rng As Range)
-    rng.Interior.Color = RGB(200, 200, 200) ' Disable textboxes
+Sub DisableTextBoxes(ParamArray textBoxNames() As Variant)
+    Dim textBoxName As Variant
+    For Each textBoxName In textBoxNames
+        ActiveSheet.Shapes(textBoxName).DrawingObject.Enabled = False
+        ActiveSheet.Shapes(textBoxName).Fill.ForeColor.RGB = RGB(200, 200, 200) ' Disable textboxes
+    Next textBoxName
 End Sub
