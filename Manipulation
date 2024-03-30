@@ -11,24 +11,13 @@ End Sub
 
 ' You need to set the Tag property of each checkbox to correspond to the index of the first associated textbox in the TextBoxes array.
 
-Private TextBoxes() As TextBox = {TextBox9, TextBox11, TextBox13, TextBox15, TextBox17, TextBox19, TextBox21}
-' For CheckBox1
-CheckBox1.Tag = "9,10"
-
-' For CheckBox2
-CheckBox2.Tag = "11,12"
-
-' For CheckBox3
-CheckBox3.Tag = "13,14"
-
-' For CheckBox4
-CheckBox4.Tag = "15,16"
-
-' For CheckBox5
-CheckBox5.Tag = "17,18"
-
-' For CheckBox6
-CheckBox6.Tag = "19,20"
-
-' For CheckBox7
-CheckBox7.Tag = "21,22"
+Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    ' Set the Tag property for each checkbox
+    CheckBox1.Tag = "9,10"
+    CheckBox2.Tag = "11,12"
+    CheckBox3.Tag = "13,14"
+    CheckBox4.Tag = "15,16"
+    CheckBox5.Tag = "17,18"
+    CheckBox6.Tag = "19,20"
+    CheckBox7.Tag = "21,22"
+End Sub
