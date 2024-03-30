@@ -1,8 +1,10 @@
 If i = 1 Then
     targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A4:J6").Value
     targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).Value = TextBox9.Value ' Replace column H values with TextBox9 value
+    
     Dim appendedValue As String
-    appendedValue = "Existing Value: " & targetSheet.Range("J" & lastRow + 1).Value & " " & TextBox10.Value
+    appendedValue = "'" & targetSheet.Cells(lastRow + 1, "J").Value & "' : " & TextBox10.Value
     targetSheet.Range("J" & lastRow + 1 & ":J" & lastRow + 2).Value = appendedValue ' Append column J values with TextBox10 value
+    
     lastRow = lastRow + 2 ' Move to the next empty row
 End If
