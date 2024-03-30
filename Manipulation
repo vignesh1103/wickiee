@@ -1,33 +1,35 @@
-Public Class UserForm1
+Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
     ' Define the TextBoxes array
-    Private TextBoxes() As TextBox = {TextBox9, TextBox10, TextBox11, TextBox12, TextBox13, TextBox14, TextBox15, TextBox16, TextBox17, TextBox18, TextBox19, TextBox20, TextBox21, TextBox22}
+    Dim TextBoxes() As TextBox = {TextBox9, TextBox10, TextBox11, TextBox12, TextBox13, TextBox14, TextBox15, TextBox16, TextBox17, TextBox18, TextBox19, TextBox20, TextBox21, TextBox22}
 
-    ' Button7 click event handler
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
-        ' Initialize checkboxes
-        CheckBox1.Tag = "9,10"
-        CheckBox2.Tag = "11,12"
-        CheckBox3.Tag = "13,14"
-        CheckBox4.Tag = "15,16"
-        CheckBox5.Tag = "17,18"
-        CheckBox6.Tag = "19,20"
-        CheckBox7.Tag = "21,22"
-    End Sub
+    ' Initialize checkboxes
+    CheckBox1.Tag = "9,10"
+    CheckBox2.Tag = "11,12"
+    CheckBox3.Tag = "13,14"
+    CheckBox4.Tag = "15,16"
+    CheckBox5.Tag = "17,18"
+    CheckBox6.Tag = "19,20"
+    CheckBox7.Tag = "21,22"
 
     ' Handle the CheckedChanged event for all checkboxes
-    Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged, CheckBox2.CheckedChanged, CheckBox3.CheckedChanged, CheckBox4.CheckedChanged, CheckBox5.CheckedChanged, CheckBox6.CheckedChanged, CheckBox7.CheckedChanged
-        Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
-        Dim indices As String() = checkBox.Tag.ToString().Split(","c)
+    For Each checkBox As CheckBox In {CheckBox1, CheckBox2, CheckBox3, CheckBox4, CheckBox5, CheckBox6, CheckBox7}
+        AddHandler checkBox.CheckedChanged, AddressOf CheckBox_CheckedChanged
+    Next
+End Sub
 
-        If indices.Length = 2 Then
-            Dim startIndex As Integer = Convert.ToInt32(indices(0))
-            Dim endIndex As Integer = Convert.ToInt32(indices(1))
+' Handle the CheckedChanged event for all checkboxes
+Private Sub CheckBox_CheckedChanged(sender As Object, e As EventArgs)
+    Dim checkBox As CheckBox = DirectCast(sender, CheckBox)
+    Dim indices As String() = checkBox.Tag.ToString().Split(","c)
 
-            For i As Integer = startIndex To endIndex
-                If i >= 0 AndAlso i < TextBoxes.Length Then
-                    TextBoxes(i).Enabled = checkBox.Checked
-                End If
-            Next
-        End If
-    End Sub
-End Class
+    If indices.Length = 2 Then
+        Dim startIndex As Integer = Convert.ToInt32(indices(0))
+        Dim endIndex As Integer = Convert.ToInt32(indices(1))
+
+        For i As Integer = startIndex To endIndex
+            If i >= 0 AndAlso i < TextBoxes.Length Then
+                TextBoxes(i).Enabled = checkBox.Checked
+            End If
+        Next
+    End If
+End Sub
