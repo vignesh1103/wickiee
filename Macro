@@ -18,3 +18,13 @@ TextBox19.Text = ""
 TextBox20.Text = ""
 TextBox21.Text = ""
 TextBox22.Text = ""
+Private Sub UserForm_Initialize()
+    Dim i As Integer
+    For i = 9 To 14
+        Me.Controls("TextBox" & i).Text = ""
+    Next i
+    
+    For i = 15 To 22
+        Me.Controls("TextBox" & i).Visible = False
+    Next i
+End Sub
