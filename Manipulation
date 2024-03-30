@@ -1,73 +1,59 @@
-   ' Get selected QGC from cell C14 from sheet1
-    Dim qgc As String
-    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
-
-    Dim chkBox As checkBox
+private sub checkbox_click()
+    dim chkbox as msforms.checkbox ' assuming you're using msforms checkboxes
     
-    ' data based on the User selected QGC
-    Select Case qgc
-      Case "QGC0"
-         ' ProcessQGC "QGC0"
-        CheckBox1.Caption = "DIA"
-        CheckBox2.Caption = "FSIA"
-        CheckBox3.Caption = "Safety Plan"
-        CheckBox4.Caption = "Bottom"
-        CheckBox5.Caption = "Item"
-        CheckBox6.Caption = "FMEA"
-        CheckBox7.Caption = "HARA"
-        
-        Dim k As Integer
-            For k = 9 To 22
-                    Me.Controls("TextBox" & k).Text = ""
-           Next k
-                       
-        Case "QGC2"
-        ' ProcessQGC "QGC2"
-            CheckBox1.Caption = "FSVAL Planning "
-            CheckBox2.Caption = "FMEA Coversheet"
-            CheckBox3.Caption = "Change Request Analysis"
-            'Hide checkbox
-            CheckBox4.Visible = False
-            CheckBox5.Visible = False
-            CheckBox6.Visible = False
-            CheckBox7.Visible = False
-            
-            Dim j As Integer
-              For j = 9 To 14
-                    Me.Controls("TextBox" & j).Text = ""
-                Next j
-                
-              For j = 15 To 22
-                    Me.Controls("TextBox" & j).Visible = False
-            Next j
-                
-        Case "QGC4"
-            'ProcessQGC "QGC4"
-            CheckBox1.Caption = "Saftey Case"
-            CheckBox2.Caption = "FMEA Coversheet"
-            CheckBox3.Caption = "FTA Coversheet"
-            CheckBox4.Caption = "Safety Assesment"
-            CheckBox5.Caption = "Bottom-up-Analysis"
-            CheckBox6.Caption = "FSVAL Analysis"
-            
-            CheckBox7.Visible = False
-            
-            Dim l As Integer
-                For l = 9 To 20
-                    Me.Controls("TextBox" & l).Text = ""
-                Next l
-                
-                For l = 21 To 22
-                    Me.Controls("TextBox" & l).Visible = False
-               Next l
-                
-        Case "Others"
-            CheckBox1.Visible = False
-            CheckBox2.Visible = False
-            CheckBox3.Visible = False
-            CheckBox4.Visible = False
-            CheckBox5.Visible = False
-            CheckBox6.Visible = False
-            CheckBox7.Visible = False
-        
-    End Select
+    for each chkbox in me.controls
+        if typename(chkbox) = "checkbox" then
+            if chkbox.value = true then
+                select case chkbox.name
+                    case "checkbox1"
+                        enabletextboxes me.controls("textbox9"), me.controls("textbox10")
+                    case "checkbox2"
+                        enabletextboxes me.controls("textbox11"), me.controls("textbox12")
+                    case "checkbox3"
+                        enabletextboxes me.controls("textbox13"), me.controls("textbox14")
+                    case "checkbox4"
+                        enabletextboxes me.controls("textbox15"), me.controls("textbox16")
+                    case "checkbox5"
+                        enabletextboxes me.controls("textbox17"), me.controls("textbox18")
+                    case "checkbox6"
+                        enabletextboxes me.controls("textbox19"), me.controls("textbox20")
+                    case "checkbox7"
+                        enabletextboxes me.controls("textbox21"), me.controls("textbox22")
+                end select
+            else
+                select case chkbox.name
+                    case "checkbox1"
+                        disabletextboxes me.controls("textbox9"), me.controls("textbox10")
+                    case "checkbox2"
+                        disabletextboxes me.controls("textbox11"), me.controls("textbox12")
+                    case "checkbox3"
+                        disabletextboxes me.controls("textbox13"), me.controls("textbox14")
+                    case "checkbox4"
+                        disabletextboxes me.controls("textbox15"), me.controls("textbox16")
+                    case "checkbox5"
+                        disabletextboxes me.controls("textbox17"), me.controls("textbox18")
+                    case "checkbox6"
+                        disabletextboxes me.controls("textbox19"), me.controls("textbox20")
+                    case "checkbox7"
+                        disabletextboxes me.controls("textbox21"), me.controls("textbox22")
+                end select
+            end if
+        end if
+    next chkbox
+end sub
+
+sub enabletextboxes(paramarray textboxes() as variant)
+    dim textbox as variant
+    for each textbox in textboxes
+        textbox.enabled = true
+        ' set any other properties as needed
+    next textbox
+end sub
+
+sub disabletextboxes(paramarray textboxes() as variant)
+    dim textbox as variant
+    for each textbox in textboxes
+        textbox.enabled = false
+        ' set any other properties as needed
+    next textbox
+end sub
