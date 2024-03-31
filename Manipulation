@@ -1,3 +1,144 @@
+Option Explicit
+
+Dim previousTextBox8Value As String
+'Dim Sheet3DataObject As Object
+Dim storedData As Variant
+
+Dim storedDataList As New Collection
+Private manipulatedDataList As New Collection
+
+' variable to store data from Command Button 5
+Dim userData As Collection
+
+Private Sub UserForm_Initialize()
+    ' Get selected QGC from cell C14 from sheet1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    
+    ' headings in Sheet3 starting from cell A2
+    With ThisWorkbook.Sheets("Sheet3")
+        .Range("A1:J1").value = Array("Type", "ID", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
+    End With
+    
+    
+    ' data based on the User selected QGC
+    Select Case qgc
+      Case "QGC0"
+         ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA"
+        CheckBox2.Caption = "FSIA"
+        CheckBox3.Caption = "Safety Plan"
+        CheckBox4.Caption = "Bottom"
+        CheckBox5.Caption = "Item"
+        CheckBox6.Caption = "FMEA"
+        CheckBox7.Caption = "HARA"
+        
+        Dim k As Integer
+        For k = 9 To 22
+            Me.Controls("TextBox" & k).Text = ""
+        Next k
+                       
+        Case "QGC2"
+        ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning "
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "Change Request Analysis"
+            'Hide checkbox
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim j As Integer
+              For j = 9 To 14
+                   Me.Controls("TextBox" & j).Text = ""
+                Next j
+            For j = 15 To 22
+                 Me.Controls("TextBox" & j).Visible = False
+            Next j
+            
+        Case "QGC4"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case"
+            CheckBox2.Caption = "FMEA Coversheet"
+            CheckBox3.Caption = "FTA Coversheet"
+            CheckBox4.Caption = "Safety Assesment"
+            CheckBox5.Caption = "Bottom-up-Analysis"
+            CheckBox6.Caption = "FSVAL Analysis"
+            
+            CheckBox7.Visible = False
+            
+            Dim l As Integer
+               For l = 9 To 20
+                  Me.Controls("TextBox" & l).Text = ""
+               Next l
+                
+              For l = 21 To 22
+                   Me.Controls("TextBox" & l).Visible = False
+              Next l
+        
+        Case "Others"
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            
+            Dim n As Integer
+              For n = 9 To 22
+                   Me.Controls("TextBox" & n).Visible = False
+              Next n
+            
+    End Select
+    
+    DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                         Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                         Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                         Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
+                         Me.Controls("TextBox21"), Me.Controls("TextBox22")
+    ResizeUserForm
+    
+    ' Define variables
+    Dim currentDate As Date
+    Dim currentCW As Integer
+    Dim i As Integer
+    
+    ' Update UserForm with default data
+    Me.Controls("Label25").Caption = "Recommended Work Items :"
+    Me.Controls("Label26").Caption = "Additional Work Items :"
+    Me.Controls("Label34").Caption = "Planned For"
+    Me.Controls("Label35").Caption = "Tags"
+    
+    ' Dependency Work Items Headings
+    Me.Controls("Label27").Caption = "Deliverable"
+    Me.Controls("Label28").Caption = "Summary"
+    Me.Controls("Label29").Caption = "Description"
+    Me.Controls("Label30").Caption = "Estimate (Hours)"
+    Me.Controls("Label31").Caption = "Owned By"
+    Me.Controls("Label32").Caption = "Planned For"
+ 
+    TextBox8.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox5.Text = ""
+    
+    
+    InitializeComboBox4
+    
+    'ClearAllInputs
+    
+    ResizeUserForm
+    
+    'InitializeComboBox3
+    
+    ' InitializeComboBox4
+End Sub
 
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
@@ -107,7 +248,7 @@ Private Sub CommandButton3_Click()
                 MsgBox "No data found in storedData array."
             End If
             storedData(1, 6) = textBox4Value
-        storedData(1, 9) = textBox5Value
+          storedData(1, 9) = textBox5Value
         storedData(1, 8) = comboBox4Value
         
         ' Store manipulated data in the storedDataList collection
@@ -121,3 +262,104 @@ End If
     ' Update previousTextBox8Value to the current value
     previousTextBox8Value = textBox8Value
 End Sub
+Sub ClearAllInputsExceptTextBox8()
+    ' Clear all input controls except TextBox8
+    TextBox2.value = ""
+    TextBox3.value = ""
+    TextBox4.value = ""
+    TextBox5.value = ""
+    ComboBox4.value = ""
+End Sub
+
+Private Sub StoreDataToList(data As Variant)
+    ' Add manipulated data to sstoredDataList collection
+    storedDataList.Add data
+End Sub
+
+Sub PasteDataToSheet(sheetName As String)
+    Dim targetSheet As Worksheet
+    Set targetSheet = Sheets(sheetName)
+    
+    Dim lastRow As Long
+    Dim storedData As Variant
+    Dim i As Long
+    
+    ' Find the last empty row in the target sheet
+    lastRow = targetSheet.Cells(targetSheet.Rows.Count, "A").End(xlUp).Row + 1
+    
+    ' Loop through each stored data and paste it to the target sheet
+    For Each storedData In storedDataList
+        ' Paste the stored data to the target sheet
+        targetSheet.Range("A" & lastRow).Resize(UBound(storedData, 1), UBound(storedData, 2)).value = storedData
+        ' Update last row for the next paste operation
+        lastRow = lastRow + UBound(storedData, 1)
+    Next storedData
+    
+    ' Clear storedDataList for future use
+    Set storedDataList = New Collection
+End Sub
+
+Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    ' Check if the pressed key is a numeric digit (0-9) or the Backspace key
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 Then
+        ' If the pressed key is not a numeric digit or Backspace, cancel the keypress
+        KeyAscii = 0
+        ' Display a message to inform user
+        MsgBox "Only numeric input is allowed.", vbExclamation
+    End If
+End Sub
+
+
+Private Sub InitializeComboBox4()
+    ' Initialize ComboBox4 with options for the next 4 calendar weeks
+    Dim currentDate As Date
+    Dim currentCW As Integer
+    Dim i As Integer
+    currentDate = Date
+    currentCW = Int((DatePart("y", currentDate) - DatePart("y", DateSerial(Year(currentDate), 1, 1)) + Weekday(DateSerial(Year(currentDate), 1, 1)) - 1) / 7) + 1
+    ComboBox4.Clear
+    ' Loop options for the next 4 calendar weeks
+    For i = 0 To 3
+        Dim cwStart As String
+        Dim cwEnd As String
+        ' Format the options
+        cwStart = "Y" & Right(Year(currentDate), 2) & "_CW" & Format(currentCW + (i * 2), "00")
+        cwEnd = "_CW" & Format(currentCW + (i * 2) + 1, "00")
+        ' Add this format option to ComboBox4
+        ComboBox4.AddItem cwStart & "_" & cwEnd
+    Next i
+End Sub
+
+Private Sub ClearAllInputs()
+    ' Clear text boxes and reset combo box selection
+    TextBox8.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox5.Text = ""
+    ComboBox4.value = ""
+End Sub
+
+
+
+Private Sub CommandButton6_Click()
+    'If userData Is Nothing Then
+      '  MsgBox "No data to paste.", vbExclamation
+     '   Exit Sub
+    'End If
+    ' Call the PasteUserData
+    'PasteUserData
+
+    ' After clearing input controls, paste the data to Sheet3
+    PasteDataToSheet "Sheet3"
+     
+    ' Clear all userData
+    Set userData = Nothing
+     
+    ' Clear text boxes for next input
+    ClearAllInputs
+    
+    ' Close the UserForm
+    Unload Me
+End Sub
+
