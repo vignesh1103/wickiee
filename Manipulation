@@ -14,6 +14,7 @@
 If checkboxes13Selected And i = 1 Then
     ' Paste data from Sheet2 into target sheet for rows 20 and 26-28
     targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
+    lastRow = lastRow + 1 ' Move to the next empty row
     targetSheet.Range("A" & lastRow + 1).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J28").Value
     
     ' Replace values in column H
