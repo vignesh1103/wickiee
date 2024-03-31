@@ -17,20 +17,22 @@ If Me.CheckBox3.Value Or Me.CheckBox4.Value Or Me.CheckBox6.Value Then
         row13Pasted = True ' Mark row 13 as pasted
     End If
 
-    ' Paste rows 14, 15, and 16 from "Sheet2" if the corresponding checkboxes are selected
+    ' Paste row 14 from "Sheet2" if checkbox 3 is selected and row 14 hasn't been pasted yet
     If Me.CheckBox3.Value And Not row14Pasted Then
         targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J14").Value
         lastRow = lastRow + 1 ' Move to the next empty row
         row14Pasted = True ' Mark row 14 as pasted
     End If
     
-    If Me.CheckBox4.Value And Not row15Pasted Then
+    ' Paste row 15 from "Sheet2" if checkbox 6 is selected and row 15 hasn't been pasted yet
+    If Me.CheckBox6.Value And Not row15Pasted Then
         targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
         lastRow = lastRow + 1 ' Move to the next empty row
         row15Pasted = True ' Mark row 15 as pasted
     End If
     
-    If Me.CheckBox6.Value And Not row16Pasted Then
+    ' Paste row 16 from "Sheet2" if checkbox 4 is selected and row 16 hasn't been pasted yet
+    If Me.CheckBox4.Value And Not row16Pasted Then
         targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
         lastRow = lastRow + 1 ' Move to the next empty row
         row16Pasted = True ' Mark row 16 as pasted
