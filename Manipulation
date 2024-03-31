@@ -1,17 +1,15 @@
-If checkboxes13Selected And i = 1 Then
-    ' Paste data from Sheet2 into target sheet for rows 20 and 26-28
-    targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-    targetSheet.Range("A" & lastRow + 1).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J28").Value
-    
-    ' Replace values in column H
-    targetSheet.Range("H" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 1).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 2).Value = TextBox14.Value
-    
-    ' Append values in column J
-    targetSheet.Range("J" & lastRow).Value = targetSheet.Range("J" & lastRow).Value & ", " & TextBox13.Value
-    targetSheet.Range("J" & lastRow + 1).Value = targetSheet.Range("J" & lastRow + 1).Value & ", " & TextBox13.Value
-    targetSheet.Range("J" & lastRow + 2).Value = targetSheet.Range("J" & lastRow + 2).Value & ", " & TextBox14.Value
-    
-    lastRow = lastRow + 3 ' Move to the next empty row
-End If
+  If checkboxes13Selected And i = 1 Then
+        targetSheet.Range("A" & lastRow).Resize(1, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").value
+        lastRow = lastRow + 1 ' Move to the next empty row
+        targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A26:J28").value
+         ' Replace values in column H
+        targetSheet.Range("H" & lastRow).value = TextBox13.value
+        targetSheet.Range("H" & lastRow + 1).value = TextBox13.value
+        targetSheet.Range("H" & lastRow + 2).value = TextBox14.value
+        
+        ' Append values in column J
+        targetSheet.Range("J" & lastRow).value = targetSheet.Range("J" & lastRow).value & ", " & TextBox13.value
+        targetSheet.Range("J" & lastRow + 1).value = targetSheet.Range("J" & lastRow + 1).value & ", " & TextBox13.value
+        targetSheet.Range("J" & lastRow + 2).value = targetSheet.Range("J" & lastRow + 2).value & ", " & TextBox14.value
+        lastRow = lastRow + 3 ' Move to the next empty row
+    End If
