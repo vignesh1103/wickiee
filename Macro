@@ -1,95 +1,22 @@
-' Initialize flags to track if combinations have been pasted
-Dim paste346 As Boolean
-Dim paste34 As Boolean
-Dim paste36 As Boolean
-Dim paste46 As Boolean
-Dim paste3 As Boolean
-Dim paste4 As Boolean
-Dim paste6 As Boolean
+' Check if any of CheckBoxes 3, 4, or 6 are selected
+If Me.CheckBox3.Value Or Me.CheckBox4.Value Or Me.CheckBox6.Value Then
+    ' Paste row 13 from "Sheet2"
+    targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+    lastRow = lastRow + 1 ' Move to the next empty row
 
-' Set flags to False initially
-paste346 = False
-paste34 = False
-paste36 = False
-paste46 = False
-paste3 = False
-paste4 = False
-paste6 = False
-
-' Additional logic for CheckBoxes 3, 4, and 6
-If i = 3 Or i = 4 Or i = 6 Then
-    ' Check if CheckBoxes 3, 4, and 6 are selected together
-    Dim checkboxes346Selected As Boolean
-    checkboxes346Selected = (Me.CheckBox3.Value And Me.CheckBox4.Value And Me.CheckBox6.Value)
-    
-    ' Check if CheckBoxes 3 and 4 are selected together
-    Dim checkboxes34Selected As Boolean
-    checkboxes34Selected = (Me.CheckBox3.Value And Me.CheckBox4.Value And Not Me.CheckBox6.Value)
-    
-    ' Check if CheckBoxes 4 and 6 are selected together
-    Dim checkboxes46Selected As Boolean
-    checkboxes46Selected = (Not Me.CheckBox3.Value And Me.CheckBox4.Value And Me.CheckBox6.Value)
-    
-    ' Check if CheckBoxes 3 and 6 are selected together
-    Dim checkboxes36Selected As Boolean
-    checkboxes36Selected = (Me.CheckBox3.Value And Not Me.CheckBox4.Value And Me.CheckBox6.Value)
-    
-    ' If CheckBoxes 3, 4, and 6 are selected together
-    If checkboxes346Selected Then
-        If Not paste346 Then
-            ' Paste rows 13, 14, 15, 16 only once
-            targetSheet.Range("A" & lastRow).Resize(4, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J16").Value
-            lastRow = lastRow + 4 ' Move to the next empty row
-            paste346 = True ' Set flag to indicate the combination has been pasted
-        End If
-    ElseIf checkboxes34Selected Then
-        If Not paste34 Then
-            ' Paste rows 13, 14, 16 only once
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J15").Value
-            lastRow = lastRow + 3 ' Move to the next empty row
-            paste34 = True ' Set flag to indicate the combination has been pasted
-        End If
-    ElseIf checkboxes46Selected Then
-        If Not paste46 Then
-            ' Paste rows 13, 15, 16 only once
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J15").Value
-            lastRow = lastRow + 3 ' Move to the next empty row
-            paste46 = True ' Set flag to indicate the combination has been pasted
-        End If
-    ElseIf checkboxes36Selected Then
-        If Not paste36 Then
-            ' Paste rows 13, 14, 15 only once
-            targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J15").Value
-            lastRow = lastRow + 3 ' Move to the next empty row
-            paste36 = True ' Set flag to indicate the combination has been pasted
-        End If
-    End If
-End If
-
-' Individual logic for CheckBoxes 3, 4, and 6
-If i = 3 Then
-    If Not (paste346 Or paste34 Or paste36 Or paste3) Then
-        ' Paste rows 13, 14
-        targetSheet.Range("A" & lastRow).Resize(2, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J14").Value
-        lastRow = lastRow + 2 ' Move to the next empty row
-        paste3 = True ' Set flag to indicate the combination has been pasted
-    End If
-ElseIf i = 4 Then
-    If Not (paste346 Or paste34 Or paste4) Then
-        ' Paste rows 13, 16
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
+    ' Paste rows 14, 15, and 16 from "Sheet2" if the corresponding checkboxes are selected
+    If Me.CheckBox3.Value Then
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A14:J14").Value
         lastRow = lastRow + 1 ' Move to the next empty row
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
-        paste4 = True ' Set flag to indicate the combination has been pasted
     End If
-ElseIf i = 6 Then
-    If Not (paste346 Or paste36 Or paste46 Or paste6) Then
-        ' Paste rows 13, 15
-        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A13:J13").Value
-        lastRow = lastRow + 1 ' Move to the next empty row
+    
+    If Me.CheckBox4.Value Then
         targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A15:J15").Value
         lastRow = lastRow + 1 ' Move to the next empty row
-        paste6 = True ' Set flag to indicate the combination has been pasted
+    End If
+    
+    If Me.CheckBox6.Value Then
+        targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A16:J16").Value
+        lastRow = lastRow + 1 ' Move to the next empty row
     End If
 End If
