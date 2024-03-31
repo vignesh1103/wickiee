@@ -1,39 +1,123 @@
-If checkboxes13Selected And i = 1 Then
-    ' Paste data from Sheet2 into target sheet for rows 20 and 26-28
-    targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-    lastRow = lastRow + 1 ' Move to the next empty row
-    targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J28").Value
+
+Private Sub CommandButton3_Click()
+    Dim sourceRange As Range
+    Dim appendedValue As String
+    Dim textBox8Value As String
+    Dim textBox2Value As String
+    Dim textBox3Value As String
+    Dim textBox4Value As String
+    Dim textBox5Value As String
+    Dim comboBox4Value As String
+    Dim i As Long
+    Dim storedData As Variant ' Declare storedData here
     
-    ' Replace values in column H
-    targetSheet.Range("H" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 1).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 2).Value = TextBox14.Value
+    ' Get the current values from TextBox8, TextBox2, TextBox3, TextBox4, TextBox5, and ComboBox4
+    textBox8Value = Trim(TextBox8.value)
+    textBox2Value = Trim(TextBox2.value)
+    textBox3Value = Trim(TextBox3.value)
+    textBox4Value = Trim(TextBox4.value)
+    textBox5Value = Trim(TextBox5.value)
+    comboBox4Value = ComboBox4.value
     
-    ' Append values in column J
-    targetSheet.Range("J" & lastRow).Value = targetSheet.Range("J" & lastRow).Value & ", " & TextBox13.Value
-    targetSheet.Range("J" & lastRow + 1).Value = targetSheet.Range("J" & lastRow + 1).Value & ", " & TextBox13.Value
-    targetSheet.Range("J" & lastRow + 2).Value = targetSheet.Range("J" & lastRow + 2).Value & ", " & TextBox14.Value
-    
-    lastRow = lastRow + 3 ' Move to the next empty row
+    ' Check if the previous value of TextBox8 is different from the current value
+    If previousTextBox8Value <> textBox8Value Then
+
+       ' Concatenate TextBox8 value for appending
+        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+        
+        ' Copy range A68:J69 from Sheet2
+        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+        
+        ' Store the copied range in the local variable storedData
+        storedData = sourceRange.value
+        
+        ' Manipulate and store data
+        For i = 1 To UBound(storedData, 1)
+            storedData(i, 3) = storedData(i, 3) & " " & appendedValue
+            If Not IsEmpty(storedData) Then
+                storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
+            Else
+                MsgBox "No data found in storedData array."
+            End If
+            storedData(i, 6) = textBox4Value
+            storedData(i, 9) = textBox5Value
+            storedData(i, 8) = comboBox4Value
+        Next i
+        
+        ' Store manipulated data in the storedDataList collection
+        storedDataList.Add storedData
+        
+        ' Clear all input controls except TextBox8
+        Call ClearAllInputsExceptTextBox8
+
+    ElseIf previousTextBox8Value = textBox8Value Then
+    ' If the value of TextBox8 is the same as the previous value
+        ' Prompt user if they want to change the Deliverable
+        Dim response As VbMsgBoxResult
+        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+        
+        If response = vbYes Then
+            ' If user selects "Yes", process the "If" condition again
+            ' Concatenate TextBox8 value for appending
+            appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+            
+            ' Copy range A68:J69 from Sheet2
+            Set sourceRange = Sheets("Sheet2").Range("A68:J69")
+            
+            ' Store the copied range in the local variable storedData
+            storedData = sourceRange.value
+            
+            ' Manipulate and store data
+            For i = 1 To UBound(storedData, 1)
+                storedData(i, 3) = storedData(i, 3) & " " & appendedValue
+                If Not IsEmpty(storedData) Then
+                    storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
+                Else
+                    MsgBox "No data found in storedData array."
+                End If
+                storedData(i, 6) = textBox4Value
+                storedData(i, 9) = textBox5Value
+                storedData(i, 8) = comboBox4Value
+            Next i
+            
+            ' Store manipulated data in the storedDataList collection
+            storedDataList.Add storedData
+            
+            ' Clear all input controls
+            Call ClearAllInputs
+        ElseIf response = vbNo Then
+            ' If user selects "No", retain the previous value in TextBox8
+            ' Update TextBox8 with the previous value
+            TextBox8.value = previousTextBox8Value
+            
+            ' Concatenate previous TextBox8 value for appending
+            appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
+            
+            ' Copy range A69:J69 from Sheet2
+            Set sourceRange = Sheets("Sheet2").Range("A69:J69")
+            
+            ' Store the copied range in the local variable storedData
+            storedData = sourceRange.value
+            
+            ' Manipulate and store data
+            storedData(1, 3) = storedData(1, 3) & " " & appendedValue
+            If Not IsEmpty(storedData) Then
+                storedData(1, 4) = storedData(1, 4) & " " & textBox3Value
+            Else
+                MsgBox "No data found in storedData array."
+            End If
+            storedData(1, 6) = textBox4Value
+        storedData(1, 9) = textBox5Value
+        storedData(1, 8) = comboBox4Value
+        
+        ' Store manipulated data in the storedDataList collection
+        storedDataList.Add storedData
+        
+        ' Clear all input controls except TextBox8
+        Call ClearAllInputsExceptTextBox8
+    End If
 End If
-
-
-
-If checkboxes13Selected And i = 1 Then
-    ' Paste data from Sheet2 into target sheet for rows 20 and 26-28
-    targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
-    lastRow = lastRow + 1 ' Move to the next empty row
-    targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A26:J28").Value
     
-    ' Replace values in column H
-    targetSheet.Range("H" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 1).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 2).Value = TextBox14.Value
-    
-    ' Append values in column J
-    targetSheet.Range("J" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("J" & lastRow + 1).Value = TextBox13.Value & ", " & TextBox14.Value
-    targetSheet.Range("J" & lastRow + 2).Value = TextBox14.Value
-    
-    lastRow = lastRow + 3 ' Move to the next empty row
-End If
+    ' Update previousTextBox8Value to the current value
+    previousTextBox8Value = textBox8Value
+End Sub
