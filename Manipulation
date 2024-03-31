@@ -5,3 +5,15 @@ If i = 2 Then
                     targetSheet.Range("J" & lastRow + 1 & ":J" & lastRow + 2).value = appendedValue  ' Append column J values with TextBox12 value
                     lastRow = lastRow + 3 ' Move to the next empty row
                 End If
+If i = 2 Then
+    targetSheet.Range("A" & lastRow).Resize(3, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A23:J25").Value
+    
+    ' Replace column H values with TextBox11 value
+    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).Value = TextBox11.Value
+    
+    ' Append TextBox12 value to cells in column J of rows 24 and 25
+    targetSheet.Cells(lastRow + 1, "J").Value = targetSheet.Cells(lastRow + 1, "J").Value & ", " & TextBox12.Value
+    targetSheet.Cells(lastRow + 2, "J").Value = targetSheet.Cells(lastRow + 2, "J").Value & ", " & TextBox12.Value
+    
+    lastRow = lastRow + 3 ' Move to the next empty row
+End If
