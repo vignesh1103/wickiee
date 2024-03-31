@@ -11,7 +11,6 @@
                         targetSheet.Cells(lastRow + 2, "J").value = targetSheet.Cells(lastRow + 2, "J").value & ", " & TextBox14.value
                         lastRow = lastRow + 3 ' Move to the next empty row
                     End If
-
 If checkboxes13Selected And i = 1 Then
     ' Paste data from Sheet2 into target sheet for rows 20 and 26-28
     targetSheet.Range("A" & lastRow).Resize(1, 10).Value = ThisWorkbook.Sheets("Sheet2").Range("A20:J20").Value
@@ -19,7 +18,8 @@ If checkboxes13Selected And i = 1 Then
     
     ' Replace values in column H
     targetSheet.Range("H" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).Value = TextBox14.Value
+    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 1).Value = TextBox13.Value
+    targetSheet.Range("H" & lastRow + 2).Value = TextBox14.Value
     
     ' Append values in column J
     targetSheet.Range("J" & lastRow).Value = targetSheet.Range("J" & lastRow).Value & ", " & TextBox13.Value
