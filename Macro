@@ -1,3 +1,13 @@
+Dim row13Pasted As Boolean
+Dim row14Pasted As Boolean
+Dim row15Pasted As Boolean
+Dim row16Pasted As Boolean
+
+row13Pasted = False
+row14Pasted = False
+row15Pasted = False
+row16Pasted = False
+
 ' Check if any of CheckBoxes 3, 4, or 6 are selected
 If Me.CheckBox3.Value Or Me.CheckBox4.Value Or Me.CheckBox6.Value Then
     ' Paste row 13 from "Sheet2" if it hasn't been pasted yet
