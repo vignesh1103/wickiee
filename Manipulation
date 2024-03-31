@@ -9,9 +9,9 @@ If checkboxes13Selected And i = 1 Then
     targetSheet.Range("H" & lastRow + 2).Value = TextBox14.Value
     
     ' Append values in column J
-    targetSheet.Range("J" & lastRow).Value = TextBox13.Value
-    targetSheet.Range("J" & lastRow + 1).Value = TextBox13.Value
-    targetSheet.Range("J" & lastRow + 2).Value = TextBox14.Value
+    targetSheet.Range("J" & lastRow).Value = targetSheet.Range("J" & lastRow).Value & ", " & TextBox13.Value
+    targetSheet.Range("J" & lastRow + 1).Value = targetSheet.Range("J" & lastRow + 1).Value & ", " & TextBox13.Value
+    targetSheet.Range("J" & lastRow + 2).Value = targetSheet.Range("J" & lastRow + 2).Value & ", " & TextBox14.Value
     
     lastRow = lastRow + 3 ' Move to the next empty row
 End If
