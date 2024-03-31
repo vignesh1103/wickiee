@@ -1,6 +1,7 @@
-Sub DisableTextBoxes(ParamArray textBoxes() As Variant)
-    Dim textBox As Variant
-    For Each textBox In textBoxes
-        textBox.Enabled = False
-    Next textBox
-End Sub
+If i = 2 Then
+                    targetSheet.Range("A" & lastRow).Resize(3, 10).value = ThisWorkbook.Sheets("Sheet2").Range("A23:J25").value
+                    targetSheet.Range("H" & lastRow + 1 & ":H" & lastRow + 2).value = TextBox11.value  ' Replace column H values with TextBox11 value
+                    appendedValue = "" & targetSheet.Cells(lastRow + 1, "J").value & " , " & TextBox12.value
+                    targetSheet.Range("J" & lastRow + 1 & ":J" & lastRow + 2).value = appendedValue  ' Append column J values with TextBox12 value
+                    lastRow = lastRow + 3 ' Move to the next empty row
+                End If
