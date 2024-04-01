@@ -14,9 +14,6 @@ Sub Loader()
                 ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
                 Call ClearAllInputsExceptTextBox8
             End If
-        Else
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-            Call ClearAllInputsExceptTextBox8
         End If
     End If
     
