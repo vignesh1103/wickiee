@@ -1,7 +1,7 @@
-Private Sub CommandButton3_Click()
-    Dim sourceRange As Range
-    Dim targetRange As Range
-    Dim appendedValue As String
+Private Sub Button3_Click()
+    Dim logic As Integer
+    
+    ' Get user input for text boxes
     Dim textBox8Value As String
     Dim textBox2Value As String
     Dim textBox3Value As String
@@ -10,55 +10,31 @@ Private Sub CommandButton3_Click()
     Dim textBox23value As String
     Dim textBox24value As String
     
-    ' Get the values from TextBoxes
-    textBox8Value = Trim(TextBox8.Value)
-    textBox2Value = Trim(TextBox2.Value)
-    textBox3Value = Trim(TextBox3.Value)
-    textBox4Value = Trim(TextBox4.Value)
-    textBox5Value = Trim(TextBox5.Value)
-    textBox23value = Trim(TextBox23.Value)
-    textBox24value = Trim(TextBox24.Value)
+    ' Get user input for text boxes
+    textBox8Value = TextBox8.Value
+    textBox2Value = TextBox2.Value
+    textBox3Value = TextBox3.Value
+    textBox4Value = TextBox4.Value
+    textBox5Value = TextBox5.Value
+    textBox23value = TextBox23.Value
+    textBox24value = TextBox24.Value
     
-    ' Check if it's the first input
-    If previousTextBox8Value = "" Then
-        ' For the first input, source range is A48:J49
-        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-        sourceRange.Copy Destination:=targetRange
-        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-        Call ClearAllInputsExceptTextBox8
+    ' Prompt the user to choose logic
+    Dim response As VbMsgBoxResult
+    response = MsgBox("Are you changing this text?", vbYesNo)
+    
+    If response = vbYes Then
+        ' Apply logic 1
+        logic = 1
+        ' Clear all text boxes except TextBox8
+        ClearTextBoxExceptTextBox8
     Else
-        ' Check if TextBox8 value has changed after the first input
-        If TextBox8.Value <> previousTextBox8Value Then
-            ' Prompt the user to confirm if they want to change the Deliverable
-            Dim response As VbMsgBoxResult
-            response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-            If response = vbYes Then
-                ' Clear all inputs and work with Logic 1
-                Call ClearAllInputs
-                Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-                Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-                sourceRange.Copy Destination:=targetRange
-                ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-                Call ClearAllInputsExceptTextBox8
-            Else
-                ' Clear all inputs except TextBox8 and work with Logic 2
-                Call ClearAllInputsExceptTextBox8
-                Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-                Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-                sourceRange.Copy Destination:=targetRange
-                ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
-            End If
-        Else
-            ' If TextBox8 value hasn't changed after the first input, work with Logic 2
-            Call ClearAllInputs
-            Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-            sourceRange.Copy Destination:=targetRange
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
-        End If
+        ' Apply logic 2
+        logic = 2
+        ' Clear all text boxes
+        ClearAllTextBoxes
     End If
     
-    ' Update the previousTextBox8Value
-    previousTextBox8Value = TextBox8.Value
+    ' Call ManipulateAndPasteData subroutine with the chosen logic
+    ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, logic
 End Sub
