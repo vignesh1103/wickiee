@@ -34,14 +34,17 @@ Private Sub CommandButton3_Click()
     ' Copy sourceRange to targetRange
     sourceRange.Copy Destination:=targetRange
     
-    ' Manipulate and paste data in Sheet3
-    appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-    targetRange.Cells(1, 3).Value = appendedValue
-    targetRange.Cells(1, 4).Value = textBox3Value
-    targetRange.Cells(1, 11).Value = textBox4Value
-    targetRange.Cells(1, 9).Value = textBox5Value
-    targetRange.Cells(1, 8).Value = textBox23value
-    targetRange.Cells(1, 10).Value = textBox24value
+    ' Manipulate and paste data in Sheet3 for each row in sourceRange
+    For i = 1 To sourceRange.Rows.Count
+        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+        targetRange.Cells(i, 3).Value = appendedValue
+        targetRange.Cells(i, 4).Value = textBox3Value
+        targetRange.Cells(i, 11).Value = textBox4Value
+        targetRange.Cells(i, 9).Value = textBox5Value
+        targetRange.Cells(i, 8).Value = textBox23value
+        targetRange.Cells(i, 10).Value = textBox24value
+        Set targetRange = targetRange.Offset(1, 0) ' Move to next row in targetRange
+    Next i
     
     ' Update previousTextBox8Value
     previousTextBox8Value = textBox8Value
