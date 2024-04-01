@@ -19,8 +19,18 @@ Private Sub Button3_Click()
     textBox23value = TextBox23.Value
     textBox24value = TextBox24.Value
     
-    ' Prompt the user to choose logic
+    ' Prompt the user if they are changing TextBox8
     Dim response As VbMsgBoxResult
+    If TextBox8.Value <> textBox8Value Then
+        response = MsgBox("Are you changing TextBox8?", vbYesNo)
+        
+        If response = vbNo Then
+            ' User chose not to change TextBox8, exit the subroutine
+            Exit Sub
+        End If
+    End If
+    
+    ' Prompt the user to choose logic
     response = MsgBox("Are you changing this text?", vbYesNo)
     
     If response = vbYes Then
