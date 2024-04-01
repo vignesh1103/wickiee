@@ -9,17 +9,16 @@ Private Sub CommandButton3_Click()
     Dim textBox5Value As String
     Dim textBox23value As String
     Dim textBox24value As String
-    Dim i As Long
     Dim lastRow As Long
     
     ' Get the current values from TextBoxes
-    textBox8Value = Trim(TextBox8.value)
-    textBox2Value = Trim(TextBox2.value)
-    textBox3Value = Trim(TextBox3.value)
-    textBox4Value = Trim(TextBox4.value)
-    textBox5Value = Trim(TextBox5.value)
-    textBox23value = Trim(TextBox23.value)
-    textBox24value = Trim(TextBox24.value)
+    textBox8Value = Trim(TextBox8.Value)
+    textBox2Value = Trim(TextBox2.Value)
+    textBox3Value = Trim(TextBox3.Value)
+    textBox4Value = Trim(TextBox4.Value)
+    textBox5Value = Trim(TextBox5.Value)
+    textBox23value = Trim(TextBox23.Value)
+    textBox24value = Trim(TextBox24.Value)
     
     ' Check if the previous value of TextBox8 is different from the current value
     If previousTextBox8Value <> textBox8Value Then
@@ -28,38 +27,29 @@ Private Sub CommandButton3_Click()
         If previousTextBox8Value <> "" Then
             response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
             If response = vbYes Then
+                ' Logic 1
                 ' Concatenate TextBox8 value for appending
                 appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A48:H49
                 Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-                ' Set targetRange to the last empty row in Sheet3
-                With Sheets("Sheet3")
-                    lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
-                    Set targetRange = .Range("A" & lastRow)
-                End With
-                ' Copy the sourceRange to the targetRange
-                sourceRange.Copy Destination:=targetRange
-                ' Manipulate data if needed (not storing it in a collection)
-                ' Paste additional data from TextBoxes to targetRange if required
-                ' Clear all input controls except TextBox8
-                Call ClearAllInputsExceptTextBox8
             Else
+                ' Logic 2
                 ' Concatenate previous TextBox8 value for appending
                 appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A49:H49
                 Set sourceRange = Sheets("Sheet2").Range("A49:H49")
-                ' Set targetRange to the last empty row in Sheet3
-                With Sheets("Sheet3")
-                    lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
-                    Set targetRange = .Range("A" & lastRow)
-                End With
-                ' Copy the sourceRange to the targetRange
-                sourceRange.Copy Destination:=targetRange
-                ' Manipulate data if needed (not storing it in a collection)
-                ' Paste additional data from TextBoxes to targetRange if required
-                ' Clear all input controls except TextBox8
-                Call ClearAllInputsExceptTextBox8
             End If
+            ' Set targetRange to the last empty row in Sheet3
+            With Sheets("Sheet3")
+                lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
+                Set targetRange = .Range("A" & lastRow)
+            End With
+            ' Copy the sourceRange to the targetRange
+            sourceRange.Copy Destination:=targetRange
+            ' Manipulate data if needed (not storing it in a collection)
+            ' Paste additional data from TextBoxes to targetRange if required
+            ' Clear all input controls except TextBox8
+            Call ClearAllInputsExceptTextBox8
         End If
     End If
     
