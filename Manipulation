@@ -1,9 +1,4 @@
-Option Explicit
-
-Dim previousTextBox8Value As String
-Dim inputCount As Integer
-
-Private Sub CommandButton3_Click()
+Private Sub CommandButton7_Click()
     Dim sourceRange As Range
     Dim targetRange As Range
     Dim appendedValue As String
@@ -101,36 +96,3 @@ Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, _
     ' Paste TextBox24 value in column J of the target range
     targetRange.Cells(1, 10).Value = textBox24value
 End Sub
-
-Private Sub TextBox8_Change()
-    ' Increment the inputCount variable to track the number of times TextBox8 value changes
-    inputCount = inputCount + 1
-    
-    ' Check if it's the second input onwards
-    If inputCount > 1 Then
-        ' Prompt the user to confirm if they want to change the Deliverable
-        Dim response As VbMsgBoxResult
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        
-        If response = vbYes Then
-            ' Logic 1: Clear all inputs except TextBox8 and process logic 1
-            Call ClearAllInputsExceptTextBox8
-            ' Logic 1: Get the values from TextBoxes
-            Dim textBox8Value_2 As String
-            Dim textBox2Value_2 As String
-            Dim textBox3Value_2 As String
-            Dim textBox4Value_2 As String
-            Dim textBox5Value_2 As String
-            Dim textBox23value_2 As String
-            Dim textBox24value_2 As String
-            
-            textBox8Value_2 = Trim(TextBox8.Value)
-            textBox2Value_2 = Trim(TextBox2.Value)
-            textBox3Value_2 = Trim(TextBox3.Value)
-            textBox4Value_2 = Trim(TextBox4.Value)
-            textBox5Value_2 = Trim(TextBox5.Value)
-            textBox23value_2 = Trim(TextBox23.Value)
-            textBox24value_2 = Trim(TextBox24.Value)
-            
-            ' Logic 1: Manipulate and Paste Data using Logic 1
-            ManipulateAndPasteData textBox8Value_2, textBox2Value_2, textBox3Value_2, textBox4Value_2, textBox
