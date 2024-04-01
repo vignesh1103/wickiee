@@ -1,3 +1,8 @@
+Option Explicit
+
+Dim previousTextBox8Value As String
+Dim inputCount As Integer
+
 Private Sub CommandButton7_Click()
     Dim sourceRange As Range
     Dim targetRange As Range
@@ -45,7 +50,6 @@ Private Sub CommandButton7_Click()
     ' Update the previousTextBox8Value
     previousTextBox8Value = TextBox8.Value
 End Sub
-
 
 Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, _
                                    ByVal textBox2Value As String, _
@@ -112,46 +116,46 @@ Private Sub TextBox8_Change()
             ' Logic 1: Clear all inputs except TextBox8 and process logic 1
             Call ClearAllInputsExceptTextBox8
             ' Logic 1: Get the values from TextBoxes
-            Dim textBox8Value As String
-            Dim textBox2Value As String
-            Dim textBox3Value As String
-            Dim textBox4Value As String
-            Dim textBox5Value As String
-            Dim textBox23value As String
-            Dim textBox24value As String
+            Dim textBox8Value_2 As String
+            Dim textBox2Value_2 As String
+            Dim textBox3Value_2 As String
+            Dim textBox4Value_2 As String
+            Dim textBox5Value_2 As String
+            Dim textBox23value_2 As String
+            Dim textBox24value_2 As String
             
-            textBox8Value = Trim(TextBox8.Value)
-            textBox2Value = Trim(TextBox2.Value)
-            textBox3Value = Trim(TextBox3.Value)
-            textBox4Value = Trim(TextBox4.Value)
-            textBox5Value = Trim(TextBox5.Value)
-            textBox23value = Trim(TextBox23.Value)
-            textBox24value = Trim(TextBox24.Value)
+            textBox8Value_2 = Trim(TextBox8.Value)
+            textBox2Value_2 = Trim(TextBox2.Value)
+            textBox3Value_2 = Trim(TextBox3.Value)
+            textBox4Value_2 = Trim(TextBox4.Value)
+            textBox5Value_2 = Trim(TextBox5.Value)
+            textBox23value_2 = Trim(TextBox23.Value)
+            textBox24value_2 = Trim(TextBox24.Value)
             
             ' Logic 1: Manipulate and Paste Data using Logic 1
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
+            ManipulateAndPasteData textBox8Value_2, textBox2Value_2, textBox3Value_2, textBox4Value_2, textBox5Value_2, textBox23value_2, textBox24value_2, 1
         Else
             ' Logic 2: Clear all inputs and process logic 2
             Call ClearAllInputs
             ' Logic 2: Get the values from TextBoxes
-            Dim textBox8Value As String
-            Dim textBox2Value As String
-            Dim textBox3Value As String
-            Dim textBox4Value As String
-            Dim textBox5Value As String
-            Dim textBox23value As String
-            Dim textBox24value As String
+            Dim textBox8Value_2 As String
+            Dim textBox2Value_2 As String
+            Dim textBox3Value_2 As String
+            Dim textBox4Value_2 As String
+            Dim textBox5Value_2 As String
+            Dim textBox23value_2 As String
+            Dim textBox24value_2 As String
             
-            textBox8Value = Trim(TextBox8.Value)
-            textBox2Value = Trim(TextBox2.Value)
-            textBox3Value = Trim(TextBox3.Value)
-            textBox4Value = Trim(TextBox4.Value)
-            textBox5Value = Trim(TextBox5.Value)
-            textBox23value = Trim(TextBox23.Value)
-            textBox24value = Trim(TextBox24.Value)
+            textBox8Value_2 = Trim(TextBox8.Value)
+            textBox2Value_2 = Trim(TextBox2.Value)
+            textBox3Value_2 = Trim(TextBox3.Value)
+            textBox4Value_2 = Trim(TextBox4.Value)
+            textBox5Value_2 = Trim(TextBox5.Value)
+            textBox23value_2 = Trim(TextBox23.Value)
+            textBox24value_2 = Trim(TextBox24.Value)
             
             ' Logic 2: Manipulate and Paste Data using Logic 2
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
+            ManipulateAndPasteData textBox8Value_2, textBox2Value_2, textBox3Value_2, textBox4Value_2, textBox5Value_2, textBox23value_2, textBox24value_2, 2
         End If
     End If
 End Sub
