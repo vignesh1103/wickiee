@@ -1,3 +1,14 @@
+Option Explicit
+
+Dim previousTextBox8Value As String
+'Dim Sheet3DataObject As Object
+'Dim storedData As Variant
+
+Dim storedDataList As New Collection
+'Private manipulatedDataList As New Collection
+
+' variable to store data from Command Button 5
+'Dim userData As Collection
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
     Dim appendedValue As String
