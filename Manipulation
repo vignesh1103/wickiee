@@ -1,20 +1,30 @@
 Dim isFirstInput As Boolean
-Dim isTextBox8Changed As Boolean
+Dim userInputCount As Integer
 
 Sub Loader()
     ' Check if this is the first time user input
-    If isFirstInput = False Or isTextBox8Changed = True Then
+    If isFirstInput = False Then
         ' Code for rows 48 and 49
-        If PromptForDeliverableChange("TextBox8") = True Then
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-            isFirstInput = True
-            isTextBox8Changed = False
-        End If
+        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+        isFirstInput = True
         Call ClearAllInputsExceptTextBox8
     Else
         ' Code for row 49 alone
         ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
         Call ClearAllInputsExceptTextBox8
+    End If
+    
+    ' Increment user input count
+    userInputCount = userInputCount + 1
+    
+    ' Check if it's the 10th user input and TextBox8 has changed
+    If userInputCount = 10 And TextBox8_Changed() Then
+        ' Prompt the user if they want to change the deliverable
+        If PromptForDeliverableChange() Then
+            Call ClearAllInputs
+            isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
+            userInputCount = 0 ' Reset userInputCount
+        End If
     End If
     
     MsgBox "Data has been manipulated and pasted to Sheet3.", vbInformation
@@ -25,10 +35,10 @@ Function TextBox8_Changed() As Boolean
     TextBox8_Changed = (TextBox8.Value <> "") ' Change "" to the initial value if available
 End Function
 
-Function PromptForDeliverableChange(deliverableName As String) As Boolean
-    ' Prompt the user if the deliverable has changed
+Function PromptForDeliverableChange() As Boolean
+    ' Prompt the user if they want to change the deliverable
     Dim response As VbMsgBoxResult
-    response = MsgBox("Are you sure you want to change the deliverable for " & deliverableName & "?", vbYesNo + vbQuestion, "Confirm Deliverable Change")
+    response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo + vbQuestion, "Confirm Deliverable Change")
     If response = vbYes Then
         PromptForDeliverableChange = True
     Else
@@ -68,6 +78,17 @@ Sub ClearAllInputsExceptTextBox8()
     TextBox3.Value = ""
     TextBox4.Value = ""
     TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
+End Sub
+
+Sub ClearAllInputs()
+    ' Clear all inputs
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox8.Value = ""
     TextBox23.Value = ""
     TextBox24.Value = ""
 End Sub
