@@ -1,3 +1,22 @@
+Private Sub TextBox8_Change()
+    Static firstInput As Boolean
+    
+    ' Check if it's the first input
+    If Not firstInput Then
+        ' Prompt the user if they are changing TextBox8
+        Dim response As VbMsgBoxResult
+        response = MsgBox("Are you changing TextBox8?", vbYesNo)
+        
+        If response = vbNo Then
+            ' User chose not to change TextBox8, exit the subroutine
+            Exit Sub
+        End If
+        
+        firstInput = True
+    End If
+End Sub
+
+
 Private Sub CommandButton3_Click()
     Dim logic As Integer
     
@@ -19,18 +38,8 @@ Private Sub CommandButton3_Click()
     textBox23value = TextBox23.Value
     textBox24value = TextBox24.Value
     
-    ' Prompt the user if they are changing TextBox8
-    Dim response As VbMsgBoxResult
-    If TextBox8.Value <> textBox8Value Then
-        response = MsgBox("Are you changing TextBox8?", vbYesNo)
-        
-        If response = vbNo Then
-            ' User chose not to change TextBox8, exit the subroutine
-            Exit Sub
-        End If
-    End If
-    
     ' Prompt the user to choose logic
+    Dim response As VbMsgBoxResult
     response = MsgBox("Are you changing this Deliverable?", vbYesNo)
     
     If response = vbYes Then
