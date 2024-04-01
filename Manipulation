@@ -1,27 +1,23 @@
 Dim isFirstInput As Boolean
+Dim isTextBox8Changed As Boolean
 
 Sub Loader()
     ' Check if this is the first time user input
-    If isFirstInput = False Then
+    If isFirstInput = False Or isTextBox8Changed = True Then
         ' Code for rows 48 and 49
         ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         isFirstInput = True
+        isTextBox8Changed = False
     Else
-        ' Check if TextBox8 has been changed
-        If TextBox8_Changed Then
-            ' Code for rows 48 and 49
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-        Else
-            ' Code for row 49 alone
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-        End If
+        ' Code for row 49 alone
+        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
     End If
     
     MsgBox "Data has been manipulated and pasted to Sheet3.", vbInformation
 End Sub
 
 Function TextBox8_Changed() As Boolean
-    ' Check if TextBox8 value has changed from the initial value
+    ' Check if TextBox8 text has changed
     TextBox8_Changed = (TextBox8.Value <> "") ' Change "" to the initial value if available
 End Function
 
