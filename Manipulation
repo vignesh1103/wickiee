@@ -1,18 +1,4 @@
-Option Explicit
-
-Dim previousTextBox8Value As String
-Dim inputCount As Integer
-
-Private Sub UserForm_Initialize()
-    ' Initialize inputCount to 0
-    inputCount = 0
-    ' Your existing initialization code...
-End Sub
-
 Private Sub CommandButton3_Click()
-    ' Increment inputCount
-    inputCount = inputCount + 1
-    
     Dim sourceRange As Range
     Dim targetRange As Range
     Dim appendedValue As String
@@ -21,99 +7,81 @@ Private Sub CommandButton3_Click()
     Dim textBox3Value As String
     Dim textBox4Value As String
     Dim textBox5Value As String
-    Dim textBox23Value As String
-    Dim textBox24Value As String
+    Dim textBox23value As String
+    Dim textBox24value As String
     Dim i As Long
+    Dim lastRow As Long
     
-    ' Get the current values from TextBoxes
     textBox8Value = Trim(TextBox8.Value)
     textBox2Value = Trim(TextBox2.Value)
     textBox3Value = Trim(TextBox3.Value)
     textBox4Value = Trim(TextBox4.Value)
     textBox5Value = Trim(TextBox5.Value)
-    textBox23Value = Trim(TextBox23.Value)
-    textBox24Value = Trim(TextBox24.Value)
+    textBox23value = Trim(TextBox23.Value)
+    textBox24value = Trim(TextBox24.Value)
     
-    ' Check if it's the first input or if inputCount is less than or equal to 2
-    If inputCount = 1 Or inputCount <= 2 Then
-        ' Paste data to Sheet3
-        PasteDataToSheet3 textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23Value, textBox24Value
-        ' Clear all input controls except TextBox8
+    If previousTextBox8Value = "" Then
+        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+        Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+        sourceRange.Copy Destination:=targetRange
+        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
         Call ClearAllInputsExceptTextBox8
-    End If
-    
-    ' Update previousTextBox8Value to the current value
-    previousTextBox8Value = textBox8Value
-End Sub
-
-Private Sub TextBox8_Change()
-    ' Check if it's the first input or if previousTextBox8Value is different from the current value
-    If previousTextBox8Value <> "" And TextBox8.Value <> previousTextBox8Value Then
-        ' Prompt user if they want to change the Deliverable
+    Else
         Dim response As VbMsgBoxResult
         response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
         If response = vbYes Then
-            ' Clear all input controls except TextBox8
+            Call ClearAllInputs
+            Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+            sourceRange.Copy Destination:=targetRange
+            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
             Call ClearAllInputsExceptTextBox8
         Else
-            ' Clear all input controls
-            Call ClearAllInputs
+            Call ClearAllInputsExceptTextBox8
+            Set sourceRange = Sheets("Sheet2").Range("A49:J49")
+            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+            sourceRange.Copy Destination:=targetRange
+            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
         End If
     End If
     
-    ' Update previousTextBox8Value to the current value
-    previousTextBox8Value = TextBox8.Value
+    previousTextBox8Value = textBox8Value
 End Sub
 
-Private Sub PasteDataToSheet3(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23Value As String, ByVal textBox24Value As String)
-    Dim manipulatedData(1 To 2, 1 To 10) As String
-    
-    ' Logic 1: Paste in Sheet3
-    If inputCount = 1 Then
-        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(2, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(1, 2) = textBox3Value
-        manipulatedData(2, 2) = textBox3Value
-        manipulatedData(1, 9) = textBox4Value
-        manipulatedData(2, 9) = textBox4Value
-        manipulatedData(1, 7) = textBox5Value
-        manipulatedData(2, 7) = textBox5Value
-        manipulatedData(1, 6) = textBox23Value
-        manipulatedData(2, 6) = textBox23Value
-        manipulatedData(1, 8) = textBox24Value
-        manipulatedData(2, 8) = textBox24Value
-    ' Logic 2: Paste in Sheet3
-    ElseIf inputCount <= 2 Then
-        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(1, 2) = textBox3Value
-        manipulatedData(1, 9) = textBox4Value
-        manipulatedData(1, 7) = textBox5Value
-        manipulatedData(1, 6) = textBox23Value
-        manipulatedData(1, 8) = textBox24Value
+Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
+    If logic = 1 Then
+        ' Implement Logic 1 here
+    Else
+        ' Implement Logic 2 here
     End If
+End Sub
+
+Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim appendedValue As String
     
-    ' Paste data to Sheet3
-    Sheets("Sheet3").Cells(Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(UBound(manipulatedData, 1), UBound(manipulatedData, 2)).Value = manipulatedData
+    Set ws = Sheets("Sheet3")
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
+    
+    If logic = 1 Then
+        ' Logic 1
+        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+        ws.Cells(lastRow, 3).Value = appendedValue
+        ws.Cells(lastRow, 4).Value = textBox3Value
+        ws.Cells(lastRow, 11).Value = textBox4Value
+        ws.Cells(lastRow, 9).Value = textBox5Value
+        ws.Cells(lastRow, 8).Value = textBox23value
+        ws.Cells(lastRow, 10).Value = textBox24value
+    Else
+        ' Logic 2
+        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+        ws.Cells(lastRow, 3).Value = appendedValue
+        ws.Cells(lastRow, 4).Value = textBox3Value
+        ws.Cells(lastRow, 11).Value = textBox4Value
+        ws.Cells(lastRow, 9).Value = textBox5Value
+        ws.Cells(lastRow, 8).Value = textBox23value
+        ws.Cells(lastRow, 10).Value = textBox24value
+    End If
 End Sub
 
-Private Sub ClearAllInputsExceptTextBox8()
-    ' Clear all input controls except TextBox8
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "TextBox" Then
-            If ctrl.Name <> "TextBox8" Then
-                ctrl.Value = ""
-            End If
-        End If
-    Next ctrl
-End Sub
-
-Private Sub ClearAllInputs()
-    ' Clear all input controls
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeName(ctrl) = "TextBox" Then
-            ctrl.Value = ""
-        End If
-    Next ctrl
-End Sub
