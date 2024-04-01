@@ -1,7 +1,7 @@
 Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
-    ' Check if the pressed key is a numeric digit (0-9) or the Backspace key
-    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 Then
-        ' If the pressed key is not a numeric digit or Backspace, cancel the keypress
+    ' Check if the pressed key is a numeric digit (0-9), the Backspace key, or the decimal point
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 And KeyAscii <> 46 Then
+        ' If the pressed key is not a numeric digit, decimal point, or Backspace, cancel the keypress
         KeyAscii = 0
         ' Display a message to inform user
         MsgBox "Only numeric input is allowed.", vbExclamation
