@@ -1,63 +1,6 @@
-Private Sub CommandButton3_Click()
-    Dim sourceRange As Range
-    Dim targetRange As Range
-    Dim appendedValue As String
-    Dim textBox8Value As String
-    Dim textBox2Value As String
-    Dim textBox3Value As String
-    Dim textBox4Value As String
-    Dim textBox5Value As String
-    Dim textBox23value As String
-    Dim textBox24value As String
-    Dim i As Long
-    Dim lastRow As Long
-    
-    textBox8Value = Trim(TextBox8.Value)
-    textBox2Value = Trim(TextBox2.Value)
-    textBox3Value = Trim(TextBox3.Value)
-    textBox4Value = Trim(TextBox4.Value)
-    textBox5Value = Trim(TextBox5.Value)
-    textBox23value = Trim(TextBox23.Value)
-    textBox24value = Trim(TextBox24.Value)
-    
-    If previousTextBox8Value = "" Then
-        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-        sourceRange.Copy Destination:=targetRange
-        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-        Call ClearAllInputsExceptTextBox8
-    Else
-        Dim response As VbMsgBoxResult
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        If response = vbYes Then
-            Call ClearAllInputs
-            Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-            sourceRange.Copy Destination:=targetRange
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-            Call ClearAllInputsExceptTextBox8
-        Else
-            Call ClearAllInputsExceptTextBox8
-            Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-            sourceRange.Copy Destination:=targetRange
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
-        End If
-    End If
-    
-    previousTextBox8Value = textBox8Value
-End Sub
-
-Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
-    If logic = 1 Then
-        ' Implement Logic 1 here
-    Else
-        ' Implement Logic 2 here
-    End If
-End Sub
-
 Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
     Dim ws As Worksheet
+    Dim sourceRange As Range
     Dim lastRow As Long
     Dim appendedValue As String
     
@@ -66,22 +9,19 @@ Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2
     
     If logic = 1 Then
         ' Logic 1
-        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-        ws.Cells(lastRow, 3).Value = appendedValue
-        ws.Cells(lastRow, 4).Value = textBox3Value
-        ws.Cells(lastRow, 11).Value = textBox4Value
-        ws.Cells(lastRow, 9).Value = textBox5Value
-        ws.Cells(lastRow, 8).Value = textBox23value
-        ws.Cells(lastRow, 10).Value = textBox24value
+        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
     Else
         ' Logic 2
-        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-        ws.Cells(lastRow, 3).Value = appendedValue
-        ws.Cells(lastRow, 4).Value = textBox3Value
-        ws.Cells(lastRow, 11).Value = textBox4Value
-        ws.Cells(lastRow, 9).Value = textBox5Value
-        ws.Cells(lastRow, 8).Value = textBox23value
-        ws.Cells(lastRow, 10).Value = textBox24value
+        Set sourceRange = Sheets("Sheet2").Range("A49:J49")
     End If
+    
+    sourceRange.Copy Destination:=ws.Cells(lastRow, 1)
+    
+    appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+    ws.Cells(lastRow, 3).Value = appendedValue
+    ws.Cells(lastRow, 4).Value = textBox3Value
+    ws.Cells(lastRow, 11).Value = textBox4Value
+    ws.Cells(lastRow, 9).Value = textBox5Value
+    ws.Cells(lastRow, 8).Value = textBox23value
+    ws.Cells(lastRow, 10).Value = textBox24value
 End Sub
-
