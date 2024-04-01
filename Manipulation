@@ -12,6 +12,7 @@ Private Sub CommandButton3_Click()
     Dim textBox4Value As String
     Dim textBox5Value As String
     Dim textBox23value As String
+    Dim textBox24value As String
     Dim i As Long
     Dim storedData As Variant
     
@@ -22,45 +23,37 @@ Private Sub CommandButton3_Click()
     textBox4Value = Trim(TextBox4.Value)
     textBox5Value = Trim(TextBox5.Value)
     textBox23value = Trim(TextBox23.Value)
+    textBox24value = Trim(TextBox24.Value)
     
     ' Check if the previous value of TextBox8 is different from the current value
     If previousTextBox8Value <> textBox8Value Then
-        ' Concatenate TextBox8 value for appending
-        appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-        ' Set sourceRange to A48:H49
-        Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-        ' Store the copied range in the local variable storedData
-        storedData = sourceRange.Value
-        ' Manipulate and store data using Logic 1
-        ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
-        ' Clear all input controls except TextBox8
-        Call ClearAllInputsExceptTextBox8
-    Else
         ' Prompt user if they want to change the Deliverable
         Dim response As VbMsgBoxResult
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        If response = vbYes Then
-            ' Concatenate TextBox8 value for appending
-            appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-            ' Set sourceRange to A48:H49
-            Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-            ' Store the copied range in the local variable storedData
-            storedData = sourceRange.Value
-            ' Manipulate and store data using Logic 1
-            ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
-            ' Clear all input controls
-            Call ClearAllInputs
-        ElseIf response = vbNo Then
-            ' Concatenate previous TextBox8 value for appending
-            appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
-            ' Set sourceRange to A49:H49
-            Set sourceRange = Sheets("Sheet2").Range("A49:H49")
-            ' Store the copied range in the local variable storedData
-            storedData = sourceRange.Value
-            ' Manipulate and store data using Logic 2
-            ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
-            ' Clear all input controls except TextBox8
-            Call ClearAllInputsExceptTextBox8
+        If previousTextBox8Value <> "" Then
+            response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+            If response = vbYes Then
+                ' Concatenate TextBox8 value for appending
+                appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+                ' Set sourceRange to A48:H49
+                Set sourceRange = Sheets("Sheet2").Range("A48:H49")
+                ' Store the copied range in the local variable storedData
+                storedData = sourceRange.Value
+                ' Manipulate and store data using Logic 1
+                ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value
+                ' Clear all input controls except TextBox8
+                Call ClearAllInputsExceptTextBox8
+            Else
+                ' Concatenate previous TextBox8 value for appending
+                appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
+                ' Set sourceRange to A49:H49
+                Set sourceRange = Sheets("Sheet2").Range("A49:H49")
+                ' Store the copied range in the local variable storedData
+                storedData = sourceRange.Value
+                ' Manipulate and store data using Logic 2
+                ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value
+                ' Clear all input controls except TextBox8
+                Call ClearAllInputsExceptTextBox8
+            End If
         End If
     End If
     
@@ -68,15 +61,21 @@ Private Sub CommandButton3_Click()
     previousTextBox8Value = textBox8Value
 End Sub
 
-Private Sub ManipulateAndStoreData(ByRef data As Variant, ByVal appendedValue As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String)
-    Dim i As Long
-    For i = 1 To UBound(data, 1)
-        data(i, 3) = appendedValue
-        data(i, 4) = textBox3Value
-        data(i, 11) = textBox4Value
-        data(i, 9) = textBox5Value
-        data(i, 8) = textBox23value
-    Next i
+Private Sub ManipulateAndStoreData(ByRef data As Variant, ByVal appendedValue As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String)
+    ' Logic 1
+    data(1, 3) = appendedValue
+    data(2, 3) = appendedValue
+    data(1, 4) = textBox3Value
+    data(2, 4) = textBox3Value
+    data(1, 11) = textBox4Value
+    data(2, 11) = textBox4Value
+    data(1, 9) = textBox5Value
+    data(2, 9) = textBox5Value
+    data(1, 8) = textBox23value
+    data(2, 8) = textBox23value
+    data(1, 10) = textBox24value
+    data(2, 10) = textBox24value
+    ' Store manipulated data in the storedDataList collection
     storedDataList.Add data
 End Sub
 
