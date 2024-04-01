@@ -6,6 +6,7 @@ Dim ws As Worksheet
 
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
+    Dim targetRange As Range
     Dim appendedValue As String
     Dim textBox8Value As String
     Dim textBox2Value As String
@@ -37,9 +38,10 @@ Private Sub CommandButton3_Click()
                 appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A48:H49
                 Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-                ' Copy the sourceRange to the last empty row in the destination sheet
-                lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
-                sourceRange.Copy Destination:=ws.Range("A" & lastRow)
+                ' Set targetRange to the last empty row in the same sheet as sourceRange
+                Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, sourceRange.Columns.Count)
+                ' Copy the sourceRange to the targetRange
+                sourceRange.Copy Destination:=targetRange
                 ' Manipulate and store data using Logic 1
                 ManipulateAndStoreData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
                 ' Clear all input controls except TextBox8
@@ -49,9 +51,10 @@ Private Sub CommandButton3_Click()
                 appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A49:H49
                 Set sourceRange = Sheets("Sheet2").Range("A49:H49")
-                ' Copy the sourceRange to the last empty row in the destination sheet
-                lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
-                sourceRange.Copy Destination:=ws.Range("A" & lastRow)
+                ' Set targetRange to the last empty row in the same sheet as sourceRange
+                Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(1, sourceRange.Columns.Count)
+                ' Copy the sourceRange to the targetRange
+                sourceRange.Copy Destination:=targetRange
                 ' Manipulate and store data using Logic 2
                 ManipulateAndStoreData previousTextBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
                 ' Clear all input controls except TextBox8
@@ -116,5 +119,5 @@ End Sub
 
 Private Sub UserForm_Initialize()
     ' Set the worksheet to which data will be copied
-    Set ws = ThisWorkbook.Sheets("DestinationSheet") ' Change "DestinationSheet" to your actual destination sheet name
+    Set ws = Sheets("Sheet2") ' Use the same sheet as the source range
 End Sub
