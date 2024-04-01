@@ -1,14 +1,8 @@
 Option Explicit
 
 Dim previousTextBox8Value As String
-'Dim Sheet3DataObject As Object
-'Dim storedData As Variant
-
 Dim storedDataList As New Collection
-'Private manipulatedDataList As New Collection
 
-' variable to store data from Command Button 5
-'Dim userData As Collection
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
     Dim appendedValue As String
@@ -19,115 +13,90 @@ Private Sub CommandButton3_Click()
     Dim textBox5Value As String
     Dim textBox23value As String
     Dim i As Long
-    Dim storedData As Variant ' Declare storedData here
+    Dim storedData As Variant
     
-    ' Get the current values from TextBox8, TextBox2, TextBox3, TextBox4, TextBox5, and ComboBox4
-    textBox8Value = Trim(TextBox8.value)
-    textBox2Value = Trim(TextBox2.value)
-    textBox3Value = Trim(TextBox3.value)
-    textBox4Value = Trim(TextBox4.value)
-    textBox5Value = Trim(TextBox5.value)
-    textBox23value = Trim(TextBox23.value)
+    ' Get the current values from TextBoxes
+    textBox8Value = Trim(TextBox8.Value)
+    textBox2Value = Trim(TextBox2.Value)
+    textBox3Value = Trim(TextBox3.Value)
+    textBox4Value = Trim(TextBox4.Value)
+    textBox5Value = Trim(TextBox5.Value)
+    textBox23value = Trim(TextBox23.Value)
     
     ' Check if the previous value of TextBox8 is different from the current value
     If previousTextBox8Value <> textBox8Value Then
-
-       ' Concatenate TextBox8 value for appending
+        ' Concatenate TextBox8 value for appending
         appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-        
-        ' Copy range A68:J69 from Sheet2
-        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        
+        ' Set sourceRange to A48:H49
+        Set sourceRange = Sheets("Sheet2").Range("A48:H49")
         ' Store the copied range in the local variable storedData
-        storedData = sourceRange.value
-        
-        ' Manipulate and store data
-        For i = 1 To UBound(storedData, 1)
-            storedData(i, 3) = storedData(i, 3) & " " & appendedValue
-            If Not IsEmpty(storedData) Then
-                storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
-            Else
-                MsgBox "No data found in storedData array."
-            End If
-            storedData(i, 6) = textBox4Value
-            storedData(i, 9) = textBox5Value
-            storedData(i, 8) = textBox23value
-        Next i
-        
-        ' Store manipulated data in the storedDataList collection
-        storedDataList.Add storedData
-        
+        storedData = sourceRange.Value
+        ' Manipulate and store data using Logic 1
+        ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
         ' Clear all input controls except TextBox8
         Call ClearAllInputsExceptTextBox8
-
-    ElseIf previousTextBox8Value = textBox8Value Then
-    ' If the value of TextBox8 is the same as the previous value
+    Else
         ' Prompt user if they want to change the Deliverable
         Dim response As VbMsgBoxResult
         response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        
         If response = vbYes Then
-            ' If user selects "Yes", process the "If" condition again
             ' Concatenate TextBox8 value for appending
             appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-            
-            ' Copy range A68:J69 from Sheet2
-            Set sourceRange = Sheets("Sheet2").Range("A68:J69")
-            
+            ' Set sourceRange to A48:H49
+            Set sourceRange = Sheets("Sheet2").Range("A48:H49")
             ' Store the copied range in the local variable storedData
-            storedData = sourceRange.value
-            
-            ' Manipulate and store data
-            For i = 1 To UBound(storedData, 1)
-                storedData(i, 3) = storedData(i, 3) & " " & appendedValue
-                If Not IsEmpty(storedData) Then
-                    storedData(i, 4) = storedData(i, 4) & " " & textBox3Value
-                Else
-                    MsgBox "No data found in storedData array."
-                End If
-                storedData(i, 6) = textBox4Value
-                storedData(i, 9) = textBox5Value
-                storedData(i, 8) = textBox23value
-            Next i
-            
-            ' Store manipulated data in the storedDataList collection
-            storedDataList.Add storedData
-            
+            storedData = sourceRange.Value
+            ' Manipulate and store data using Logic 1
+            ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
             ' Clear all input controls
             Call ClearAllInputs
         ElseIf response = vbNo Then
-            ' If user selects "No", retain the previous value in TextBox8
-            ' Update TextBox8 with the previous value
-            TextBox8.value = previousTextBox8Value
-            
             ' Concatenate previous TextBox8 value for appending
             appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
-            
-            ' Copy range A69:J69 from Sheet2
-            Set sourceRange = Sheets("Sheet2").Range("A69:J69")
-            
+            ' Set sourceRange to A49:H49
+            Set sourceRange = Sheets("Sheet2").Range("A49:H49")
             ' Store the copied range in the local variable storedData
-            storedData = sourceRange.value
-            
-            ' Manipulate and store data
-            storedData(1, 3) = storedData(1, 3) & " " & appendedValue
-            If Not IsEmpty(storedData) Then
-                storedData(1, 4) = storedData(1, 4) & " " & textBox3Value
-            Else
-                MsgBox "No data found in storedData array."
-            End If
-            storedData(1, 6) = textBox4Value
-          storedData(1, 9) = textBox5Value
-        storedData(1, 8) = textBox23value
-        
-        ' Store manipulated data in the storedDataList collection
-        storedDataList.Add storedData
-        
-        ' Clear all input controls except TextBox8
-        Call ClearAllInputsExceptTextBox8
+            storedData = sourceRange.Value
+            ' Manipulate and store data using Logic 2
+            ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value
+            ' Clear all input controls except TextBox8
+            Call ClearAllInputsExceptTextBox8
+        End If
     End If
-End If
     
     ' Update previousTextBox8Value to the current value
     previousTextBox8Value = textBox8Value
+End Sub
+
+Private Sub ManipulateAndStoreData(ByRef data As Variant, ByVal appendedValue As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String)
+    Dim i As Long
+    For i = 1 To UBound(data, 1)
+        data(i, 3) = appendedValue
+        data(i, 4) = textBox3Value
+        data(i, 11) = textBox4Value
+        data(i, 9) = textBox5Value
+        data(i, 8) = textBox23value
+    Next i
+    storedDataList.Add data
+End Sub
+
+Private Sub ClearAllInputsExceptTextBox8()
+    ' Clear all input controls except TextBox8
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
+End Sub
+
+Private Sub ClearAllInputs()
+    ' Clear all input controls
+    TextBox8.Value = ""
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
 End Sub
