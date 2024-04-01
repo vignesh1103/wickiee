@@ -1,3 +1,107 @@
+Option Explicit
+
+Dim previousTextBox8Value As String
+Dim storedDataList As New Collection
+Dim ws As Worksheet
+
+Private Sub UserForm_Initialize()
+    ' Set the worksheet to which data will be copied
+    Set ws = Sheets("Sheet3")
+
+    ' Get selected QGC from cell C14 from sheet1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").Value
+    
+    ' headings in Sheet3 starting from cell A2
+    With ThisWorkbook.Sheets("Sheet3")
+        .Range("A1:J1").Value = Array("Type", "Id", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
+    End With
+    
+    ' data based on the User selected QGC
+    Select Case qgc
+        Case "QGC0"
+            ' ProcessQGC "QGC0"
+            CheckBox1.Caption = "DIA - Completion"
+            CheckBox2.Caption = "FSIA (Corresponding BL) - Completion"
+            CheckBox3.Caption = "Safety Plan - Draft"
+            CheckBox4.Caption = "Bottom-up Analysis - Draft"
+            CheckBox5.Caption = "Item Definition - Draft"
+            CheckBox6.Caption = "FMEA Project Plan - Draft"
+            CheckBox7.Caption = "HARA SG Align - Completion"
+            
+            Dim k As Integer
+            For k = 9 To 22
+                Me.Controls("TextBox" & k).Text = ""
+            Next k
+                           
+        Case "QGC2"
+            ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning - Draft"
+            CheckBox2.Caption = "FMEA Coversheet - Draft"
+            CheckBox3.Caption = "Change Request Analysis -  Completion"
+            'Hide checkbox
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim j As Integer
+            For j = 9 To 14
+                Me.Controls("TextBox" & j).Text = ""
+            Next j
+            For j = 15 To 22
+                Me.Controls("TextBox" & j).Visible = False
+            Next j
+            
+        Case "QGC4"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case - Completion"
+            CheckBox2.Caption = "FMEA Coversheet - Completion"
+            CheckBox3.Caption = "FTA Coversheet - Completion"
+            CheckBox4.Caption = "Safety Assesment - Completion"
+            CheckBox5.Caption = "Bottom-up-Analysis - Completion"
+            CheckBox6.Caption = "FSVAL Analysis- Completion"
+            
+            CheckBox7.Visible = False
+            
+            Dim l As Integer
+            For l = 9 To 20
+                Me.Controls("TextBox" & l).Text = ""
+            Next l
+                
+            For l = 21 To 22
+                Me.Controls("TextBox" & l).Visible = False
+            Next l
+        
+        Case "Others"
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim n As Integer
+            For n = 9 To 22
+                Me.Controls("TextBox" & n).Visible = False
+            Next n
+            
+    End Select
+    
+    DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                         Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                         Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                         Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
+                         Me.Controls("TextBox21"), Me.Controls("TextBox22")
+    ResizeUserForm
+    
+    ' Initialize input count
+    inputCount = 0
+End Sub
+
 Private Sub CommandButton3_Click()
     ' Logic for CommandButton3_Click
     Dim sourceRange As Range
@@ -21,64 +125,103 @@ Private Sub CommandButton3_Click()
     textBox23Value = Trim(TextBox23.Value)
     textBox24Value = Trim(TextBox24.Value)
 
-    ' Check if the previous value of TextBox8 is different from the current value
-    If previousTextBox8Value <> textBox8Value Then
+    ' Increment input count
+    inputCount = inputCount + 1
+
+    ' Check if it's the second input
+    If inputCount = 2 Then
         ' Prompt user if they want to change the Deliverable
         Dim response As VbMsgBoxResult
-        If previousTextBox8Value <> "" Then
-            response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-            If response = vbYes Then
-                ' Logic 1
-                logic = 1
-            Else
-                ' Logic 2
-                logic = 2
-            End If
-            ' Update previousTextBox8Value to the current value
-            previousTextBox8Value = textBox8Value
-            ' Perform data manipulation based on the selected logic
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23Value, textBox24Value, logic
-            ' Clear all input controls except TextBox8
-            Call ClearAllInputsExceptTextBox8
+        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+        If response = vbYes Then
+            ' Logic 1
+            logic = 1
+        Else
+            ' Logic 2
+            logic = 2
         End If
+        ' Reset input count for next input
+        inputCount = 0
+        ' Perform data manipulation based on the selected logic
+        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23Value, textBox24Value, logic
+        ' Clear all input controls except TextBox8
+        Call ClearAllInputsExceptTextBox8
     End If
+
 End Sub
 
 Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23Value As String, ByVal textBox24Value As String, ByVal logic As Integer)
-    ' Manipulate data and paste into Sheet3 based on the selected logic (logic 1 or logic 2)
     Dim sourceRange As Range
     Dim targetRange As Range
-    Dim appendedValue As String
-    
-    ' Set sourceRange based on the logic
+
+    ' Set sourceRange to A48:J49 for Logic 1 or A49:J49 for Logic 2
     If logic = 1 Then
         Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        appendedValue = textBox8Value & " (" & textBox2Value & ")"
     ElseIf logic = 2 Then
         Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-        appendedValue = textBox8Value & " (" & textBox2Value & ")"
     End If
     
     ' Set targetRange to the last empty row in Sheet3
-    With Sheets("Sheet3")
-        lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
-        Set targetRange = .Range("A" & lastRow)
-    End With
-    
+    Set targetRange = ws.Cells(ws.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(sourceRange.Rows.Count, sourceRange.Columns.Count)
+
     ' Copy the sourceRange to the targetRange
     sourceRange.Copy Destination:=targetRange
+
+    ' Manipulate data based on the selected logic
+    If logic = 1 Then
+        ' Logic 1
+        targetRange.Offset(0, 2).Value = textBox8Value & " (" & textBox2Value & ")"
+        targetRange.Offset(0, 3).Value = textBox3Value
+        targetRange.Offset(0, 9).Value = textBox4Value
+        targetRange.Offset(0, 7).Value = textBox5Value
+        targetRange.Offset(0, 6).Value = textBox23Value
+        targetRange.Offset(0, 8).Value = textBox24Value
+    ElseIf logic = 2 Then
+        ' Logic 2
+        targetRange.Offset(0, 2).Value = textBox8Value & " (" & textBox2Value & ")"
+        targetRange.Offset(0, 3).Value = textBox3Value
+        targetRange.Offset(0, 9).Value = textBox4Value
+        targetRange.Offset(0, 7).Value = textBox5Value
+        targetRange.Offset(0, 6).Value = textBox23Value
+        targetRange.Offset(0, 8).Value = textBox24Value
+    End If
+End Sub
+
+Private Sub ClearAllInputsExceptTextBox8()
+    ' Clear all input controls except TextBox8
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
+End Sub
+
+Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    ' Check if the pressed key is a numeric digit (0-9), the Backspace key, or the decimal point
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 And KeyAscii <> 46 Then
+        ' If the pressed key is not a numeric digit, decimal point, or Backspace, cancel the keypress
+        KeyAscii = 0
+        ' Display a message to inform user
+        MsgBox "Only numeric input is allowed.", vbExclamation
+    End If
+End Sub
+
+Private Sub ResizeUserForm()
+    ' Calculate minimum top position
+    Dim minTop As Long
+    Dim ctrl As Control
     
-    ' Manipulate and paste additional data from TextBoxes to targetRange based on the selected logic
-    With targetRange
-        .Offset(0, 2).Value = textBox3Value
-        .Offset(0, 7).Value = textBox4Value
-        .Offset(0, 4).Value = textBox5Value
-        .Offset(0, 3).Value = textBox23Value
-        .Offset(0, 5).Value = textBox24Value
-        ' For logic 1, update C48 and C49
-        If logic = 1 Then
-            .Offset(0, 2).Value = appendedValue
-            .Offset(1, 2).Value = appendedValue
+    ' minTop with a large value
+    minTop = Me.Height
+    
+    ' find the minimum top position
+    For Each ctrl In Me.Controls
+        If ctrl.Top < minTop Then
+            minTop = ctrl.Top
         End If
-    End With
+    Next ctrl
+    
+    ' minimize empty space at top
+    Me.Top = Me.Top - minTop
 End Sub
