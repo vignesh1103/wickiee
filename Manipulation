@@ -1,4 +1,5 @@
 Private Sub CommandButton3_Click()
+    ' Logic for CommandButton3_Click
     Dim sourceRange As Range
     Dim targetRange As Range
     Dim appendedValue As String
@@ -7,19 +8,19 @@ Private Sub CommandButton3_Click()
     Dim textBox3Value As String
     Dim textBox4Value As String
     Dim textBox5Value As String
-    Dim textBox23value As String
-    Dim textBox24value As String
-    Dim lastRow As Long
-    
+    Dim textBox23Value As String
+    Dim textBox24Value As String
+    Dim logic As Integer
+
     ' Get the current values from TextBoxes
     textBox8Value = Trim(TextBox8.Value)
     textBox2Value = Trim(TextBox2.Value)
     textBox3Value = Trim(TextBox3.Value)
     textBox4Value = Trim(TextBox4.Value)
     textBox5Value = Trim(TextBox5.Value)
-    textBox23value = Trim(TextBox23.Value)
-    textBox24value = Trim(TextBox24.Value)
-    
+    textBox23Value = Trim(TextBox23.Value)
+    textBox24Value = Trim(TextBox24.Value)
+
     ' Check if the previous value of TextBox8 is different from the current value
     If previousTextBox8Value <> textBox8Value Then
         ' Prompt user if they want to change the Deliverable
@@ -28,63 +29,56 @@ Private Sub CommandButton3_Click()
             response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
             If response = vbYes Then
                 ' Logic 1
-                ' Concatenate TextBox8 value for appending
-                appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-                ' Set sourceRange to A48:H49
-                Set sourceRange = Sheets("Sheet2").Range("A48:H49")
+                logic = 1
             Else
                 ' Logic 2
-                ' Concatenate previous TextBox8 value for appending
-                appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
-                ' Set sourceRange to A49:H49
-                Set sourceRange = Sheets("Sheet2").Range("A49:H49")
+                logic = 2
             End If
-            ' Set targetRange to the last empty row in Sheet3
-            With Sheets("Sheet3")
-                lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
-                Set targetRange = .Range("A" & lastRow)
-            End With
-            ' Copy the sourceRange to the targetRange
-            sourceRange.Copy Destination:=targetRange
-            ' Manipulate data if needed (not storing it in a collection)
-            ' Paste additional data from TextBoxes to targetRange if required
+            ' Update previousTextBox8Value to the current value
+            previousTextBox8Value = textBox8Value
+            ' Perform data manipulation based on the selected logic
+            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23Value, textBox24Value, logic
             ' Clear all input controls except TextBox8
             Call ClearAllInputsExceptTextBox8
         End If
     End If
-    
-    ' Update previousTextBox8Value to the current value
-    previousTextBox8Value = textBox8Value
 End Sub
 
-
-
-
-Private Sub ManipulateAndStoreData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
-    Dim manipulatedData(1 To 2, 1 To 10) As String
+Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23Value As String, ByVal textBox24Value As String, ByVal logic As Integer)
+    ' Manipulate data and paste into Sheet3 based on the selected logic (logic 1 or logic 2)
+    Dim sourceRange As Range
+    Dim targetRange As Range
+    Dim appendedValue As String
+    
+    ' Set sourceRange based on the logic
     If logic = 1 Then
-        ' Logic 1
-        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(2, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(1, 2) = textBox3Value
-        manipulatedData(2, 2) = textBox3Value
-        manipulatedData(1, 9) = textBox4Value
-        manipulatedData(2, 9) = textBox4Value
-        manipulatedData(1, 7) = textBox5Value
-        manipulatedData(2, 7) = textBox5Value
-        manipulatedData(1, 6) = textBox23value
-        manipulatedData(2, 6) = textBox23value
-        manipulatedData(1, 8) = textBox24value
-        manipulatedData(2, 8) = textBox24value
+        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+        appendedValue = textBox8Value & " (" & textBox2Value & ")"
     ElseIf logic = 2 Then
-        ' Logic 2
-        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
-        manipulatedData(1, 2) = textBox3Value
-        manipulatedData(1, 9) = textBox4Value
-        manipulatedData(1, 7) = textBox5Value
-        manipulatedData(1, 6) = textBox23value
-        manipulatedData(1, 8) = textBox24value
+        Set sourceRange = Sheets("Sheet2").Range("A49:J49")
+        appendedValue = textBox8Value & " (" & textBox2Value & ")"
     End If
-    ' Store manipulated data in the storedDataList collection
-    storedDataList.Add manipulatedData
+    
+    ' Set targetRange to the last empty row in Sheet3
+    With Sheets("Sheet3")
+        lastRow = .Cells(.Rows.Count, "A").End(xlUp).Row + 1
+        Set targetRange = .Range("A" & lastRow)
+    End With
+    
+    ' Copy the sourceRange to the targetRange
+    sourceRange.Copy Destination:=targetRange
+    
+    ' Manipulate and paste additional data from TextBoxes to targetRange based on the selected logic
+    With targetRange
+        .Offset(0, 2).Value = textBox3Value
+        .Offset(0, 7).Value = textBox4Value
+        .Offset(0, 4).Value = textBox5Value
+        .Offset(0, 3).Value = textBox23Value
+        .Offset(0, 5).Value = textBox24Value
+        ' For logic 1, update C48 and C49
+        If logic = 1 Then
+            .Offset(0, 2).Value = appendedValue
+            .Offset(1, 2).Value = appendedValue
+        End If
+    End With
 End Sub
