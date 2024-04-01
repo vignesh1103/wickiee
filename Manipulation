@@ -56,3 +56,35 @@ Private Sub CommandButton3_Click()
     ' Update previousTextBox8Value to the current value
     previousTextBox8Value = textBox8Value
 End Sub
+
+
+
+
+Private Sub ManipulateAndStoreData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
+    Dim manipulatedData(1 To 2, 1 To 10) As String
+    If logic = 1 Then
+        ' Logic 1
+        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(2, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(1, 2) = textBox3Value
+        manipulatedData(2, 2) = textBox3Value
+        manipulatedData(1, 9) = textBox4Value
+        manipulatedData(2, 9) = textBox4Value
+        manipulatedData(1, 7) = textBox5Value
+        manipulatedData(2, 7) = textBox5Value
+        manipulatedData(1, 6) = textBox23value
+        manipulatedData(2, 6) = textBox23value
+        manipulatedData(1, 8) = textBox24value
+        manipulatedData(2, 8) = textBox24value
+    ElseIf logic = 2 Then
+        ' Logic 2
+        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(1, 2) = textBox3Value
+        manipulatedData(1, 9) = textBox4Value
+        manipulatedData(1, 7) = textBox5Value
+        manipulatedData(1, 6) = textBox23value
+        manipulatedData(1, 8) = textBox24value
+    End If
+    ' Store manipulated data in the storedDataList collection
+    storedDataList.Add manipulatedData
+End Sub
