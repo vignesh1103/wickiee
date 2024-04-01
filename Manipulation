@@ -1,29 +1,22 @@
 Dim isFirstInput As Boolean
-Dim userInputCount As Integer
 
 Sub Loader()
-    ' Check if this is the first time user input
     If isFirstInput = False Then
-        ' Code for rows 48 and 49
         ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         isFirstInput = True
         Call ClearAllInputsExceptTextBox8
     Else
-        ' Code for row 49 alone
-        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-        Call ClearAllInputsExceptTextBox8
-    End If
-    
-    ' Increment user input count
-    userInputCount = userInputCount + 1
-    
-    ' Check if it's the 10th user input and TextBox8 has changed
-    If userInputCount = 10 And TextBox8_Changed() Then
-        ' Prompt the user if they want to change the deliverable
-        If PromptForDeliverableChange() Then
-            Call ClearAllInputs
-            isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
-            userInputCount = 0 ' Reset userInputCount
+        If TextBox8_Changed() Then
+            If PromptForDeliverableChange() Then
+                Call ClearAllInputs
+                isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
+            Else
+                ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+                Call ClearAllInputsExceptTextBox8
+            End If
+        Else
+            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+            Call ClearAllInputsExceptTextBox8
         End If
     End If
     
@@ -73,7 +66,6 @@ Sub ProcessRowRange(rng As Range)
 End Sub
 
 Sub ClearAllInputsExceptTextBox8()
-    ' Clear all inputs except TextBox8
     TextBox2.Value = ""
     TextBox3.Value = ""
     TextBox4.Value = ""
@@ -83,7 +75,6 @@ Sub ClearAllInputsExceptTextBox8()
 End Sub
 
 Sub ClearAllInputs()
-    ' Clear all inputs
     TextBox2.Value = ""
     TextBox3.Value = ""
     TextBox4.Value = ""
