@@ -10,18 +10,18 @@ Private Sub CommandButton3_Click()
     Dim textBox23value As String
     Dim textBox24value As String
     
-    ' Get user input for text boxes
-    textBox8Value = TextBox8.value
-    textBox2Value = TextBox2.value
-    textBox3Value = TextBox3.value
-    textBox4Value = TextBox4.value
-    textBox5Value = TextBox5.value
-    textBox23value = TextBox23.value
-    textBox24value = TextBox24.value
+    ' Get current values of text boxes
+    textBox8Value = TextBox8.Value
+    textBox2Value = TextBox2.Value
+    textBox3Value = TextBox3.Value
+    textBox4Value = TextBox4.Value
+    textBox5Value = TextBox5.Value
+    textBox23value = TextBox23.Value
+    textBox24value = TextBox24.Value
     
     ' Prompt the user if they are changing TextBox8
     Dim response As VbMsgBoxResult
-    If TextBox8.value <> textBox8Value Then
+    If TextBox8.Value <> textBox8Value Then
         response = MsgBox("Are you changing TextBox8?", vbYesNo)
         
         If response = vbNo Then
@@ -34,15 +34,15 @@ Private Sub CommandButton3_Click()
     response = MsgBox("Are you changing this Deliverable?", vbYesNo)
     
     If response = vbYes Then
-        ' Apply logic 1
+        ' Apply logic 1 for 1st user input
         logic = 1
         ' Clear all text boxes except TextBox8
-        ClearAllInputs
+        ClearAllInputsExceptTextBox8
     Else
-        ' Apply logic 2
+        ' Apply logic 2 for subsequent inputs
         logic = 2
         ' Clear all text boxes
-        ClearAllInputsExceptTextBox8
+        ClearAllInputs
     End If
     
     ' Call ManipulateAndPasteData subroutine with the chosen logic
