@@ -6,9 +6,6 @@ Dim ws As Worksheet
 'Dim Sheet3DataObject As Object
 'Dim storedData As Variant
 
-'Private manipulatedDataList As New Collection
-
-
 Private Sub UserForm_Initialize()
     ' Set the worksheet to which data will be copied
      Set ws = Sheets("Sheet3")
