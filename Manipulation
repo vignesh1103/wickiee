@@ -1,66 +1,9 @@
-Private Sub CommandButton7_Click()
-    Dim checkBoxSelected As Boolean
-    Dim textBoxesValidated As Boolean
-    checkBoxSelected = False
-    textBoxesValidated = True
-    
-    ' Check if any of the checkboxes are selected
-    If CheckBox1.Value Or CheckBox2.Value Or CheckBox3.Value Or CheckBox4.Value Or CheckBox5.Value Or CheckBox6.Value Or CheckBox7.Value Then
-        checkBoxSelected = True
+Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    ' Check if the pressed key is a numeric digit (0-9) or the Backspace key
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 Then
+        ' If the pressed key is not a numeric digit or Backspace, cancel the keypress
+        KeyAscii = 0
+        ' Display a message to inform user
+        MsgBox "Only numeric input is allowed.", vbExclamation
     End If
-    
-    ' Validate text boxes if checkboxes are selected
-    If checkBoxSelected Then
-        ' Check text boxes based on checkbox selection
-        If CheckBox1.Value Then
-            If Trim(TextBox9.Value) = "" Or Trim(TextBox10.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox2.Value Then
-            If Trim(TextBox11.Value) = "" Or Trim(TextBox12.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox3.Value Then
-            If Trim(TextBox13.Value) = "" Or Trim(TextBox14.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox4.Value Then
-            If Trim(TextBox15.Value) = "" Or Trim(TextBox16.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox5.Value Then
-            If Trim(TextBox17.Value) = "" Or Trim(TextBox18.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox6.Value Then
-            If Trim(TextBox19.Value) = "" Or Trim(TextBox20.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-        If CheckBox7.Value Then
-            If Trim(TextBox21.Value) = "" Or Trim(TextBox22.Value) = "" Then
-                textBoxesValidated = False
-            End If
-        End If
-    End If
-    
-    ' Display warning if no checkboxes are selected
-    If Not checkBoxSelected Then
-        MsgBox "Warning: Please select any one Work item to Add.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Display warning if text boxes are not validated
-    If Not textBoxesValidated Then
-        MsgBox "Warning: Please enter Planned for and Tags.", vbExclamation
-        Exit Sub
-    End If
-    
-    ' Continue with the rest of the code for adding the selected work items...
-    
 End Sub
