@@ -1,3 +1,52 @@
+Private Sub CommandButton3_Click()
+    Dim sourceRange As Range
+    Dim targetRange As Range
+    Dim appendedValue As String
+    Dim textBox8Value As String
+    Dim textBox2Value As String
+    Dim textBox3Value As String
+    Dim textBox4Value As String
+    Dim textBox5Value As String
+    Dim textBox23value As String
+    Dim textBox24value As String
+    Dim i As Long
+    Dim lastRow As Long
+    
+    textBox8Value = Trim(TextBox8.value)
+    textBox2Value = Trim(TextBox2.value)
+    textBox3Value = Trim(TextBox3.value)
+    textBox4Value = Trim(TextBox4.value)
+    textBox5Value = Trim(TextBox5.value)
+    textBox23value = Trim(TextBox23.value)
+    textBox24value = Trim(TextBox24.value)
+    
+    If previousTextBox8Value = "" Then
+        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+        Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+        sourceRange.Copy Destination:=targetRange
+        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
+        Call ClearAllInputsExceptTextBox8
+    Else
+        Dim response As VbMsgBoxResult
+        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+        If response = vbYes Then
+            Call ClearAllInputs
+            Set sourceRange = Sheets("Sheet2").Range("A48:J49")
+            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+            sourceRange.Copy Destination:=targetRange
+            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
+            Call ClearAllInputsExceptTextBox8
+        Else
+            Call ClearAllInputsExceptTextBox8
+            Set sourceRange = Sheets("Sheet2").Range("A49:J49")
+            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+            sourceRange.Copy Destination:=targetRange
+            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
+        End If
+    End If
+    
+    previousTextBox8Value = textBox8Value
+End Sub
 Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
     Dim ws As Worksheet
     Dim sourceRange As Range
@@ -19,10 +68,10 @@ Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2
     sourceRange.Copy Destination:=targetRange
     
     appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-    targetRange.Cells(1, 3).Value = appendedValue
-    targetRange.Cells(1, 4).Value = textBox3Value
-    targetRange.Cells(1, 11).Value = textBox4Value
-    targetRange.Cells(1, 9).Value = textBox5Value
-    targetRange.Cells(1, 8).Value = textBox23value
-    targetRange.Cells(1, 10).Value = textBox24value
+    targetRange.Cells(1, 3).value = appendedValue
+    targetRange.Cells(1, 4).value = textBox3Value
+    targetRange.Cells(1, 11).value = textBox4Value
+    targetRange.Cells(1, 9).value = textBox5Value
+    targetRange.Cells(1, 8).value = textBox23value
+    targetRange.Cells(1, 10).value = textBox24value
 End Sub
