@@ -1,7 +1,3 @@
-Option Explicit
-
-Dim previousTextBox8Value As String
-
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
     Dim targetRange As Range
@@ -13,9 +9,8 @@ Private Sub CommandButton3_Click()
     Dim textBox5Value As String
     Dim textBox23value As String
     Dim textBox24value As String
-    Dim i As Long
-    Dim lastRow As Long
     
+    ' Get the values from the textboxes
     textBox8Value = Trim(TextBox8.Value)
     textBox2Value = Trim(TextBox2.Value)
     textBox3Value = Trim(TextBox3.Value)
@@ -24,54 +19,22 @@ Private Sub CommandButton3_Click()
     textBox23value = Trim(TextBox23.Value)
     textBox24value = Trim(TextBox24.Value)
     
+    ' Determine source range based on previousTextBox8Value
     If previousTextBox8Value = "" Then
+        ' For the first input, source range is A48:J49
         Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-        sourceRange.Copy Destination:=targetRange
-        ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-        Call ClearAllInputsExceptTextBox8
     Else
-        Dim response As VbMsgBoxResult
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        If response = vbYes Then
-            Call ClearAllInputs
-            Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-            sourceRange.Copy Destination:=targetRange
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-            Call ClearAllInputsExceptTextBox8
-        Else
-            Call ClearAllInputsExceptTextBox8
-            Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-            Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
-            sourceRange.Copy Destination:=targetRange
-            ManipulateAndPasteData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
-        End If
-    End If
-    
-    previousTextBox8Value = textBox8Value
-End Sub
-
-Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
-    Dim ws As Worksheet
-    Dim sourceRange As Range
-    Dim targetRange As Range
-    Dim appendedValue As String
-    
-    Set ws = Sheets("Sheet3")
-    
-    If logic = 1 Then
-        ' Logic 1
-        Set sourceRange = Sheets("Sheet2").Range("A48:J49")
-        Set targetRange = ws.Cells(ws.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, sourceRange.Columns.Count)
-    Else
-        ' Logic 2
+        ' After the first input, source range is A49:J49
         Set sourceRange = Sheets("Sheet2").Range("A49:J49")
-        Set targetRange = ws.Cells(ws.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(1, sourceRange.Columns.Count)
     End If
     
+    ' Determine target range in Sheet3
+    Set targetRange = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Offset(1, 0)
+    
+    ' Copy sourceRange to targetRange
     sourceRange.Copy Destination:=targetRange
     
+    ' Manipulate and paste data in Sheet3
     appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
     targetRange.Cells(1, 3).Value = appendedValue
     targetRange.Cells(1, 4).Value = textBox3Value
@@ -79,28 +42,7 @@ Private Sub ManipulateAndPasteData(ByVal textBox8Value As String, ByVal textBox2
     targetRange.Cells(1, 9).Value = textBox5Value
     targetRange.Cells(1, 8).Value = textBox23value
     targetRange.Cells(1, 10).Value = textBox24value
-End Sub
-
-Private Sub TextBox8_Click()
-    Dim response As VbMsgBoxResult
-    If previousTextBox8Value <> "" Then
-        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-        If response = vbYes Then
-            Call ClearAllInputsExceptTextBox8
-        End If
-    End If
-End Sub
-
-Private Sub ClearAllInputsExceptTextBox8()
-    TextBox2.Value = ""
-    TextBox3.Value = ""
-    TextBox4.Value = ""
-    TextBox5.Value = ""
-    TextBox23.Value = ""
-    TextBox24.Value = ""
-End Sub
-
-Private Sub ClearAllInputs()
-    TextBox8.Value = ""
-    Call ClearAllInputsExceptTextBox8
+    
+    ' Update previousTextBox8Value
+    previousTextBox8Value = textBox8Value
 End Sub
