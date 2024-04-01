@@ -1,3 +1,15 @@
+Private Sub TextBox8_Change()
+    ' Prompt the user if they want to change the deliverable
+    If TextBox8.Value <> "" Then
+        Dim response As VbMsgBoxResult
+        response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+        If response = vbYes Then
+            ' Clear all inputs except TextBox8
+            Call ClearAllInputsExceptTextBox8
+        End If
+    End If
+End Sub
+
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
     Dim targetRange As Range
