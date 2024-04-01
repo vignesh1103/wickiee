@@ -1,22 +1,3 @@
-Private Sub TextBox8_Change()
-    Static firstInput As Boolean
-    
-    ' Check if it's the first input
-    If Not firstInput Then
-        ' Prompt the user if they are changing TextBox8
-        Dim response As VbMsgBoxResult
-        response = MsgBox("Are you changing TextBox8?", vbYesNo)
-        
-        If response = vbNo Then
-            ' User chose not to change TextBox8, exit the subroutine
-            Exit Sub
-        End If
-        
-        firstInput = True
-    End If
-End Sub
-
-
 Private Sub CommandButton3_Click()
     Dim logic As Integer
     
@@ -38,20 +19,17 @@ Private Sub CommandButton3_Click()
     textBox23value = TextBox23.Value
     textBox24value = TextBox24.Value
     
-    ' Prompt the user to choose logic
-    Dim response As VbMsgBoxResult
-    response = MsgBox("Are you changing this Deliverable?", vbYesNo)
-    
-    If response = vbYes Then
-        ' Apply logic 1 for 1st user input
-        logic = 1
-        ' Clear all text boxes except TextBox8
-        ClearAllInputsExceptTextBox8
-    Else
+    ' Use the response obtained from TextBox8_Change event
+    If TextBox8_Change_Response = vbNo Then
         ' Apply logic 2 for subsequent inputs
         logic = 2
         ' Clear all text boxes
         ClearAllInputs
+    Else
+        ' Apply logic 1 for 1st user input
+        logic = 1
+        ' Clear all text boxes except TextBox8
+        ClearAllInputsExceptTextBox8
     End If
     
     ' Call ManipulateAndPasteData subroutine with the chosen logic
