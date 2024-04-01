@@ -7,12 +7,23 @@ Sub Loader()
         ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         isFirstInput = True
     Else
-        ' Code for row 49 alone
-        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+        ' Check if TextBox8 has been changed
+        If TextBox8_Changed Then
+            ' Code for rows 48 and 49
+            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+        Else
+            ' Code for row 49 alone
+            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+        End If
     End If
     
     MsgBox "Data has been manipulated and pasted to Sheet3.", vbInformation
 End Sub
+
+Function TextBox8_Changed() As Boolean
+    ' Check if TextBox8 value has changed from the initial value
+    TextBox8_Changed = (TextBox8.Value <> "") ' Change "" to the initial value if available
+End Function
 
 Sub ProcessRowRange(rng As Range)
     Dim wsDestination As Worksheet
