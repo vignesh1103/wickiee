@@ -2,6 +2,7 @@ Option Explicit
 
 Dim previousTextBox8Value As String
 Dim storedDataList As New Collection
+Dim ws As Worksheet
 
 Private Sub CommandButton3_Click()
     Dim sourceRange As Range
@@ -14,7 +15,7 @@ Private Sub CommandButton3_Click()
     Dim textBox23value As String
     Dim textBox24value As String
     Dim i As Long
-    Dim storedData As Variant
+    Dim lastRow As Long
     
     ' Get the current values from TextBoxes
     textBox8Value = Trim(TextBox8.Value)
@@ -36,10 +37,11 @@ Private Sub CommandButton3_Click()
                 appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A48:H49
                 Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-                ' Store the copied range in the local variable storedData
-                storedData = sourceRange.Value
+                ' Copy the sourceRange to the last empty row in the destination sheet
+                lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
+                sourceRange.Copy Destination:=ws.Range("A" & lastRow)
                 ' Manipulate and store data using Logic 1
-                ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value
+                ManipulateAndStoreData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
                 ' Clear all input controls except TextBox8
                 Call ClearAllInputsExceptTextBox8
             Else
@@ -47,10 +49,11 @@ Private Sub CommandButton3_Click()
                 appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
                 ' Set sourceRange to A49:H49
                 Set sourceRange = Sheets("Sheet2").Range("A49:H49")
-                ' Store the copied range in the local variable storedData
-                storedData = sourceRange.Value
+                ' Copy the sourceRange to the last empty row in the destination sheet
+                lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row + 1
+                sourceRange.Copy Destination:=ws.Range("A" & lastRow)
                 ' Manipulate and store data using Logic 2
-                ManipulateAndStoreData storedData, appendedValue, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value
+                ManipulateAndStoreData previousTextBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
                 ' Clear all input controls except TextBox8
                 Call ClearAllInputsExceptTextBox8
             End If
@@ -61,22 +64,33 @@ Private Sub CommandButton3_Click()
     previousTextBox8Value = textBox8Value
 End Sub
 
-Private Sub ManipulateAndStoreData(ByRef data As Variant, ByVal appendedValue As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String)
-    ' Logic 1
-    data(1, 3) = appendedValue
-    data(2, 3) = appendedValue
-    data(1, 4) = textBox3Value
-    data(2, 4) = textBox3Value
-    data(1, 11) = textBox4Value
-    data(2, 11) = textBox4Value
-    data(1, 9) = textBox5Value
-    data(2, 9) = textBox5Value
-    data(1, 8) = textBox23value
-    data(2, 8) = textBox23value
-    data(1, 10) = textBox24value
-    data(2, 10) = textBox24value
+Private Sub ManipulateAndStoreData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
+    Dim manipulatedData(1 To 2, 1 To 10) As String
+    If logic = 1 Then
+        ' Logic 1
+        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(2, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(1, 2) = textBox3Value
+        manipulatedData(2, 2) = textBox3Value
+        manipulatedData(1, 9) = textBox4Value
+        manipulatedData(2, 9) = textBox4Value
+        manipulatedData(1, 7) = textBox5Value
+        manipulatedData(2, 7) = textBox5Value
+        manipulatedData(1, 6) = textBox23value
+        manipulatedData(2, 6) = textBox23value
+        manipulatedData(1, 8) = textBox24value
+        manipulatedData(2, 8) = textBox24value
+    ElseIf logic = 2 Then
+        ' Logic 2
+        manipulatedData(1, 1) = textBox8Value & " (" & textBox2Value & ")"
+        manipulatedData(1, 2) = textBox3Value
+        manipulatedData(1, 9) = textBox4Value
+        manipulatedData(1, 7) = textBox5Value
+        manipulatedData(1, 6) = textBox23value
+        manipulatedData(1, 8) = textBox24value
+    End If
     ' Store manipulated data in the storedDataList collection
-    storedDataList.Add data
+    storedDataList.Add manipulatedData
 End Sub
 
 Private Sub ClearAllInputsExceptTextBox8()
@@ -98,4 +112,9 @@ Private Sub ClearAllInputs()
     TextBox5.Value = ""
     TextBox23.Value = ""
     TextBox24.Value = ""
+End Sub
+
+Private Sub UserForm_Initialize()
+    ' Set the worksheet to which data will be copied
+    Set ws = ThisWorkbook.Sheets("DestinationSheet") ' Change "DestinationSheet" to your actual destination sheet name
 End Sub
