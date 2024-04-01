@@ -3,68 +3,206 @@ Option Explicit
 Dim previousTextBox8Value As String
 Dim storedDataList As New Collection
 Dim ws As Worksheet
+'Dim Sheet3DataObject As Object
+'Dim storedData As Variant
+
+'Private manipulatedDataList As New Collection
+
+
+Private Sub UserForm_Initialize()
+    ' Set the worksheet to which data will be copied
+     Set ws = Sheets("Sheet3")
+
+    ' Get selected QGC from cell C14 from sheet1
+    Dim qgc As String
+    qgc = ThisWorkbook.Sheets("Sheet1").Range("C14").value
+    
+    ' headings in Sheet3 starting from cell A2
+    With ThisWorkbook.Sheets("Sheet3")
+        .Range("A1:J1").value = Array("Type", "Id", "Summary", "Description", "Parent", "Related", "Filed Against", "Planned For", "Owned By", "Tags")
+    End With
+    
+    
+    ' data based on the User selected QGC
+    Select Case qgc
+      Case "QGC0"
+         ' ProcessQGC "QGC0"
+        CheckBox1.Caption = "DIA - Completion"
+        CheckBox2.Caption = "FSIA (Corresponding BL) - Completion"
+        CheckBox3.Caption = "Safety Plan - Draft"
+        CheckBox4.Caption = "Bottom-up Analysis - Draft"
+        CheckBox5.Caption = "Item Definition - Draft"
+        CheckBox6.Caption = "FMEA Project Plan - Draft"
+        CheckBox7.Caption = "HARA SG Align - Completion"
+        
+        Dim k As Integer
+        For k = 9 To 22
+            Me.Controls("TextBox" & k).Text = ""
+        Next k
+                       
+        Case "QGC2"
+        ' ProcessQGC "QGC2"
+            CheckBox1.Caption = "FSVAL Planning - Draft"
+            CheckBox2.Caption = "FMEA Coversheet - Draft"
+            CheckBox3.Caption = "Change Request Analysis -  Completion"
+            'Hide checkbox
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            Dim j As Integer
+              For j = 9 To 14
+                   Me.Controls("TextBox" & j).Text = ""
+                Next j
+            For j = 15 To 22
+                 Me.Controls("TextBox" & j).Visible = False
+            Next j
+            
+        Case "QGC4"
+            'ProcessQGC "QGC4"
+            CheckBox1.Caption = "Saftey Case - Completion"
+            CheckBox2.Caption = "FMEA Coversheet - Completion"
+            CheckBox3.Caption = "FTA Coversheet - Completion"
+            CheckBox4.Caption = "Safety Assesment - Completion"
+            CheckBox5.Caption = "Bottom-up-Analysis - Completion"
+            CheckBox6.Caption = "FSVAL Analysis- Completion"
+            
+            CheckBox7.Visible = False
+            
+            Dim l As Integer
+               For l = 9 To 20
+                  Me.Controls("TextBox" & l).Text = ""
+               Next l
+                
+              For l = 21 To 22
+                   Me.Controls("TextBox" & l).Visible = False
+              Next l
+        
+        Case "Others"
+            CheckBox1.Visible = False
+            CheckBox2.Visible = False
+            CheckBox3.Visible = False
+            CheckBox4.Visible = False
+            CheckBox5.Visible = False
+            CheckBox6.Visible = False
+            CheckBox7.Visible = False
+            
+            
+            Dim n As Integer
+              For n = 9 To 22
+                   Me.Controls("TextBox" & n).Visible = False
+              Next n
+            
+    End Select
+    
+    DisableTextBoxes Me.Controls("TextBox9"), Me.Controls("TextBox10"), _
+                         Me.Controls("TextBox11"), Me.Controls("TextBox12"), _
+                         Me.Controls("TextBox13"), Me.Controls("TextBox14"), _
+                         Me.Controls("TextBox15"), Me.Controls("TextBox16"), _
+                         Me.Controls("TextBox17"), Me.Controls("TextBox18"), _
+                         Me.Controls("TextBox19"), Me.Controls("TextBox20"), _
+                         Me.Controls("TextBox21"), Me.Controls("TextBox22")
+    ResizeUserForm
+    
+    ' Define variables
+    Dim currentDate As Date
+    Dim currentCW As Integer
+    Dim i As Integer
+    
+    ' Update UserForm with default data
+    Me.Controls("Label25").Caption = "Recommended Work Items :"
+    Me.Controls("Label26").Caption = "Additional Work Items :"
+    Me.Controls("Label34").Caption = "Planned For"
+    Me.Controls("Label35").Caption = "Tags"
+    
+    ' Dependency Work Items Headings
+    Me.Controls("Label27").Caption = "Deliverable"
+    Me.Controls("Label28").Caption = "Summary"
+    Me.Controls("Label29").Caption = "Description"
+    Me.Controls("Label30").Caption = "Estimate (Hours)"
+    Me.Controls("Label31").Caption = "Owned By"
+    Me.Controls("Label32").Caption = "Planned For"
+ 
+    TextBox8.Text = ""
+    TextBox2.Text = ""
+    TextBox3.Text = ""
+    TextBox4.Text = ""
+    TextBox5.Text = ""
+    TextBox23.Text = ""
+    
+    
+    
+    'ClearAllInputs
+    
+    ResizeUserForm
+    
+    'InitializeComboBox3
+    
+    ' InitializeComboBox4
+End Sub
 
 Private Sub CommandButton3_Click()
-    Dim sourceRange As Range
-    Dim targetRange As Range
-    Dim appendedValue As String
-    Dim textBox8Value As String
-    Dim textBox2Value As String
-    Dim textBox3Value As String
-    Dim textBox4Value As String
-    Dim textBox5Value As String
-    Dim textBox23value As String
-    Dim textBox24value As String
-    Dim i As Long
-    Dim lastRow As Long
-    
-    ' Get the current values from TextBoxes
-    textBox8Value = Trim(TextBox8.Value)
-    textBox2Value = Trim(TextBox2.Value)
-    textBox3Value = Trim(TextBox3.Value)
-    textBox4Value = Trim(TextBox4.Value)
-    textBox5Value = Trim(TextBox5.Value)
-    textBox23value = Trim(TextBox23.Value)
-    textBox24value = Trim(TextBox24.Value)
-    
-    ' Check if the previous value of TextBox8 is different from the current value
-    If previousTextBox8Value <> textBox8Value Then
-        ' Prompt user if they want to change the Deliverable
-        Dim response As VbMsgBoxResult
-        If previousTextBox8Value <> "" Then
-            response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
-            If response = vbYes Then
-                ' Concatenate TextBox8 value for appending
-                appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
-                ' Set sourceRange to A48:H49
-                Set sourceRange = Sheets("Sheet2").Range("A48:H49")
-                ' Set targetRange to the last empty row in the same sheet as sourceRange
-                Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, sourceRange.Columns.Count)
-                ' Copy the sourceRange to the targetRange
-                sourceRange.Copy Destination:=targetRange
-                ' Manipulate and store data using Logic 1
-                ManipulateAndStoreData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
-                ' Clear all input controls except TextBox8
-                Call ClearAllInputsExceptTextBox8
-            Else
-                ' Concatenate previous TextBox8 value for appending
-                appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
-                ' Set sourceRange to A49:H49
-                Set sourceRange = Sheets("Sheet2").Range("A49:H49")
-                ' Set targetRange to the last empty row in the same sheet as sourceRange
-                Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(1, sourceRange.Columns.Count)
-                ' Copy the sourceRange to the targetRange
-                sourceRange.Copy Destination:=targetRange
-                ' Manipulate and store data using Logic 2
-                ManipulateAndStoreData previousTextBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
-                ' Clear all input controls except TextBox8
-                Call ClearAllInputsExceptTextBox8
+        Dim sourceRange As Range
+        Dim targetRange As Range
+        Dim appendedValue As String
+        Dim textBox8Value As String
+        Dim textBox2Value As String
+        Dim textBox3Value As String
+        Dim textBox4Value As String
+        Dim textBox5Value As String
+        Dim textBox23value As String
+        Dim textBox24value As String
+        Dim i As Long
+        Dim lastRow As Long
+        
+        ' Get the current values from TextBoxes
+        textBox8Value = Trim(TextBox8.value)
+        textBox2Value = Trim(TextBox2.value)
+        textBox3Value = Trim(TextBox3.value)
+        textBox4Value = Trim(TextBox4.value)
+        textBox5Value = Trim(TextBox5.value)
+        textBox23value = Trim(TextBox23.value)
+        textBox24value = Trim(TextBox24.value)
+        
+        ' Check if the previous value of TextBox8 is different from the current value
+        If previousTextBox8Value <> textBox8Value Then
+            ' Prompt user if they want to change the Deliverable
+            Dim response As VbMsgBoxResult
+            If previousTextBox8Value <> "" Then
+                response = MsgBox("Do you want to change the Deliverable?", vbYesNo)
+                If response = vbYes Then
+                    ' Concatenate TextBox8 value for appending
+                    appendedValue = "- " & textBox8Value & " (" & textBox2Value & ")"
+                    ' Set sourceRange to A48:H49
+                    Set sourceRange = Sheets("Sheet2").Range("A48:H49")
+                    ' Set targetRange to the last empty row in the same sheet as sourceRange
+                    Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(2, sourceRange.Columns.Count)
+                    ' Copy the sourceRange to the targetRange
+                    sourceRange.Copy Destination:=targetRange
+                    ' Manipulate and store data using Logic 1
+                    ManipulateAndStoreData textBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 1
+                    ' Clear all input controls except TextBox8
+                    Call ClearAllInputsExceptTextBox8
+                Else
+                    ' Concatenate previous TextBox8 value for appending
+                    appendedValue = "- " & previousTextBox8Value & " (" & textBox2Value & ")"
+                    ' Set sourceRange to A49:H49
+                    Set sourceRange = Sheets("Sheet2").Range("A49:H49")
+                    ' Set targetRange to the last empty row in the same sheet as sourceRange
+                    Set targetRange = sourceRange.Parent.Cells(sourceRange.Parent.Rows.Count, "A").End(xlUp).Offset(1, 0).Resize(1, sourceRange.Columns.Count)
+                    ' Copy the sourceRange to the targetRange
+                    sourceRange.Copy Destination:=targetRange
+                    ' Manipulate and store data using Logic 2
+                    ManipulateAndStoreData previousTextBox8Value, textBox2Value, textBox3Value, textBox4Value, textBox5Value, textBox23value, textBox24value, 2
+                    ' Clear all input controls except TextBox8
+                    Call ClearAllInputsExceptTextBox8
+                End If
             End If
         End If
-    End If
-    
-    ' Update previousTextBox8Value to the current value
-    previousTextBox8Value = textBox8Value
+        
+        ' Update previousTextBox8Value to the current value
+        previousTextBox8Value = textBox8Value
 End Sub
 
 Private Sub ManipulateAndStoreData(ByVal textBox8Value As String, ByVal textBox2Value As String, ByVal textBox3Value As String, ByVal textBox4Value As String, ByVal textBox5Value As String, ByVal textBox23value As String, ByVal textBox24value As String, ByVal logic As Integer)
@@ -96,28 +234,91 @@ Private Sub ManipulateAndStoreData(ByVal textBox8Value As String, ByVal textBox2
     storedDataList.Add manipulatedData
 End Sub
 
+
 Private Sub ClearAllInputsExceptTextBox8()
     ' Clear all input controls except TextBox8
-    TextBox2.Value = ""
-    TextBox3.Value = ""
-    TextBox4.Value = ""
-    TextBox5.Value = ""
-    TextBox23.Value = ""
-    TextBox24.Value = ""
+    TextBox2.value = ""
+    TextBox3.value = ""
+    TextBox4.value = ""
+    TextBox5.value = ""
+    TextBox23.value = ""
+    TextBox24.value = ""
 End Sub
+
+Private Sub StoreDataToList(data As Variant)
+    ' Add manipulated data to sstoredDataList collection
+    storedDataList.Add data
+End Sub
+
+Private Sub TextBox4_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    ' Check if the pressed key is a numeric digit (0-9), the Backspace key, or the decimal point
+    If Not (KeyAscii >= 48 And KeyAscii <= 57) And KeyAscii <> 8 And KeyAscii <> 46 Then
+        ' If the pressed key is not a numeric digit, decimal point, or Backspace, cancel the keypress
+        KeyAscii = 0
+        ' Display a message to inform user
+        MsgBox "Only numeric input is allowed.", vbExclamation
+    End If
+End Sub
+
+Private Sub ResizeUserForm()
+    ' Calculate minimum top position
+    Dim minTop As Long
+    Dim ctrl As Control
+    
+    ' minTop with a large value
+    minTop = Me.Height
+    
+    ' find the minimum top position
+    For Each ctrl In Me.Controls
+        If ctrl.Top < minTop Then
+            minTop = ctrl.Top
+        End If
+    Next ctrl
+    
+    ' minimize empty space at top
+    Me.Top = Me.Top - minTop
+End Sub
+
 
 Private Sub ClearAllInputs()
     ' Clear all input controls
-    TextBox8.Value = ""
-    TextBox2.Value = ""
-    TextBox3.Value = ""
-    TextBox4.Value = ""
-    TextBox5.Value = ""
-    TextBox23.Value = ""
-    TextBox24.Value = ""
+    TextBox8.value = ""
+    TextBox2.value = ""
+    TextBox3.value = ""
+    TextBox4.value = ""
+    TextBox5.value = ""
+    TextBox23.value = ""
+    TextBox24.value = ""
 End Sub
 
-Private Sub UserForm_Initialize()
-    ' Set the worksheet to which data will be copied
-    Set ws = Sheets("Sheet2") ' Use the same sheet as the source range
+Private Function AllFieldsFilled() As Boolean
+    ' Check if all required textboxes and combo box are filled
+    If ComboBox1.value = "" Or Trim(TextBox2.Text) = "" Or Trim(TextBox3.Text) = "" _
+    Or Trim(TextBox4.Text) = "" Or Trim(TextBox5.Text) = "" Or Trim(TextBox6.Text) = "" Then
+        AllFieldsFilled = False
+    Else
+        AllFieldsFilled = True
+    End If
+End Function
+
+Private Sub CommandButton6_Click()
+    'If userData Is Nothing Then
+      '  MsgBox "No data to paste.", vbExclamation
+     '   Exit Sub
+    'End If
+    ' Call the PasteUserData
+    'PasteUserData
+
+    ' After clearing input controls, paste the data to Sheet3
+    'PasteDataToSheet "Sheet3"
+     
+    ' Clear all userData
+    'Set userData = Nothing
+     
+    ' Clear text boxes for next input
+    ClearAllInputs
+    
+    ' Close the UserForm
+    Unload Me
 End Sub
+
