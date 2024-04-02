@@ -2,7 +2,11 @@ Dim Del_change As String
 Dim isFirstInstance As Boolean
 
 Private Sub CommandButton3_Click()
-    If Del_change = "YES" Then
+    If isFirstInstance Then
+        Del_change = "NO"
+        TextBox8.Enabled = False
+        isFirstInstance = False
+    ElseIf Del_change = "YES" Then
         ' Add only tasks
         ClearAllInputsExceptTextBox8
     End If
@@ -64,6 +68,7 @@ Private Sub ClearAllInputs()
     TextBox3.Value = ""
     TextBox4.Value = ""
     TextBox5.Value = ""
+    TextBox8.Value = ""
     TextBox23.Value = ""
     TextBox24.Value = ""
 End Sub
@@ -75,4 +80,8 @@ Private Sub ClearAllInputsExceptTextBox8()
     TextBox5.Value = ""
     TextBox23.Value = ""
     TextBox24.Value = ""
+End Sub
+
+Private Sub UserForm_Initialize()
+    isFirstInstance = True
 End Sub
