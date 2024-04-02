@@ -1,21 +1,17 @@
-Dim isFirstUserInput As Boolean
-Dim runRange48To49 As Boolean
 Sub Loader()
     Dim rng As Range
     
-    If isFirstUserInput Then
-        'isFirstUserInput = False ' Set flag to false after processing first user input
+   If isFirstUserInput Then
+       isFirstUserInput = False ' Set flag to false after processing first user input
+       Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+    ElseIf runRange48To49 Then
         Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
     Else
-        If runRange48To49 Then
-            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-        Else
-           Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-        End If
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+       ' End If
     End If
     
     ProcessRowRange rng
-    'TextBox8.Enabled = False
     Call ClearAllInputsExceptTextBox8
     MsgBox "work item added.", vbInformation
 End Sub
@@ -30,7 +26,7 @@ Function Checking() As Boolean
     ElseIf response = vbNo Then
         Checking = False
     Else
-        ' Handle other cases if needed
+        Checking = True
     End If
 End Function
 
@@ -40,11 +36,10 @@ End Sub
 
 Private Sub CommandButton8_Click()
     If Checking Then
-        Call ClearAllInputs
         runRange48To49 = True
         Loader
+        Call ClearAllInputs
     Else
-        Call ClearAllInputsExceptTextBox8
         runRange48To49 = False
         Loader
     End If
@@ -98,12 +93,4 @@ Private Sub ClearAllInputs()
     TextBox5.value = ""
     TextBox23.value = ""
     TextBox24.value = ""
-End Sub
-Private Sub TextBox8_Change()
-     If Not isFirstUserInput Then
-        isFirstUserInput = True
-     End If
-End Sub
-Private Sub UserForm1_Terminate()
-  isFirstUserInput = False
 End Sub
