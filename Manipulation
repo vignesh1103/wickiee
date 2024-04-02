@@ -3,17 +3,22 @@ Sub ProcessRowRange(rng As Range)
     Dim destinationRange As Range
     Dim lastRow As Long
     Dim i As Integer
-    Dim lastBValue As Long
+    Dim startBValue As Long ' Variable to store the starting value for column B
     
     ' Set the destination worksheet (Sheet3) and starting cell
     Set wsDestination = ThisWorkbook.Sheets("Sheet3")
     lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
     
-    ' Get the last filled row value in column B of Sheet3
-    If lastRow > 1 Then
-        lastBValue = wsDestination.Cells(lastRow, "B").Value
+    ' Set the starting value for column B based on the range being processed
+    If rng.Rows.Count = 2 Then
+        startBValue = 40 ' Start from 40 for A48:J49 range
     Else
-        lastBValue = 0 ' If no previous value, start from 0
+        ' Get the last filled value in column B
+        If lastRow > 1 Then
+            startBValue = wsDestination.Cells(lastRow, "B").Value + 1
+        Else
+            startBValue = 1 ' If no previous value, start from 1
+        End If
     End If
     
     Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from next available row in column A
@@ -21,16 +26,10 @@ Sub ProcessRowRange(rng As Range)
     ' Copy the original data from Sheet2 to Sheet3
     rng.Copy destinationRange
     
-    ' Increment the value in column B for each row pasted
-    For i = 1 To rng.Rows.Count
-        ' Increment the value in column B
-        lastBValue = lastBValue + 1
-        ' Paste incremented value in column B for each row
-        destinationRange.Offset(i - 1, 2).Value = lastBValue ' Assuming B is the second column
-    Next i
-    
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
+        ' Paste the incremented value in column B for each row
+        destinationRange.Offset(i - 1, 2).Value = startBValue + i - 1 ' Assuming B is the second column
         ' Concatenate the values from TextBox8 and TextBox2
         destinationRange.Offset(i - 1, 3).Value = TextBox8.Value & " (" & TextBox2.Value & ")" ' Concatenate and replace in column C
         destinationRange.Offset(i - 1, 4).Value = TextBox3.Value ' Replace in column D
