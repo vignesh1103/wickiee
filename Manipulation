@@ -1,9 +1,9 @@
-Dim isFirstInput As Boolean
-Dim originalTextBox8Value As String
-
 Sub Loader()
+    Dim startValue As Integer
+    startValue = ThisWorkbook.Sheets("Sheet2").Range("B48").Value ' Get the starting value from Sheet2
+    
     If isFirstInput = False Then
-        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49"), startValue
         isFirstInput = True
         originalTextBox8Value = TextBox8.Value ' Store the original value of TextBox8
         Call ClearAllInputsExceptTextBox8
@@ -13,11 +13,11 @@ Sub Loader()
                 Call ClearAllInputs
                 isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
             Else
-                ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+                ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49"), startValue + userInputCount
                 Call ClearAllInputsExceptTextBox8
             End If
         Else
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49"), startValue + userInputCount
             Call ClearAllInputsExceptTextBox8
         End If
     End If
@@ -25,30 +25,22 @@ Sub Loader()
     MsgBox "Data has been manipulated and pasted to Sheet3.", vbInformation
 End Sub
 
-Function TextBox8_Changed() As Boolean
-    ' Check if TextBox8 text has changed
-    TextBox8_Changed = (TextBox8.Value <> originalTextBox8Value)
-End Function
-
-Function PromptForDeliverableChange() As Boolean
-    ' Prompt the user if they want to change the deliverable
-    Dim response As VbMsgBoxResult
-    response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo + vbQuestion, "Confirm Deliverable Change")
-    If response = vbYes Then
-        PromptForDeliverableChange = True
-    Else
-        PromptForDeliverableChange = False
-    End If
-End Function
-
-Sub ProcessRowRange(rng As Range)
+Sub ProcessRowRange(rng As Range, ByVal startValue As Integer)
     ' Same as before
-End Sub
-
-Sub ClearAllInputsExceptTextBox8()
-    ' Same as before
-End Sub
-
-Sub ClearAllInputs()
-    ' Same as before
+    
+    ' Increment the values in column B starting from the startValue
+    Dim wsDestination As Worksheet
+    Dim destinationRange As Range
+    Dim lastRow As Long
+    Dim i As Integer
+    
+    ' Set the destination worksheet (Sheet3) and starting cell
+    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
+    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
+    Set destinationRange = wsDestination.Range("B" & lastRow + 1) ' Start pasting from column B
+    
+    ' Increment and paste the values in column B
+    For i = 1 To rng.Rows.Count
+        destinationRange.Offset(i - 1).Value = startValue + i - 1
+    Next i
 End Sub
