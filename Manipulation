@@ -1,4 +1,4 @@
-Dim Del_change As String
+Dim Del_change As Boolean
 Dim isFirstInstance As Boolean
 
 Private Sub CommandButton8_Click()
@@ -7,21 +7,16 @@ Private Sub CommandButton8_Click()
     response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo)
     
     If response = vbYes Then
-        Del_change = "YES"
+        Del_change = True
     Else
-        Del_change = "NO"
+        Del_change = False
     End If
-    ElseIf response = "YES" Then
-        Del_change = "YES"
-    Else
-       Del_change = "NO"
-    End If
+    
     Additional_Items
 End Sub
 
 Private Sub CommandButton3_Click()
     If isFirstInstance Then
-        Del_change = "YES"
         isFirstInstance = False
     End If
     
@@ -31,7 +26,7 @@ End Sub
 Private Sub Additional_Items()
     Dim lastRow As Long
     
-    If Del_change = "YES" Then
+    If Del_change Then
         ' Clear all inputs and enable TextBox8
         ClearAllInputs
         TextBox8.Enabled = True
@@ -45,7 +40,7 @@ Private Sub Additional_Items()
         Sheets("Sheet3").Range("I" & lastRow).Value = TextBox5.Value
         Sheets("Sheet3").Range("H" & lastRow).Value = TextBox23.Value
         Sheets("Sheet3").Range("J" & lastRow).Value = TextBox24.Value
-    ElseIf Del_change = "NO" Then
+    Else
         ' Clear all inputs except TextBox8 and disable TextBox8
         ClearAllInputsExceptTextBox8
         TextBox8.Enabled = False
@@ -83,4 +78,5 @@ End Sub
 
 Private Sub UserForm_Initialize()
     isFirstInstance = True
+    Del_change = False ' Setting initial value of Del_change to False
 End Sub
