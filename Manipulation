@@ -1,46 +1,60 @@
-Sub Loader()
-    Dim startValue As Integer
-    startValue = ThisWorkbook.Sheets("Sheet2").Range("B48").Value ' Get the starting value from Sheet2
-    
-    If isFirstInput = False Then
-        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49"), startValue
-        isFirstInput = True
-        originalTextBox8Value = TextBox8.Value ' Store the original value of TextBox8
-        Call ClearAllInputsExceptTextBox8
-    Else
-        If TextBox8_Changed() Then
-            If PromptForDeliverableChange() Then
-                Call ClearAllInputs
-                isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
-            Else
-                ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49"), startValue + userInputCount
-                Call ClearAllInputsExceptTextBox8
-            End If
-        Else
-            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49"), startValue + userInputCount
-            Call ClearAllInputsExceptTextBox8
-        End If
-    End If
-    
-    MsgBox "Data has been manipulated and pasted to Sheet3.", vbInformation
-End Sub
+ Additional WI logic:
 
-Sub ProcessRowRange(rng As Range, ByVal startValue As Integer)
-    ' Same as before
-    
-    ' Increment the values in column B starting from the startValue
-    Dim wsDestination As Worksheet
-    Dim destinationRange As Range
-    Dim lastRow As Long
-    Dim i As Integer
-    
-    ' Set the destination worksheet (Sheet3) and starting cell
-    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
-    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
-    Set destinationRange = wsDestination.Range("B" & lastRow + 1) ' Start pasting from column B
-    
-    ' Increment and paste the values in column B
-    For i = 1 To rng.Rows.Count
-        destinationRange.Offset(i - 1).Value = startValue + i - 1
-    Next i
-End Sub
+Initialize variable Del_change = YES 
+On first instance, on click Add more- Make the variable to Del_change NO; Disable Deliverable Box; With increment logic - save the story name in "Story_id".
+When variable NO = Add only Tasks; Add "#StoryID in Parent"
+When YES = Story + Task , Tasks ; Enable Deliverable box
+Column B is starting 
+Add new Button - "New deliverable" - On click : Yes/No.
+
+Yes: Clear all text boxes, "Deliverable_change = YES"; Repeat point 4, 2.
+On point 2; Update Story ID and repeat the process
+
+After 1st instance of user input Set flag for  
+column B start paste in getting values from B48:B49 we get that and paste 1st instance os user input. set flag to false
+
+variable Del_change = YES 
+
+Copy row in sheet2 A48:K49 and paste it in last empty row in sheet3
+
+text box logic below to manipulate the sheet2 rows we this
+
+TextBox8.value & " (" & TextBox2.value & ")" ' Concatenate and replace in column C
+        TextBox3.value ' Replace in column D
+        TextBox4.value ' Replace in column K
+        TextBox5.value ' Replace in column I
+        TextBox23.value ' Replace in column H
+         TextBox24.value ' Replace in column J    
+
+after 2 nd instance set flag to true increment by 1 ,  the column B for 2 rows by based on last value in the B column
+
+
+
+2 row it has to update A48:K48 and A49:K49
+
+in B column it integers incremented 
+
+create variable and store Story_id = get the 1 row B column value
+
+
+
+variable Del_change = NO
+
+Copy row in sheet2 A49:K49 and paste it in last empty row in sheet3
+
+text box logic below to manipulate the sheet2 rows we this
+
+TextBox8.value & " (" & TextBox2.value & ")" ' Concatenate and replace in column C
+        TextBox3.value ' Replace in column D
+        TextBox4.value ' Replace in column K
+        TextBox5.value ' Replace in column I
+        TextBox23.value ' Replace in column H
+         TextBox24.value ' Replace in column J
+
+after 2 nd instance set flag to true increment by 1, the column B for 1 row by based on last value in the B column
+
+
+
+1 row it has to update A49:K49
+
+create variable and store Story_id = get the 1 row update this value to E column like example : "#storyid"
