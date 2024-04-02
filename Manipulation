@@ -1,7 +1,34 @@
-Sub Loader(runRange As Range)
-    ProcessRowRange runRange
+Dim isFirstInput As Boolean
+
+Sub Loader(runRange48To49 As Boolean)
+    Dim rng As Range
+    
+    If runRange48To49 Then
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+    Else
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+    End If
+    
+    ProcessRowRange rng
+    TextBox8.Enabled = False
+    Call ClearAllInputs
     MsgBox "Additional work item added.", vbInformation
 End Sub
+
+Function CommandButton8_Click() As Boolean
+    Dim response As VbMsgBoxResult
+    
+    ' Prompt the user if they want to change TextBox8
+    response = MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change")
+    
+    If response = vbYes Then
+        CommandButton8_Click = True
+    ElseIf response = vbNo Then
+        CommandButton8_Click = False
+    Else
+        ' Handle other cases if needed
+    End If
+End Function
 
 Sub ProcessRowRange(rng As Range)
     Dim wsDestination As Worksheet
@@ -41,16 +68,14 @@ Private Sub ClearAllInputs()
 End Sub
 
 Private Sub CommandButton3_Click()
-    Loader ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+    Loader False
 End Sub
 
 Private Sub CommandButton8_Click()
-    Call ClearAllInputs
-    Dim response As VbMsgBoxResult
-    response = MsgBox("Are you sure you want to change the TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change")
-    If response = vbYes Then
-        Loader ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+    If CommandButton8_Click Then
+        Call ClearAllInputs
     Else
-        Loader ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+        TextBox8.Enabled = False
+        Loader True
     End If
 End Sub
