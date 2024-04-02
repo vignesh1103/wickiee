@@ -1,36 +1,71 @@
- Additional WI logic:
-Initialisze  Del_change - Add new Button this is that command button 7 - "New deliverable" this is Del_change - On click : Yes/No. 
-Initially variable is  Del_change = YES  On first instance, on click Add more is command button 3- Make the variable to Del_change NO; Disable textbox8 ; .
-When variable NO = Add only Tasks ; Del_change No .clear all inputsexcepttextbox8
-When YES =  Enable textbox8 , Del_change yes, clearallinputs
-del_change  work is this is a command button7 logic is after 1 st intance of user  may click this Del_change button click we gave user to prompt are you change the deliverable :
-if YES 
-  Del_change = YES
-    clearallinputs 
-        Enable textbox8
-If No Means 
-   disable that textbox 8 and text is visible
-   clearall inputs expcept textbox8. 
-     Del_change = NO
+Dim Del_change As String
 
-variable Del_change = YES 
+Private Sub CommandButton3_Click()
+    If Del_change = "YES" Then
+        ' Add only tasks
+        ClearAllInputsExceptTextBox8
+    End If
+End Sub
 
-Copy row in sheet2 A48:K49 and paste it in last empty row in sheet3
-text box logic below to manipulate the sheet2 rows we this
-TextBox8.value & " (" & TextBox2.value & ")" ' Concatenate and replace in column C
-        TextBox3.value ' Replace in column D
-        TextBox4.value ' Replace in column K
-        TextBox5.value ' Replace in column I
-        TextBox23.value ' Replace in column H
-         TextBox24.value ' Replace in column J    
+Private Sub CommandButton7_Click()
+    Dim response As VbMsgBoxResult
+    
+    response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo)
+    
+    If response = vbYes Then
+        Del_change = "YES"
+        ClearAllInputs
+        TextBox8.Enabled = True
+    Else
+        Del_change = "NO"
+        TextBox8.Enabled = False
+    End If
+End Sub
 
-variable Del_change = NO
-Copy row in sheet2 A49:K49 and paste it in last empty row in sheet3
-text box logic below to manipulate the sheet2 rows we this
-TextBox8.value & " (" & TextBox2.value & ")" ' Concatenate and replace in column C
-        TextBox3.value ' Replace in column D
-        TextBox4.value ' Replace in column K
-        TextBox5.value ' Replace in column I
-        TextBox23.value ' Replace in column H
-         TextBox24.value ' Replace in column J
+Private Sub TextBox8_Change()
+    Dim lastRow As Long
+    
+    If Del_change = "YES" Then
+        ' Copy row from sheet2 to sheet3
+        lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
+        Sheets("Sheet2").Rows("48:49").Copy Destination:=Sheets("Sheet3").Range("A" & lastRow)
+        
+        ' Manipulate rows in sheet3 using TextBox values
+        Sheets("Sheet3").Range("C" & lastRow).Value = TextBox8.Value & " (" & TextBox2.Value & ")"
+        Sheets("Sheet3").Range("D" & lastRow).Value = TextBox3.Value
+        Sheets("Sheet3").Range("K" & lastRow).Value = TextBox4.Value
+        Sheets("Sheet3").Range("I" & lastRow).Value = TextBox5.Value
+        Sheets("Sheet3").Range("H" & lastRow).Value = TextBox23.Value
+        Sheets("Sheet3").Range("J" & lastRow).Value = TextBox24.Value
+    ElseIf Del_change = "NO" Then
+        ' Copy row from sheet2 to sheet3
+        lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
+        Sheets("Sheet2").Rows("49:49").Copy Destination:=Sheets("Sheet3").Range("A" & lastRow)
+        
+        ' Manipulate rows in sheet3 using TextBox values
+        Sheets("Sheet3").Range("C" & lastRow).Value = TextBox8.Value & " (" & TextBox2.Value & ")"
+        Sheets("Sheet3").Range("D" & lastRow).Value = TextBox3.Value
+        Sheets("Sheet3").Range("K" & lastRow).Value = TextBox4.Value
+        Sheets("Sheet3").Range("I" & lastRow).Value = TextBox5.Value
+        Sheets("Sheet3").Range("H" & lastRow).Value = TextBox23.Value
+        Sheets("Sheet3").Range("J" & lastRow).Value = TextBox24.Value
+    End If
+End Sub
 
+Private Sub ClearAllInputs()
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
+End Sub
+
+Private Sub ClearAllInputsExceptTextBox8()
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
+End Sub
