@@ -11,7 +11,11 @@ Private Sub CommandButton8_Click()
     Else
         Del_change = "NO"
     End If
-    
+    ElseIf response = "YES" Then
+        Del_change = "YES"
+    Else
+       Del_change = "NO"
+    End If
     Additional_Items
 End Sub
 
