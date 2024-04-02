@@ -15,29 +15,16 @@ Sub Loader(runRange48To49 As Boolean)
     MsgBox "Additional work item added.", vbInformation
 End Sub
 
-Private Sub CommandButton3_Click()
-    Loader False
-End Sub
-
-Private Sub CommandButton8_Click()
-    If CommandButton8_Click Then
-        Call ClearAllInputs
-    Else
-        TextBox8.Enabled = False
-        Loader True
-    End If
-End Sub
-
-Function CommandButton8_Click() As Boolean
+Function Checking() As Boolean
     Dim response As VbMsgBoxResult
     
     ' Prompt the user if they want to change TextBox8
     response = MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change")
     
     If response = vbYes Then
-        CommandButton8_Click = True
+        Checking = True
     ElseIf response = vbNo Then
-        CommandButton8_Click = False
+        Checking = False
     Else
         ' Handle other cases if needed
     End If
@@ -80,3 +67,15 @@ Private Sub ClearAllInputs()
     TextBox24.Value = ""
 End Sub
 
+Private Sub CommandButton3_Click()
+    Loader False
+End Sub
+
+Private Sub CommandButton8_Click()
+    If Checking Then
+        Call ClearAllInputs
+    Else
+        TextBox8.Enabled = False
+        Loader True
+    End If
+End Sub
