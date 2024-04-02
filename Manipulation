@@ -1,4 +1,5 @@
 Dim Del_change As String
+Dim isFirstInstance As Boolean
 
 Private Sub CommandButton3_Click()
     If Del_change = "YES" Then
@@ -10,15 +11,21 @@ End Sub
 Private Sub CommandButton7_Click()
     Dim response As VbMsgBoxResult
     
-    response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo)
-    
-    If response = vbYes Then
-        Del_change = "YES"
-        ClearAllInputs
-        TextBox8.Enabled = True
-    Else
+    If isFirstInstance Then
         Del_change = "NO"
         TextBox8.Enabled = False
+        isFirstInstance = False
+    Else
+        response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo)
+        
+        If response = vbYes Then
+            Del_change = "YES"
+            ClearAllInputs
+            TextBox8.Enabled = True
+        Else
+            Del_change = "NO"
+            TextBox8.Enabled = False
+        End If
     End If
 End Sub
 
