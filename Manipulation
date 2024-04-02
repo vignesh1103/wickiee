@@ -5,16 +5,13 @@ Sub Loader()
         Call ClearAllInputsExceptTextBox8
     Else
         If TextBox8_Changed() Then
-            If PromptForDeliverableChange() Then
+            If CommandButton8_Click() Then
                 Call ClearAllInputs
                 isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
             Else
                 ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
                 Call ClearAllInputsExceptTextBox8
             End If
-        'Else
-            'ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-            'Call ClearAllInputsExceptTextBox8
         End If
     End If
     
@@ -26,14 +23,14 @@ Function TextBox8_Changed() As Boolean
     TextBox8_Changed = (TextBox8.value <> "") ' Change "" to the initial value if available
 End Function
 
-Function PromptForDeliverableChange() As Boolean
+Function CommandButton8_Click() As Boolean
     ' Prompt the user if they want to change the deliverable
     Dim response As VbMsgBoxResult
     response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo + vbQuestion, "Confirm Deliverable Change")
     If response = vbYes Then
-        PromptForDeliverableChange = True
+        CommandButton8_Click = True
     Else
-        PromptForDeliverableChange = False
+        CommandButton8_Click = False
     End If
 End Function
 
@@ -63,10 +60,6 @@ Sub ProcessRowRange(rng As Range)
     Next i
 End Sub
 
-Private Sub CommandButton3_Click()
-    Loader
-End Sub
-
 Private Sub ClearAllInputsExceptTextBox8()
     ' Clear all input controls except TextBox8
     TextBox2.value = ""
@@ -75,4 +68,8 @@ Private Sub ClearAllInputsExceptTextBox8()
     TextBox5.value = ""
     TextBox23.value = ""
     TextBox24.value = ""
+End Sub
+
+Private Sub CommandButton3_Click()
+    Loader
 End Sub
