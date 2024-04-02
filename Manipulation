@@ -1,6 +1,6 @@
  Additional WI logic:
-Initialisze  Del_change - Add new Button this is that button 7 - "New deliverable" this is Del_change - On click : Yes/No. 
-Initially variable is  Del_change = YES  On first instance, on click Add more- Make the variable to Del_change NO; Disable textbox8 ; .
+Initialisze  Del_change - Add new Button this is that command button 7 - "New deliverable" this is Del_change - On click : Yes/No. 
+Initially variable is  Del_change = YES  On first instance, on click Add more is command button 3- Make the variable to Del_change NO; Disable textbox8 ; .
 When variable NO = Add only Tasks ; Del_change No .clear all inputsexcepttextbox8
 When YES =  Enable textbox8 , Del_change yes, clearallinputs
 del_change  work is this is a command button7 logic is after 1 st intance of user  may click this Del_change button click we gave user to prompt are you change the deliverable :
