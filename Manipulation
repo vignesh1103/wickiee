@@ -17,9 +17,13 @@ Private Sub CommandButton3_Click(ByVal response As String)
     If isFirstInstance Then
         Del_change = "YES"
         isFirstInstance = False
+    ElseIf response = "YES" Then
+        Del_change = "YES"
+    Else
+       Del_change = "NO"
     End If
     
-    Additional_Items response
+      Additional_Items response
 End Sub
 
 Private Sub Additional_Items(ByVal response As String)
