@@ -25,44 +25,49 @@ End Sub
 
 Private Sub Additional_Items()
     Dim lastRow As Long
+    Dim wsDestination As Worksheet
+    Dim destinationRange As Range
+    Dim rng As Range
+    
+    ' Set the destination worksheet (Sheet3) and starting cell
+    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
+    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
+    Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
     If Del_change Then
         ' Clear all inputs and enable TextBox8
         ClearAllInputs
         TextBox8.Enabled = True
         ' Copy rows from sheet2 to sheet3 (two rows)
-        lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
-        ' Copy the range and manipulate the data
-        Sheets("Sheet2").Range("A48:K49").Copy
-        With Sheets("Sheet3").Cells(lastRow, "A")
-            .PasteSpecial Paste:=xlPasteValues
-            ManipulateData .Row, TextBox8.Value, TextBox2.Value
-        End With
+        Set rng = Sheets("Sheet2").Range("A48:K49")
     Else
         ' Clear all inputs except TextBox8 and disable TextBox8
         ClearAllInputsExceptTextBox8
         TextBox8.Enabled = False
         ' Copy rows from sheet2 to sheet3 (one row)
-        lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
-        ' Copy the range and manipulate the data
-        Sheets("Sheet2").Range("A49:K49").Copy
-        With Sheets("Sheet3").Cells(lastRow, "A")
-            .PasteSpecial Paste:=xlPasteValues
-            ManipulateData .Row, TextBox8.Value, TextBox2.Value
-        End With
+        Set rng = Sheets("Sheet2").Range("A49:K49")
     End If
+    
+    ' Copy the original data from Sheet2 to Sheet3
+    rng.Copy destinationRange
+    
+    ' Manipulate and paste data based on user inputs
+    ManipulateData destinationRange
 End Sub
 
-Private Sub ManipulateData(ByVal startRow As Long, ByVal value8 As String, ByVal value2 As String)
-    With Sheets("Sheet3")
-        ' Manipulate specific cells within the copied range
-        .Cells(startRow, "C").Value = value8 & " (" & value2 & ")"
-        .Cells(startRow, "D").Value = TextBox3.Value
-        .Cells(startRow, "K").Value = TextBox4.Value
-        .Cells(startRow, "I").Value = TextBox5.Value
-        .Cells(startRow, "H").Value = TextBox23.Value
-        .Cells(startRow, "J").Value = TextBox24.Value
-    End With
+Private Sub ManipulateData(rng As Range)
+    Dim i As Integer
+    
+    ' Loop through each row and manipulate and paste data based on user inputs
+    For i = 1 To rng.Rows.Count
+        ' Concatenate the values from TextBox8 and TextBox2
+        rng.Offset(i - 1, 2).Value = TextBox8.Value & " (" & TextBox2.Value & ")" ' Concatenate and replace in column C
+        rng.Offset(i - 1, 3).Value = TextBox3.Value ' Replace in column D
+        rng.Offset(i - 1, 10).Value = TextBox4.Value ' Replace in column K
+        rng.Offset(i - 1, 8).Value = TextBox5.Value ' Replace in column I
+        rng.Offset(i - 1, 7).Value = TextBox23.Value ' Replace in column H
+        rng.Offset(i - 1, 9).Value = TextBox24.Value ' Replace in column J
+    Next i
 End Sub
 
 Private Sub ClearAllInputs()
