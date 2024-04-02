@@ -32,29 +32,36 @@ Private Sub Additional_Items()
         TextBox8.Enabled = True
         ' Copy rows from sheet2 to sheet3 (two rows)
         lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
-        Sheets("Sheet2").Rows("48:49").Copy Destination:=Sheets("Sheet3").Range("A" & lastRow)
-        ' Manipulate rows in sheet3 using TextBox values
-        ManipulateData lastRow, TextBox8.Value, TextBox2.Value, TextBox3.Value, TextBox4.Value, TextBox5.Value, TextBox23.Value, TextBox24.Value
+        ' Copy the range and manipulate the data
+        Sheets("Sheet2").Range("A48:K49").Copy
+        With Sheets("Sheet3").Cells(lastRow, "A")
+            .PasteSpecial Paste:=xlPasteValues
+            ManipulateData .Row, TextBox8.Value, TextBox2.Value
+        End With
     Else
         ' Clear all inputs except TextBox8 and disable TextBox8
         ClearAllInputsExceptTextBox8
         TextBox8.Enabled = False
         ' Copy rows from sheet2 to sheet3 (one row)
         lastRow = Sheets("Sheet3").Cells(Sheets("Sheet3").Rows.Count, "A").End(xlUp).Row + 1
-        Sheets("Sheet2").Rows("49:49").Copy Destination:=Sheets("Sheet3").Range("A" & lastRow)
-        ' Manipulate rows in sheet3 using TextBox values
-        ManipulateData lastRow, TextBox8.Value, TextBox2.Value, TextBox3.Value, TextBox4.Value, TextBox5.Value, TextBox23.Value, TextBox24.Value
+        ' Copy the range and manipulate the data
+        Sheets("Sheet2").Range("A49:K49").Copy
+        With Sheets("Sheet3").Cells(lastRow, "A")
+            .PasteSpecial Paste:=xlPasteValues
+            ManipulateData .Row, TextBox8.Value, TextBox2.Value
+        End With
     End If
 End Sub
 
-Private Sub ManipulateData(ByVal startRow As Long, ByVal value8 As String, ByVal value2 As String, ByVal value3 As String, ByVal value4 As String, ByVal value5 As String, ByVal value23 As String, ByVal value24 As String)
+Private Sub ManipulateData(ByVal startRow As Long, ByVal value8 As String, ByVal value2 As String)
     With Sheets("Sheet3")
-        .Range("C" & startRow).Value = value8 & " (" & value2 & ")"
-        .Range("D" & startRow).Value = value3
-        .Range("K" & startRow).Value = value4
-        .Range("I" & startRow).Value = value5
-        .Range("H" & startRow).Value = value23
-        .Range("J" & startRow).Value = value24
+        ' Manipulate specific cells within the copied range
+        .Cells(startRow, "C").Value = value8 & " (" & value2 & ")"
+        .Cells(startRow, "D").Value = TextBox3.Value
+        .Cells(startRow, "K").Value = TextBox4.Value
+        .Cells(startRow, "I").Value = TextBox5.Value
+        .Cells(startRow, "H").Value = TextBox23.Value
+        .Cells(startRow, "J").Value = TextBox24.Value
     End With
 End Sub
 
