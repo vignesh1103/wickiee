@@ -1,38 +1,17 @@
 Sub Loader()
-    If isFirstInput = False Then
-        ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-        isFirstInput = True
-        Call ClearAllInputsExceptTextBox8
+    Dim rng As Range
+    
+    If CommandButton8_Click Then
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
     Else
-        If TextBox8_Changed() Then
-            If CommandButton8_Click() Then
-                Call ClearAllInputs
-                isFirstInput = False ' Reset isFirstInput to run code for rows 48 and 49 again
-            Else
-                ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-                Call ClearAllInputsExceptTextBox8
-            End If
-        End If
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
     End If
     
+    ProcessRowRange rng
+    TextBox8.Enabled = False
+    Call ClearAllInputs
     MsgBox "Additional work item added.", vbInformation
 End Sub
-
-Function TextBox8_Changed() As Boolean
-    ' Check if TextBox8 text has changed
-    TextBox8_Changed = (TextBox8.value <> "") ' Change "" to the initial value if available
-End Function
-
-Function CommandButton8_Click() As Boolean
-    ' Prompt the user if they want to change the deliverable
-    Dim response As VbMsgBoxResult
-    response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo + vbQuestion, "Confirm Deliverable Change")
-    If response = vbYes Then
-        CommandButton8_Click = True
-    Else
-        CommandButton8_Click = False
-    End If
-End Function
 
 Sub ProcessRowRange(rng As Range)
     Dim wsDestination As Worksheet
@@ -51,25 +30,34 @@ Sub ProcessRowRange(rng As Range)
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
         ' Concatenate the values from TextBox8 and TextBox2
-        destinationRange.Offset(i - 1, 2).value = TextBox8.value & " (" & TextBox2.value & ")" ' Concatenate and replace in column C
-        destinationRange.Offset(i - 1, 3).value = TextBox3.value ' Replace in column D
-        destinationRange.Offset(i - 1, 10).value = TextBox4.value ' Replace in column K
-        destinationRange.Offset(i - 1, 8).value = TextBox5.value ' Replace in column I
-        destinationRange.Offset(i - 1, 7).value = TextBox23.value ' Replace in column H
-        destinationRange.Offset(i - 1, 9).value = TextBox24.value ' Replace in column J
+        destinationRange.Offset(i - 1, 2).Value = TextBox8.Value & " (" & TextBox2.Value & ")" ' Concatenate and replace in column C
+        destinationRange.Offset(i - 1, 3).Value = TextBox3.Value ' Replace in column D
+        destinationRange.Offset(i - 1, 10).Value = TextBox4.Value ' Replace in column K
+        destinationRange.Offset(i - 1, 8).Value = TextBox5.Value ' Replace in column I
+        destinationRange.Offset(i - 1, 7).Value = TextBox23.Value ' Replace in column H
+        destinationRange.Offset(i - 1, 9).Value = TextBox24.Value ' Replace in column J
     Next i
 End Sub
 
-Private Sub ClearAllInputsExceptTextBox8()
-    ' Clear all input controls except TextBox8
-    TextBox2.value = ""
-    TextBox3.value = ""
-    TextBox4.value = ""
-    TextBox5.value = ""
-    TextBox23.value = ""
-    TextBox24.value = ""
+Private Sub ClearAllInputs()
+    ' Clear all input controls
+    TextBox2.Value = ""
+    TextBox3.Value = ""
+    TextBox4.Value = ""
+    TextBox5.Value = ""
+    TextBox8.Value = ""
+    TextBox23.Value = ""
+    TextBox24.Value = ""
 End Sub
 
 Private Sub CommandButton3_Click()
     Loader
+End Sub
+
+Private Sub CommandButton8_Click()
+    If CommandButton8_Click Then
+        Call ClearAllInputs
+    Else
+        TextBox8.Enabled = False
+    End If
 End Sub
