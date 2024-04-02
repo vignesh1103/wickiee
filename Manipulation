@@ -7,26 +7,24 @@ Private Sub CommandButton8_Click()
     response = MsgBox("Are you sure you want to change the deliverable?", vbYesNo)
     
     If response = vbYes Then
-        CommandButton3_Click "YES"
+        Del_change = "YES"
     Else
-        CommandButton3_Click "NO"
+        Del_change = "NO"
     End If
+    
+    Additional_Items
 End Sub
 
-Private Sub CommandButton3_Click(ByVal response As String)
+Private Sub CommandButton3_Click()
     If isFirstInstance Then
         Del_change = "YES"
         isFirstInstance = False
-    ElseIf response = "YES" Then
-        Del_change = "YES"
-    Else
-       Del_change = "NO"
     End If
     
-      Additional_Items response
+    Additional_Items
 End Sub
 
-Private Sub Additional_Items(ByVal response As String)
+Private Sub Additional_Items()
     If Del_change = "YES" Then
         ' Clear all inputs and enable TextBox8
         ClearAllInputs
