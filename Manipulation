@@ -5,19 +5,18 @@ Sub Loader()
         Call ClearAllInputs
         ' Get user inputs for all textboxes
         Dim userInput8 As String
-        Dim userInput2 As String
-        Dim userInput3 As String
-        Dim userInput4 As String
-        Dim userInput5 As String
-        Dim userInput23 As String
-        Dim userInput24 As String
-        
         userInput8 = TextBox8.Value
+        Dim userInput2 As String
         userInput2 = TextBox2.Value
+        Dim userInput3 As String
         userInput3 = TextBox3.Value
+        Dim userInput4 As String
         userInput4 = TextBox4.Value
+        Dim userInput5 As String
         userInput5 = TextBox5.Value
+        Dim userInput23 As String
         userInput23 = TextBox23.Value
+        Dim userInput24 As String
         userInput24 = TextBox24.Value
         
         ' Set rng to A48:J49 range
@@ -26,17 +25,16 @@ Sub Loader()
         Call ClearAllInputsExceptTextBox8
         ' Get user inputs for all textboxes except TextBox8
         Dim userInput2 As String
-        Dim userInput3 As String
-        Dim userInput4 As String
-        Dim userInput5 As String
-        Dim userInput23 As String
-        Dim userInput24 As String
-        
         userInput2 = TextBox2.Value
+        Dim userInput3 As String
         userInput3 = TextBox3.Value
+        Dim userInput4 As String
         userInput4 = TextBox4.Value
+        Dim userInput5 As String
         userInput5 = TextBox5.Value
+        Dim userInput23 As String
         userInput23 = TextBox23.Value
+        Dim userInput24 As String
         userInput24 = TextBox24.Value
         
         ' Set rng to A49:J49 range
