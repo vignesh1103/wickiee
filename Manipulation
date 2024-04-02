@@ -4,45 +4,31 @@ Sub Loader()
    If isFirstUserInput Then
        isFirstUserInput = False ' Set flag to false after processing first user input
        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-    ElseIf runRange48To49 Then
-        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-    Else
-        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-       ' End If
+   Else
+        If runRange48To49 Then
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+            TextBox8.Enabled = True
+        Else
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+        End If
     End If
     
     ProcessRowRange rng
+    MsgBox "work item added .", vbInformation
     Call ClearAllInputsExceptTextBox8
-    MsgBox "work item added.", vbInformation
 End Sub
-Function Checking() As Boolean
-    Dim response As VbMsgBoxResult
-    
-    ' Prompt the user if they want to change TextBox8
-    response = MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change")
-    
-    If response = vbYes Then
-        Checking = True
-    ElseIf response = vbNo Then
-        Checking = False
-    Else
-        Checking = True
-    End If
-End Function
 
 Private Sub CommandButton3_Click()
     Loader
 End Sub
 
 Private Sub CommandButton8_Click()
-    If Checking Then
+    If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
         runRange48To49 = True
-        Loader
-        Call ClearAllInputs
     Else
         runRange48To49 = False
-        Loader
     End If
+    Loader
 End Sub
 
 Sub ProcessRowRange(rng As Range)
