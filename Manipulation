@@ -1,49 +1,50 @@
-Dim runRange48To49 As Boolean ' Declare runRange48To49 as a module-level variable
-
 Sub Loader()
     Dim rng As Range
     
-    If isFirstUserInput Then
-        isFirstUserInput = False ' Set flag to false after processing first user input
+    If runRange48To49 Then
+        Call ClearAllInputs
+        ' Get user inputs for all textboxes
+        Dim userInput8 As String
+        Dim userInput2 As String
+        Dim userInput3 As String
+        Dim userInput4 As String
+        Dim userInput5 As String
+        Dim userInput23 As String
+        Dim userInput24 As String
+        
+        userInput8 = TextBox8.Value
+        userInput2 = TextBox2.Value
+        userInput3 = TextBox3.Value
+        userInput4 = TextBox4.Value
+        userInput5 = TextBox5.Value
+        userInput23 = TextBox23.Value
+        userInput24 = TextBox24.Value
+        
+        ' Set rng to A48:J49 range
         Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
     Else
-        If runRange48To49 Then
-            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-            TextBox8.Enabled = True
-        Else
-            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-        End If
+        Call ClearAllInputsExceptTextBox8
+        ' Get user inputs for all textboxes except TextBox8
+        Dim userInput2 As String
+        Dim userInput3 As String
+        Dim userInput4 As String
+        Dim userInput5 As String
+        Dim userInput23 As String
+        Dim userInput24 As String
+        
+        userInput2 = TextBox2.Value
+        userInput3 = TextBox3.Value
+        userInput4 = TextBox4.Value
+        userInput5 = TextBox5.Value
+        userInput23 = TextBox23.Value
+        userInput24 = TextBox24.Value
+        
+        ' Set rng to A49:J49 range
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
     End If
     
+    ' ProcessRowRange subroutine to paste the data
     ProcessRowRange rng
-    Call ClearAllInputsExceptTextBox8
+    
     MsgBox "Work item added.", vbInformation
-End Sub
-
-Private Sub CommandButton3_Click()
-    If LoaderThenPaste() Then
-        ' Call Loader to process the range and paste the data
-        Loader
-    End If
-End Sub
-
-Private Function LoaderThenPaste() As Boolean
-    If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
-        runRange48To49 = True
-    Else
-        runRange48To49 = False
-    End If
-    LoaderThenPaste = runRange48To49 ' Return the value of runRange48To49
-End Function
-
-Sub ProcessRowRange(rng As Range)
-    ' This subroutine remains the same
-    ' It processes the selected range and pastes the data into Sheet3
-    ' We don't need to make any changes here
-End Sub
-
-Private Sub ClearAllInputsExceptTextBox8()
-    ' This subroutine remains the same
-    ' It clears all input controls except TextBox8
-    ' We don't need to make any changes here
 End Sub
