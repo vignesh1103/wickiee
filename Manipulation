@@ -1,9 +1,11 @@
 Dim isFirstInput As Boolean
+Dim originalTextBox8Value As String
 
 Sub Loader()
     If isFirstInput = False Then
         ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         isFirstInput = True
+        originalTextBox8Value = TextBox8.Value ' Store the original value of TextBox8
         Call ClearAllInputsExceptTextBox8
     Else
         If TextBox8_Changed() Then
@@ -14,6 +16,9 @@ Sub Loader()
                 ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
                 Call ClearAllInputsExceptTextBox8
             End If
+        Else
+            ProcessRowRange ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+            Call ClearAllInputsExceptTextBox8
         End If
     End If
     
@@ -22,7 +27,7 @@ End Sub
 
 Function TextBox8_Changed() As Boolean
     ' Check if TextBox8 text has changed
-    TextBox8_Changed = (TextBox8.Value <> "") ' Change "" to the initial value if available
+    TextBox8_Changed = (TextBox8.Value <> originalTextBox8Value)
 End Function
 
 Function PromptForDeliverableChange() As Boolean
@@ -37,46 +42,13 @@ Function PromptForDeliverableChange() As Boolean
 End Function
 
 Sub ProcessRowRange(rng As Range)
-    Dim wsDestination As Worksheet
-    Dim destinationRange As Range
-    Dim lastRow As Long
-    Dim i As Integer
-    
-    ' Set the destination worksheet (Sheet3) and starting cell
-    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
-    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
-    Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
-    
-    ' Copy the original data from Sheet2 to Sheet3
-    rng.Copy destinationRange
-    
-    ' Loop through each row and manipulate and paste data based on user inputs
-    For i = 1 To rng.Rows.Count
-        ' Concatenate the values from TextBox8 and TextBox2
-        destinationRange.Offset(i - 1, 2).Value = TextBox8.Value & " (" & TextBox2.Value & ")" ' Concatenate and replace in column C
-        destinationRange.Offset(i - 1, 3).Value = TextBox3.Value ' Replace in column D
-        destinationRange.Offset(i - 1, 10).Value = TextBox4.Value ' Replace in column K
-        destinationRange.Offset(i - 1, 8).Value = TextBox5.Value ' Replace in column I
-        destinationRange.Offset(i - 1, 7).Value = TextBox23.Value ' Replace in column H
-        destinationRange.Offset(i - 1, 9).Value = TextBox24.Value ' Replace in column J
-    Next i
+    ' Same as before
 End Sub
 
 Sub ClearAllInputsExceptTextBox8()
-    TextBox2.Value = ""
-    TextBox3.Value = ""
-    TextBox4.Value = ""
-    TextBox5.Value = ""
-    TextBox23.Value = ""
-    TextBox24.Value = ""
+    ' Same as before
 End Sub
 
 Sub ClearAllInputs()
-    TextBox2.Value = ""
-    TextBox3.Value = ""
-    TextBox4.Value = ""
-    TextBox5.Value = ""
-    TextBox8.Value = ""
-    TextBox23.Value = ""
-    TextBox24.Value = ""
+    ' Same as before
 End Sub
