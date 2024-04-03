@@ -57,6 +57,7 @@ End Sub
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
     story_id = 39 ' Initialize story_id to 39
+    copy_id = 40 ' Initialize copy_id to 40
 End Sub
 
 Sub Loader()
@@ -130,9 +131,11 @@ Sub ProcessRowRange(rng As Range)
                 copy_id = destinationRange.Offset(i - 2, 1).Value
                 destinationRange.Offset(i - 1, 5).Value = "#" & copy_id
             End If
+            ' Increment copy_id by 1 for each row
+            copy_id = copy_id + 1
         Else
             ' For other rows, paste the same copy_id value in E column
-            destinationRange.Offset(i - 1, 5).Value = "#" & 40 ' Set copy_id to 40 when runRange48To49 is false
+            destinationRange.Offset(i - 1, 5).Value = "#" & copy_id
         End If
         
         ' Concatenate the values from TextBox8 and TextBox2
