@@ -1,5 +1,7 @@
 Dim isFirstUserInput As Boolean
 Dim runRange48To49 As Boolean
+Dim story_id As Integer
+Dim copy_id As Integer
 
 ' Variables to hold user inputs from TextBoxes
 Private userInput8 As String
@@ -12,13 +14,14 @@ Private userInput24 As String
 
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
+    story_id = 0 ' Initialize story_id
 End Sub
 
 Sub Loader()
-   If isFirstUserInput Then
-      isFirstUserInput = False ' Set flag to false after processing first user input
-      Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-   Else
+    If isFirstUserInput Then
+        isFirstUserInput = False ' Set flag to false after processing first user input
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+    Else
         If runRange48To49 Then
             Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         Else
@@ -26,27 +29,28 @@ Sub Loader()
         End If
     End If
     ProcessRowRange rng
-    MsgBox "work item added .", vbInformation
+    MsgBox "Work item added.", vbInformation
 End Sub
 
 Private Sub CommandButton3_Click()
-        If TextBox2.value = " " Or TextBox3.value = " " Or TextBox4.value = " " Or TextBox5.value = " " Or TextBox8.value = " " Or TextBox3.value = " " Or TextBox22.value = " " Or TextBox23.value = " " Then
-            MsgBox "Please Enter All Fields", vbExclamation
-        Else
+    If TextBox2.Value = "" Or TextBox3.Value = "" Or TextBox4.Value = "" Or TextBox5.Value = "" Or TextBox8.Value = "" Or TextBox3.Value = "" Or TextBox22.Value = "" Or TextBox23.Value = "" Then
+        MsgBox "Please enter all fields", vbExclamation
+    Else
         ' Call Loader to process the range and paste the data
-            Loader
-            Call ClearAllInputsExceptTextBox8
-        End If
+        Loader
+        Call ClearAllInputsExceptTextBox8
+    End If
 End Sub
 
 Private Sub CommandButton8_Click()
     If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
         runRange48To49 = True
         Call ClearAllInputs
+        isFirstUserInput = True ' Reset isFirstUserInput flag
+        story_id = 0 ' Reset story_id
     Else
         runRange48To49 = False
     End If
-    'CommandButton3_Click
 End Sub
 
 Sub ProcessRowRange(rng As Range)
@@ -61,11 +65,18 @@ Sub ProcessRowRange(rng As Range)
     
     Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
-    ' Copy the original data from Sheet2 to Sheet3
-    rng.Copy destinationRange
-    
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
+        ' Increment story_id when runRange48To49 is True
+        If runRange48To49 Then
+            story_id = story_id + 1
+        End If
+        
+        ' Store copy_id from the first row's story_id when runRange48To49 is False
+        If i = 1 And Not runRange48To49 Then
+            copy_id = story_id
+        End If
+        
         ' Assign user inputs to variables
         userInput8 = TextBox8.Value
         userInput2 = TextBox2.Value
@@ -82,6 +93,13 @@ Sub ProcessRowRange(rng As Range)
         destinationRange.Offset(i - 1, 8).Value = userInput5
         destinationRange.Offset(i - 1, 7).Value = userInput23
         destinationRange.Offset(i - 1, 9).Value = userInput24
+        
+        ' Update Story ID or Copy ID based on runRange48To49
+        If runRange48To49 Then
+            destinationRange.Offset(i - 1, 1).Value = story_id ' Update Story ID
+        Else
+            destinationRange.Offset(i - 1, 4).Value = copy_id ' Replace Copy ID in E column
+        End If
     Next i
 End Sub
 
@@ -100,7 +118,7 @@ End Sub
 
 Private Sub ClearAllInputs()
     ' Clear all input controls
- TextBox8.Enabled = True
+    TextBox8.Enabled = True
     TextBox8.Value = ""
     TextBox2.Value = ""
     TextBox3.Value = ""
