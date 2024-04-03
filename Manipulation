@@ -15,37 +15,38 @@ Private Sub UserForm_Initialize()
 End Sub
 
 Sub Loader()
-    Dim rng As Range
-    
-    If isFirstUserInput Then
-        isFirstUserInput = False ' Set flag to false after processing first user input
-        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-    Else
+   If isFirstUserInput Then
+      isFirstUserInput = False ' Set flag to false after processing first user input
+      Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+   Else
         If runRange48To49 Then
-            Call ClearAllInputs
             Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
         Else
             Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
         End If
     End If
-    
     ProcessRowRange rng
-    MsgBox "Work item added.", vbInformation
-    Call ClearAllInputsExceptTextBox8
+    MsgBox "work item added .", vbInformation
 End Sub
 
 Private Sub CommandButton3_Click()
-    ' Call Loader to process the range and paste the data
-    Loader
+        If TextBox2.value = " " Or TextBox3.value = " " Or TextBox4.value = " " Or TextBox5.value = " " Or TextBox8.value = " " Or TextBox3.value = " " Or TextBox22.value = " " Or TextBox23.value = " " Then
+            MsgBox "Please Enter All Fields", vbExclamation
+        Else
+        ' Call Loader to process the range and paste the data
+            Loader
+            Call ClearAllInputsExceptTextBox8
+        End If
 End Sub
 
 Private Sub CommandButton8_Click()
     If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
         runRange48To49 = True
+        Call ClearAllInputs
     Else
         runRange48To49 = False
     End If
-    Loader
+    'CommandButton3_Click
 End Sub
 
 Sub ProcessRowRange(rng As Range)
@@ -99,6 +100,7 @@ End Sub
 
 Private Sub ClearAllInputs()
     ' Clear all input controls
+ TextBox8.Enabled = True
     TextBox8.Value = ""
     TextBox2.Value = ""
     TextBox3.Value = ""
