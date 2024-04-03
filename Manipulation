@@ -13,10 +13,10 @@ Private userInput5 As String
 Private userInput23 As String
 Private userInput24 As String
 
-' Variable for temporary copy_id
-Dim copy_id As String
+' Temporary variable for copy_id
+Private copy_id As Integer
 
-' Variables for story_id
+' Variable for story_id
 Dim story_id As Integer
 
 Private Sub TextBox8_Change()
@@ -57,7 +57,6 @@ End Sub
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
     story_id = 39 ' Initialize story_id to 39
-    copy_id = "" ' Initialize copy_id
 End Sub
 
 Sub Loader()
@@ -73,17 +72,17 @@ Sub Loader()
         End If
     End If
     ProcessRowRange rng
-    MsgBox "work item added.", vbInformation
+    MsgBox "Work item added.", vbInformation
 End Sub
 
 Private Sub CommandButton3_Click()
-        If TextBox2.Value = "" Or TextBox3.Value = "" Or TextBox4.Value = "" Or TextBox5.Value = "" Or TextBox8.Value = "" Or TextBox23.Value = "" Or TextBox24.Value = "" Then
-            MsgBox "Please Enter All Fields", vbExclamation
-        Else
-            ' Call Loader to process the range and paste the data
-            Loader
-            Call ClearAllInputsExceptTextBox8
-        End If
+    If TextBox2.Value = "" Or TextBox3.Value = "" Or TextBox4.Value = "" Or TextBox5.Value = "" Or TextBox8.Value = "" Or TextBox23.Value = "" Or TextBox24.Value = "" Then
+        MsgBox "Please enter all fields", vbExclamation
+    Else
+        ' Call Loader to process the range and paste the data
+        Loader
+        Call ClearAllInputsExceptTextBox8
+    End If
 End Sub
 
 Private Sub CommandButton8_Click()
@@ -93,7 +92,6 @@ Private Sub CommandButton8_Click()
     Else
         runRange48To49 = False
     End If
-    'CommandButton3_Click
 End Sub
 
 Sub ProcessRowRange(rng As Range)
