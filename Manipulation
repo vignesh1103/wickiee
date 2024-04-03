@@ -3,6 +3,8 @@ Sub ProcessRowRange(rng As Range)
     Dim destinationRange As Range
     Dim lastRow As Long
     Dim i As Integer
+    Dim startValue As Integer
+    startValue = 40 ' Initial value for column B
     
     ' Set the destination worksheet (Sheet3) and starting cell
     Set wsDestination = ThisWorkbook.Sheets("Sheet3")
@@ -10,15 +12,13 @@ Sub ProcessRowRange(rng As Range)
     
     Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
+    ' Copy the original data from Sheet2 to Sheet3
+    rng.Copy destinationRange
+    
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
-        ' Increment B column value by 1 for each row pasted
-        destinationRange.Offset(i - 1, 1).Value = rng.Cells(i, 2).Value + i - 1
-        
-        ' Update E column value based on B column value in the range 48-49
-        If rng.Cells(i, 1).Row = 48 Or rng.Cells(i, 1).Row = 49 Then
-            destinationRange.Offset(i - 1, 4).Value = rng.Cells(i, 2).Value
-        End If
+        ' Incrementing column B value
+        destinationRange.Offset(i - 1, 1).Value = startValue + i - 1
         
         ' Assign user inputs to variables
         userInput8 = TextBox8.Value
