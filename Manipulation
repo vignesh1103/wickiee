@@ -1,48 +1,38 @@
-Sub Loader()
-    If isFirstUserInput Then
-        isFirstUserInput = False ' Set flag to false after processing first user input
-        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-    Else
-        If runRange48To49 Then
-            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
-            runRange48To49 = False
-        Else
-            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
-        End If
-    End If
+Sub ProcessRowRange(rng As Range)
+    Dim wsDestination As Worksheet
+    Dim destinationRange As Range
+    Dim lastRow As Long
+    Dim i As Integer
     
-    ' Increment values in column B based on the specified conditions
-    IncrementColumnB rng
+    ' Set the destination worksheet (Sheet3) and starting cell
+    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
+    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
     
-    ' Process the range and paste the data
-    ProcessRowRange rng
+    Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
-    MsgBox "Work item added.", vbInformation
-End Sub
-
-Sub IncrementColumnB(rng As Range)
-    Dim wsSource As Worksheet
-    Dim cell As Range
-    Dim incrementValue As Integer
+    ' Copy the original data from Sheet2 to Sheet3
+    rng.Copy destinationRange
     
-    ' Set the source worksheet
-    Set wsSource = ThisWorkbook.Sheets("Sheet2")
-    
-    ' Determine the increment value based on the conditions
-    If runRange48To49 Then
-        incrementValue = 1 ' Increment value for each row when runRange48To49 is true
-    Else
-        incrementValue = 2 ' Increment value only for the first row when runRange48To49 is false
-    End If
-    
-    ' Loop through each cell in column B of the range
-    For Each cell In rng.Columns(2).Cells
-        ' Check if the cell is not empty
-        If Not IsEmpty(cell.Value) Then
-            ' Increment the value in column B based on the specified conditions
-            cell.Value = cell.Value + incrementValue
-            ' Update the corresponding cell in the source worksheet
-            wsSource.Cells(cell.Row, "B").Value = cell.Value
-        End If
-    Next cell
+    ' Loop through each row and manipulate and paste data based on user inputs
+    For i = 1 To rng.Rows.Count
+        ' Assign user inputs to variables
+        userInput8 = TextBox8.value
+        userInput2 = TextBox2.value
+        userInput3 = TextBox3.value
+        userInput4 = TextBox4.value
+        userInput5 = TextBox5.value
+        userInput23 = TextBox23.value
+        userInput24 = TextBox24.value
+        
+        ' Concatenate the values from TextBox8 and TextBox2
+        destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")"
+        destinationRange.Offset(i - 1, 3).Value = userInput3
+        destinationRange.Offset(i - 1, 10).Value = userInput4
+        destinationRange.Offset(i - 1, 8).Value = userInput5
+        destinationRange.Offset(i - 1, 7).Value = userInput23
+        destinationRange.Offset(i - 1, 9).Value = userInput24
+        
+        ' Increment values in column B starting from 40 and incrementing by 1 for each subsequent row
+        destinationRange.Offset(i - 1, 1).Value = 40 + i - 1
+    Next i
 End Sub
