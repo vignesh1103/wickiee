@@ -10,19 +10,26 @@ Sub ProcessRowRange(rng As Range)
     
     Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
+    ' Incrementing value for column B
+    Dim startValue As Integer
+    startValue = 40 ' Starting value for column B
+    
     ' Copy the original data from Sheet2 to Sheet3
     rng.Copy destinationRange
     
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
         ' Assign user inputs to variables
-        userInput8 = TextBox8.value
-        userInput2 = TextBox2.value
-        userInput3 = TextBox3.value
-        userInput4 = TextBox4.value
-        userInput5 = TextBox5.value
-        userInput23 = TextBox23.value
-        userInput24 = TextBox24.value
+        userInput8 = TextBox8.Value
+        userInput2 = TextBox2.Value
+        userInput3 = TextBox3.Value
+        userInput4 = TextBox4.Value
+        userInput5 = TextBox5.Value
+        userInput23 = TextBox23.Value
+        userInput24 = TextBox24.Value
+        
+        ' Paste the incremented value in column B
+        destinationRange.Offset(i - 1, 1).Value = startValue + i - 1
         
         ' Concatenate the values from TextBox8 and TextBox2
         destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")"
@@ -31,8 +38,5 @@ Sub ProcessRowRange(rng As Range)
         destinationRange.Offset(i - 1, 8).Value = userInput5
         destinationRange.Offset(i - 1, 7).Value = userInput23
         destinationRange.Offset(i - 1, 9).Value = userInput24
-        
-        ' Increment values in column B starting from 40 and incrementing by 1 for each subsequent row
-        destinationRange.Offset(i - 1, 1).Value = 40 + i - 1
     Next i
 End Sub
