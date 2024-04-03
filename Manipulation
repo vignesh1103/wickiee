@@ -13,9 +13,11 @@ Private userInput5 As String
 Private userInput23 As String
 Private userInput24 As String
 
-' Variables for story_id and copy_id
+' Variable for temporary copy_id
+Dim copy_id As String
+
+' Variables for story_id
 Dim story_id As Integer
-Dim copy_id As Integer
 
 Private Sub TextBox8_Change()
     ' Capture user input from TextBox8
@@ -55,7 +57,7 @@ End Sub
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
     story_id = 39 ' Initialize story_id to 39
-    copy_id = 0 ' Initialize copy_id
+    copy_id = "" ' Initialize copy_id
 End Sub
 
 Sub Loader()
@@ -120,13 +122,8 @@ Sub ProcessRowRange(rng As Range)
         userInput23 = TextBox23.Value
         userInput24 = TextBox24.Value
         
-        ' Update story_id and copy_id
-        If runRange48To49 Then
-            story_id = story_id + 1
-            copy_id = rng.Cells(i, 2).Value
-        Else
-            story_id = story_id + 1
-        End If
+        ' Update story_id
+        story_id = story_id + 1
         
         ' Concatenate the values from TextBox8 and TextBox2
         destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")"
@@ -142,6 +139,7 @@ Sub ProcessRowRange(rng As Range)
         ' Update E column with copy_id if applicable
         If runRange48To49 Then
             If i = 2 Then
+                copy_id = rng.Cells(1, 2).Value
                 destinationRange.Offset(i - 1, 5).Value = "#" & copy_id
             Else
                 destinationRange.Offset(i - 1, 5).Value = ""
