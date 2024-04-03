@@ -28,7 +28,7 @@ Sub ProcessRowRange(rng As Range)
         userInput23 = TextBox23.Value
         userInput24 = TextBox24.Value
         
-        ' Paste the incremented value in column B
+        ' Increment the value in column B
         destinationRange.Offset(i - 1, 1).Value = startValue + i - 1
         
         ' Concatenate the values from TextBox8 and TextBox2
@@ -39,4 +39,9 @@ Sub ProcessRowRange(rng As Range)
         destinationRange.Offset(i - 1, 7).Value = userInput23
         destinationRange.Offset(i - 1, 9).Value = userInput24
     Next i
+    
+    ' Check if the Boolean is true and increment the value of B column for the second row if necessary
+    If runRange48To49 Then
+        destinationRange.Offset(1, 1).Value = startValue + 2
+    End If
 End Sub
