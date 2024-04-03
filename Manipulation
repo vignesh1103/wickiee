@@ -1,29 +1,17 @@
 Dim isFirstUserInput As Boolean
 Dim runRange48To49 As Boolean
 
+' Variables to hold user inputs from TextBoxes
+Dim userInput8 As String
+Dim userInput2 As String
+Dim userInput3 As String
+Dim userInput4 As String
+Dim userInput5 As String
+Dim userInput23 As String
+Dim userInput24 As String
+
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
-End Sub
-
-Private Sub CommandButton3_Click()
-    ' Check if all TextBoxes are filled
-    If TextBox2.Value = "" Or TextBox3.Value = "" Or TextBox4.Value = "" Or TextBox5.Value = "" Or TextBox23.Value = "" Or TextBox24.Value = "" Then
-        MsgBox "Please enter all fields.", vbExclamation
-    Else
-        ' Call Loader to process the range and paste the data
-        Loader
-    End If
-End Sub
-
-Private Sub CommandButton8_Click()
-    If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
-        runRange48To49 = True
-    Else
-        runRange48To49 = False
-    End If
-    
-    ' Call Button 3's functionality (Loader)
-    CommandButton3_Click
 End Sub
 
 Sub Loader()
@@ -41,14 +29,26 @@ Sub Loader()
         End If
     End If
     
-    ' Call ProcessRowRange with user inputs
-    ProcessRowRange rng, TextBox8.Value, TextBox2.Value, TextBox3.Value, TextBox4.Value, TextBox5.Value, TextBox23.Value, TextBox24.Value
-    
+    ProcessRowRange rng
     MsgBox "Work item added.", vbInformation
     Call ClearAllInputsExceptTextBox8
 End Sub
 
-Sub ProcessRowRange(rng As Range, userInput8 As String, userInput2 As String, userInput3 As String, userInput4 As String, userInput5 As String, userInput23 As String, userInput24 As String)
+Private Sub CommandButton3_Click()
+    ' Call Loader to process the range and paste the data
+    Loader
+End Sub
+
+Private Sub CommandButton8_Click()
+    If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
+        runRange48To49 = True
+    Else
+        runRange48To49 = False
+    End If
+    Loader
+End Sub
+
+Sub ProcessRowRange(rng As Range)
     Dim wsDestination As Worksheet
     Dim destinationRange As Range
     Dim lastRow As Long
@@ -63,15 +63,24 @@ Sub ProcessRowRange(rng As Range, userInput8 As String, userInput2 As String, us
     ' Copy the original data from Sheet2 to Sheet3
     rng.Copy destinationRange
     
+    ' Assign user inputs to variables
+    userInput8 = TextBox8.Value
+    userInput2 = TextBox2.Value
+    userInput3 = TextBox3.Value
+    userInput4 = TextBox4.Value
+    userInput5 = TextBox5.Value
+    userInput23 = TextBox23.Value
+    userInput24 = TextBox24.Value
+    
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
         ' Concatenate the values from TextBox8 and TextBox2
-        destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")" ' Concatenate and replace in column C
-        destinationRange.Offset(i - 1, 3).Value = userInput3 ' Replace in column D
-        destinationRange.Offset(i - 1, 10).Value = userInput4 ' Replace in column K
-        destinationRange.Offset(i - 1, 8).Value = userInput5 ' Replace in column I
-        destinationRange.Offset(i - 1, 7).Value = userInput23 ' Replace in column H
-        destinationRange.Offset(i - 1, 9).Value = userInput24 ' Replace in column J
+        destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")"
+        destinationRange.Offset(i - 1, 3).Value = userInput3
+        destinationRange.Offset(i - 1, 10).Value = userInput4
+        destinationRange.Offset(i - 1, 8).Value = userInput5
+        destinationRange.Offset(i - 1, 7).Value = userInput23
+        destinationRange.Offset(i - 1, 9).Value = userInput24
     Next i
 End Sub
 
