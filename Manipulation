@@ -1,14 +1,42 @@
-Else
-    Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+Sub Loader()
+    Dim wsSource As Worksheet
+    Dim lastRow As Long
     
-    ' Increment StoryId for 1 row
-    StoryId = StoryId + 1
-    
-    ' Check if wsSource is set
-    If Not wsSource Is Nothing Then
-        ' Paste CopyId in E column in this row
-        wsSource.Range("E" & lastRow).Value = CopyId
+    If isFirstUserInput Then
+        isFirstUserInput = False ' Set flag to false after processing first user input
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+        
+        ' Store the value of the last row's B cell in StoryId
+        Set wsSource = ThisWorkbook.Sheets("Sheet3")
+        lastRow = wsSource.Cells(wsSource.Rows.Count, "B").End(xlUp).Row
+        StoryId = wsSource.Range("B" & lastRow).Value
     Else
-        MsgBox "Worksheet 'Sheet3' is not set.", vbExclamation
+        If runRange48To49 Then
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+            
+            ' Increment StoryId by 2 rows
+            StoryId = StoryId + 2
+            ' Copy the 1st row's B value after increment
+            CopyId = wsSource.Range("B" & lastRow).Value
+        Else
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+            
+            ' Increment StoryId for 1 row
+            StoryId = StoryId + 1
+            
+            ' Paste StoryId in column B of the current row
+            wsSource.Range("B" & lastRow).Offset(1).Value = StoryId
+            
+            ' Check if wsSource is set
+            If Not wsSource Is Nothing Then
+                ' Paste CopyId in column E of the current row
+                wsSource.Range("E" & lastRow).Offset(1).Value = CopyId
+            Else
+                MsgBox "Worksheet 'Sheet3' is not set.", vbExclamation
+            End If
+        End If
     End If
-End If
+    
+    ProcessRowRange rng
+    MsgBox "Work item added.", vbInformation
+End Sub
