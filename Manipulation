@@ -24,13 +24,13 @@ Sub Loader()
             ' Increment StoryId for 1 row
             StoryId = StoryId + 1
             
-            ' Paste StoryId in column B of the current row
-            wsSource.Range("B" & lastRow).Offset(1).Value = StoryId
+            ' Paste StoryId in column B of the next row
+            wsSource.Cells(lastRow + 1, "B").Value = StoryId
             
             ' Check if wsSource is set
             If Not wsSource Is Nothing Then
-                ' Paste CopyId in column E of the current row
-                wsSource.Range("E" & lastRow).Offset(1).Value = CopyId
+                ' Paste CopyId in column E of the next row
+                wsSource.Cells(lastRow + 1, "E").Value = CopyId
             Else
                 MsgBox "Worksheet 'Sheet3' is not set.", vbExclamation
             End If
