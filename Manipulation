@@ -123,7 +123,7 @@ Sub ProcessRowRange(rng As Range)
         ' Update story_id and copy_id
         If runRange48To49 Then
             story_id = story_id + 1
-            copy_id = rng.Cells(1, 2).Value ' Store value of 1st row B column as copy_id
+            copy_id = rng.Cells(i, 2).Value
         Else
             story_id = story_id + 1
         End If
@@ -141,9 +141,13 @@ Sub ProcessRowRange(rng As Range)
         
         ' Update E column with copy_id if applicable
         If runRange48To49 Then
-            destinationRange.Offset(i - 1, 4).Value = "#" & copy_id
+            If i = 2 Then
+                destinationRange.Offset(i - 1, 5).Value = "#" & copy_id
+            Else
+                destinationRange.Offset(i - 1, 5).Value = ""
+            End If
         Else
-            destinationRange.Offset(i - 1, 4).Value = "#" & copy_id
+            destinationRange.Offset(i - 1, 5).Value = "#" & copy_id
         End If
     Next i
 End Sub
