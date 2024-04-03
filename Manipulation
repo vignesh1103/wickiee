@@ -54,7 +54,7 @@ End Sub
 
 Private Sub UserForm_Initialize()
     isFirstUserInput = True
-    story_id = 41 ' Initialize story_id to 41
+    story_id = 39 ' Initialize story_id to 39
     copy_id = 0 ' Initialize copy_id
 End Sub
 
@@ -123,7 +123,7 @@ Sub ProcessRowRange(rng As Range)
         ' Update story_id and copy_id
         If runRange48To49 Then
             story_id = story_id + 1
-            copy_id = rng.Cells(i, 2).Value
+            copy_id = rng.Cells(1, 2).Value ' Store value of 1st row B column as copy_id
         Else
             story_id = story_id + 1
         End If
@@ -137,13 +137,13 @@ Sub ProcessRowRange(rng As Range)
         destinationRange.Offset(i - 1, 9).Value = userInput24
         
         ' Update B column with story_id
-        destinationRange.Offset(i - 1, 1).Value = "#" & story_id
+        destinationRange.Offset(i - 1, 1).Value = story_id
         
         ' Update E column with copy_id if applicable
-        If runRange48To49 And i = 1 Then
+        If runRange48To49 Then
             destinationRange.Offset(i - 1, 4).Value = "#" & copy_id
-        ElseIf Not runRange48To49 And i = 1 Then
-            destinationRange.Offset(i - 1, 4).Value = ""
+        Else
+            destinationRange.Offset(i - 1, 4).Value = "#" & copy_id
         End If
     Next i
 End Sub
