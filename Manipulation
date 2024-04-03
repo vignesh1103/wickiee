@@ -1,4 +1,28 @@
-Sub ProcessRowRange(rng As Range)
+Sub Loader()
+    Dim startValue As Integer
+    Dim incrementValue As Integer
+    
+    If isFirstUserInput Then
+        isFirstUserInput = False ' Set flag to false after processing first user input
+        Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+        startValue = 40 ' Starting value for column B
+    Else
+        If runRange48To49 Then
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+            startValue = 40 ' Starting value for column B
+            incrementValue = 1 ' Increment value for column B
+        Else
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+            startValue = 40 ' Starting value for column B
+            incrementValue = 1 ' Increment value for column B
+        End If
+    End If
+    
+    ProcessRowRange rng, startValue, incrementValue
+    MsgBox "Work item added.", vbInformation
+End Sub
+
+Sub ProcessRowRange(rng As Range, startValue As Integer, incrementValue As Integer)
     Dim wsDestination As Worksheet
     Dim destinationRange As Range
     Dim lastRow As Long
@@ -10,15 +34,11 @@ Sub ProcessRowRange(rng As Range)
     
     Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
     
-    ' Incrementing value for column B
-    Dim startValue As Integer
-    startValue = 40 ' Starting value for column B
-    
-    ' Copy the original data from Sheet2 to Sheet3
-    rng.Copy destinationRange
-    
     ' Loop through each row and manipulate and paste data based on user inputs
     For i = 1 To rng.Rows.Count
+        ' Incrementing logic for column B
+        destinationRange.Offset(i - 1, 1).Value = startValue + (i - 1) * incrementValue
+        
         ' Assign user inputs to variables
         userInput8 = TextBox8.Value
         userInput2 = TextBox2.Value
@@ -28,9 +48,6 @@ Sub ProcessRowRange(rng As Range)
         userInput23 = TextBox23.Value
         userInput24 = TextBox24.Value
         
-        ' Increment the value in column B
-        destinationRange.Offset(i - 1, 1).Value = startValue + i - 1
-        
         ' Concatenate the values from TextBox8 and TextBox2
         destinationRange.Offset(i - 1, 2).Value = userInput8 & " (" & userInput2 & ")"
         destinationRange.Offset(i - 1, 3).Value = userInput3
@@ -39,9 +56,4 @@ Sub ProcessRowRange(rng As Range)
         destinationRange.Offset(i - 1, 7).Value = userInput23
         destinationRange.Offset(i - 1, 9).Value = userInput24
     Next i
-    
-    ' Check if the Boolean is true and increment the value of B column for the second row if necessary
-    If runRange48To49 Then
-        destinationRange.Offset(1, 1).Value = startValue + 2
-    End If
 End Sub
