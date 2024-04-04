@@ -60,7 +60,6 @@ Private Sub CommandButton8_Click()
     End If
     'CommandButton3_Click
 End Sub
-
 Sub ProcessRowRange(rng As Range)
     Dim wsDestination As Worksheet
     Dim destinationRange As Range
@@ -98,6 +97,8 @@ Sub ProcessRowRange(rng As Range)
         ' For rows in 48th and 49th, copy value from B column to copy_id and paste in E column
         If i = 2 Then
             copy_id = destinationRange.Offset(i - 2, 1).value
+            destinationRange.Offset(i - 1, 4).value = "#" & copy_id
+        Else
             destinationRange.Offset(i - 1, 4).value = "#" & copy_id
         End If
         
