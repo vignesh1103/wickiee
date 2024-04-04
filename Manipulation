@@ -1,8 +1,21 @@
-' For rows in 48th and 49th, copy value from B column to copy_id and paste in E column
-If i = 2 Then
-    copy_id = destinationRange.Offset(i - 2, 1).Value ' Copy value from B column to copy_id
-    wsDestination.Cells(destinationRange.Row + i - 2, 5).ClearContents ' Clear the value in E column for this row
-    destinationRange.Offset(i - 1, 4).Value = "#" & copy_id ' Paste value into E column
-Else
-    destinationRange.Offset(i - 1, 4).Value = "#" & copy_id ' Paste value into E column
-End If
+Private Sub CommandButton3_Click()
+    Dim allFilled As Boolean
+    allFilled = CheckAllTextBoxesFilled
+    
+    If Not allFilled Then
+        MsgBox "Please fill in all fields.", vbExclamation
+    Else
+        ' Call Loader to process the range and paste the data
+        Loader
+        Call ClearAllInputsExceptTextBox8
+    End If
+End Sub
+
+Private Function CheckAllTextBoxesFilled() As Boolean
+    ' Check if all text boxes are filled
+    CheckAllTextBoxesFilled = True
+    
+    If TextBox2.Value = "" Or TextBox3.Value = "" Or TextBox4.Value = "" Or TextBox5.Value = "" Or TextBox8.Value = "" Or TextBox3.Value = "" Or TextBox22.Value = "" Or TextBox23.Value = "" Then
+        CheckAllTextBoxesFilled = False
+    End If
+End Function
