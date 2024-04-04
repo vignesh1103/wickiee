@@ -1,1 +1,137 @@
-copy_id = destinationRange.Offset(i - 2, 1).Value
+Option Explicit
+
+Dim isFirstUserInput As Boolean
+Dim runRange48To49 As Boolean
+Dim rng As Range
+' Variables to hold user inputs from TextBoxes
+Private userInput8 As String
+Private userInput2 As String
+Private userInput3 As String
+Private userInput4 As String
+Private userInput5 As String
+Private userInput23 As String
+Private userInput24 As String
+
+' Temporary variable for copy_id
+Private copy_id As Integer
+
+' Variables for story_id and copy_id
+Dim story_id As Integer
+
+Private Sub UserForm_Initialize()
+     isFirstUserInput = True
+    story_id = 39 ' Initialize story_id to 39
+    copy_id = 40
+End Sub
+
+Sub Loader()
+   If isFirstUserInput Then
+      isFirstUserInput = False ' Set flag to false after processing first user input
+      Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+   Else
+        If runRange48To49 Then
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A48:J49")
+            runRange48To49 = False
+            'copy_id = copy_id + 1
+        Else
+            Set rng = ThisWorkbook.Sheets("Sheet2").Range("A49:J49")
+        End If
+    End If
+    ProcessRowRange rng
+    MsgBox "work item added .", vbInformation
+End Sub
+
+Private Sub CommandButton3_Click()
+        If TextBox2.value = " " Or TextBox3.value = " " Or TextBox4.value = " " Or TextBox5.value = " " Or TextBox8.value = " " Or TextBox3.value = " " Or TextBox22.value = " " Or TextBox23.value = " " Then
+            MsgBox "Please Enter All Fields", vbExclamation
+        Else
+        ' Call Loader to process the range and paste the data
+            Loader
+            Call ClearAllInputsExceptTextBox8
+        End If
+End Sub
+
+Private Sub CommandButton8_Click()
+    If MsgBox("Are you sure you want to change TextBox8?", vbYesNo + vbQuestion, "Confirm TextBox8 Change") = vbYes Then
+        runRange48To49 = True
+        Call ClearAllInputs
+    Else
+        runRange48To49 = False
+    End If
+    'CommandButton3_Click
+End Sub
+
+Sub ProcessRowRange(rng As Range)
+    Dim wsDestination As Worksheet
+    Dim destinationRange As Range
+    Dim lastRow As Long
+    Dim i As Integer
+    
+    ' Set the destination worksheet (Sheet3) and starting cell
+    Set wsDestination = ThisWorkbook.Sheets("Sheet3")
+    lastRow = wsDestination.Cells(wsDestination.Rows.Count, "A").End(xlUp).Row ' Adjust to column A
+    
+    Set destinationRange = wsDestination.Range("A" & lastRow + 1) ' Start pasting from column A
+    
+    
+    ' Copy the original data from Sheet2 to Sheet3
+    rng.Copy destinationRange
+    
+    ' Loop through each row and manipulate and paste data based on user inputs
+    For i = 1 To rng.Rows.Count
+        ' Assign user inputs to variables
+        userInput8 = TextBox8.value
+        userInput2 = TextBox2.value
+        userInput3 = TextBox3.value
+        userInput4 = TextBox4.value
+        userInput5 = TextBox5.value
+        userInput23 = TextBox23.value
+        userInput24 = TextBox24.value
+        
+        ' Update story_id
+            story_id = story_id + 1
+            
+         ' Update B column with story_id
+        destinationRange.Offset(i - 1, 1).value = story_id
+        
+       
+        ' For rows in 48th and 49th, copy value from B column to copy_id and paste in E column
+        If i = 2 Then
+            copy_id = destinationRange.Offset(i - 2, 1).value
+            destinationRange.Offset(i - 1, 4).value = "#" & copy_id
+        End If
+        
+        ' Concatenate the values from TextBox8 and TextBox2
+        destinationRange.Offset(i - 1, 2).value = userInput8 & " (" & userInput2 & ")"
+        destinationRange.Offset(i - 1, 3).value = userInput3
+        destinationRange.Offset(i - 1, 10).value = userInput4
+        destinationRange.Offset(i - 1, 8).value = userInput5
+        destinationRange.Offset(i - 1, 7).value = userInput23
+        destinationRange.Offset(i - 1, 9).value = userInput24
+  Next i
+       
+End Sub
+
+Private Sub ClearAllInputsExceptTextBox8()
+    ' Clear all input controls except TextBox8
+    TextBox2.value = ""
+    TextBox3.value = ""
+    TextBox4.value = ""
+    TextBox5.value = ""
+    TextBox23.value = ""
+    TextBox24.value = ""
+    TextBox8.Visible = True
+    TextBox8.Enabled = False
+End Sub
+
+Private Sub ClearAllInputs()
+    ' Clear all input controls
+    TextBox8.Enabled = True
+    TextBox8.value = ""
+    TextBox2.value = ""
+    TextBox3.value = ""
+    TextBox4.value = ""
+    TextBox5.value = ""
+    TextBox23.value = ""
+    TextBox24.value = ""
+End Sub
