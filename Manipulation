@@ -70,7 +70,10 @@ End Sub
 
 '7 checkboxes named CheckBox1, CheckBox2, ..., CheckBox7
 Private Sub CommandButton7_Click()
-    Dim checkBoxSelected As Boolean
+   items
+End Sub
+Sub items()
+     Dim checkBoxSelected As Boolean
      Dim textBoxesValidated As Boolean
      checkBoxSelected = False
      textBoxesValidated = True
@@ -402,11 +405,5 @@ Private Sub CommandButton7_Click()
     selectedCheckboxes = Left(selectedCheckboxes, Len(selectedCheckboxes) - 2)
     
     ' Display the selected checkboxes
-    MsgBox "Selected checkboxes: " & selectedCheckboxes
-End Sub
-Sub DisableTextBoxes(ParamArray textBoxes() As Variant)
-    Dim textBox As Variant
-    For Each textBox In textBoxes
-        textBox.Enabled = False
-    Next textBox
+    MsgBox "Recommended Work Items Added "
 End Sub
